@@ -43,51 +43,71 @@ import org.junit.Test
 
 class ProblemVerifier extends AssertionsForJUnit {
 
-    @Test
-    def test_problem_1 () {
-        assert (problem_1.factorsOfThreeOrFive (10) === List (3, 5, 6, 9))
-        assert (problem_1.sumList (problem_1.factorsOfThreeOrFive (10)) == 23)
-    }
+  @Test
+  def test_problem_1 () {
+    assert(problem_1.factorsOfThreeOrFive(10) === List(3, 5, 6, 9))
+    assert(problem_1.sumList(problem_1.factorsOfThreeOrFive(10)) == 23)
+  }
 
-    @Test
-    def test_problem_2 () {
-        assert ((problem_2.makeFibo (89, Nil)) ===
-                List (0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89))
-    }
+  @Test
+  def test_problem_2 () {
+    assert((problem_2.makeFibo(89, Nil)) ===
+             List(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89))
+  }
 
-    @Test
-    def test_problem_4 () {
-        assert (problem_4.findLargestPalindromicNumber (2) ===
-                Tuple3 (91, 99, 9009))
-    }
+  @Test
+  def test_problem_4 () {
+    assert(problem_4.findLargestPalindromicNumber(2) ===
+             Tuple3(91, 99, 9009))
+  }
 
-    @Test
-    def test_problem_5 () {
-        assert (problem_5.calcSmallestNumberDivisibleByRange (10) === 2520)
-    }
+  @Test
+  def test_problem_5 () {
+    assert(problem_5.calcSmallestNumberDivisibleByEntireRange(10) === 2520)
+  }
 
-    @Test
-    def test_problem_6 () {
-        assert (math.pow (problem_6.sumOfRange (10), 2) === 3025)
-        assert (problem_6.sumOfSquares (10) === 385)
-        assert (problem_6.differenceBetweenSumOfSquaresAndSquareOfSum (10) === 2640)
-    }
+  @Test
+  def test_problem_6 () {
+    assert(math.pow(problem_6.sumOfRange(10), 2) === 3025)
+    assert(problem_6.sumOfSquares(10) === 385)
+    assert(problem_6.differenceBetweenSumOfSquaresAndSquareOfSum(10) === 2640)
+  }
 
-    @Test
-    def test_problem_7 () {
-        var shortPrimeList = problem_7.getPrimeList (6)
-        // 2, 3, 5, 7, 11, and 13
-        val desiredResult = List (2, 3, 5, 7, 11, 13)
-        assert (shortPrimeList === desiredResult)
-        shortPrimeList.foreach (x => if (!problem_7.isPrime (x)) {
-            fail ("prime failure")
-        })
-    }
+  @Test
+  def test_problem_7 () {
+    var shortPrimeList = problem_7.getPrimeList(6)
+    // 2, 3, 5, 7, 11, and 13
+    val desiredResult = List(2, 3, 5, 7, 11, 13)
+    assert(shortPrimeList === desiredResult)
+    shortPrimeList.foreach(x => if (!problem_7.isPrime(x)) {
+      fail("prime failure")
+    })
+  }
 
-    @Test
-    def test_problem_8 () {
-         assert (problem_8.findLargestProduct ("1234560888888888882111", 5) === 32768)
-    }
+  @Test
+  def test_problem_8 () {
+    assert(problem_8.findLargestProduct("1234560888888888882111", 5) === 32768)
+  }
 
+  @Test
+  def test_problem_10 () {
+    var atk = new SieveOfAtkin(2000 * 1000);
+    var primes = atk.getPrimes();
+    primes.foreach(x => if (!problem_7.isPrime(x)) {
+      println("prime failure for: " + x)
+    })
+    var atkinSum = problem_10.sumBigList(primes)
+  }
+
+  @Test
+  def test_problem_12 () {
+    var data = List(1, 3, 6, 10, 15, 21)
+    data.foreach(x => assert(problem_12.isTriangleNumber(x.toLong) === true))
+  }
+
+  @Test
+  def test_problem16 () {
+    assert(problem_16.sumDigits(32768) === 26)
+  }
 
 }

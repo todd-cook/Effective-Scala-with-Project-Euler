@@ -29,39 +29,47 @@
 package com.cookconsulting.projecteuler
 
 /**
- * Problem 5
- * 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without
- * any remainder.
- * What is the smallest number that is evenly divisible by all of the numbers from 1 to 20?
+ * Problem 19
+ * You are given the following information, but you may prefer to do some research for yourself.
+ *
+ * 1 Jan 1900 was a Monday.
+ * Thirty days has September,
+      April, June and November.
+      All the rest have thirty-one,
+      Saving February alone,
+      Which has twenty-eight, rain or shine.
+      And on leap years, twenty-nine.
+ * A leap year occurs on any year evenly divisible by 4, but not on a century unless it is
+ * divisible by 400.
+ *
+ * How many Sundays fell on the first of the month during the twentieth century (1 Jan 1901 to
+ * 31 Dec 2000)?
+ *
+ * Solution:
+ * Use the standard libraries
  *
  * @author : Todd Cook
  * @since : 4/24/2011
  */
 
-object problem_5 {
+import java.util.Calendar
 
-  def calcSmallestNumberDivisibleByEntireRange (ceiling: Int) = {
-    (1 to ceiling).foldLeft(1) {
-                                 (product, n) => {
-                                   val r_raw = product % n
-                                   val r = if (r_raw == 0) {
-                                     n
-                                   }
-                                   else {
-                                     r_raw
-                                   }
-                                   product * (if (n % r == 0) {
-                                     (n / r)
-                                   }
-                                   else {
-                                     n
-                                   })
-                                 }
-                               }
-  }
+object problem_19 {
 
-  def answer = {
-    calcSmallestNumberDivisibleByEntireRange(20)
+  def answer () = {
+    var cal = new java.util.GregorianCalendar()
+    var sdf = new java.text.SimpleDateFormat("yyyy-mm-DD")
+    cal.setTime(sdf.parse("1900-01-01"))
+    var sundaysTheFirst = 0
+    while (cal.get(Calendar.YEAR) < 2001) {
+      cal.add(Calendar.MONTH, 1)
+      if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+        // println("Sunday found: " + cal.getTime)
+      }
+      sundaysTheFirst += 1
+    }
+    println("Number of months starting on Sunday: " + sundaysTheFirst)
+    sundaysTheFirst
   }
 
   def main (args: Array[String]) = {

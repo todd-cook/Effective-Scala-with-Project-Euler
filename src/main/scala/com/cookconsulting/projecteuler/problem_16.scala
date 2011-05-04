@@ -29,42 +29,44 @@
 package com.cookconsulting.projecteuler
 
 /**
- * Problem 5
- * 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without
- * any remainder.
- * What is the smallest number that is evenly divisible by all of the numbers from 1 to 20?
+ * Problem 16
+ * 2^(15) = 32768 and the sum of its digits is 3 + 2 + 7 + 6 + 8 = 26.
+ *
+ * What is the sum of the digits of the number 2^(1000)?
+ *
  *
  * @author : Todd Cook
  * @since : 4/24/2011
  */
 
-object problem_5 {
+object problem_16 {
 
-  def calcSmallestNumberDivisibleByEntireRange (ceiling: Int) = {
-    (1 to ceiling).foldLeft(1) {
-                                 (product, n) => {
-                                   val r_raw = product % n
-                                   val r = if (r_raw == 0) {
-                                     n
-                                   }
-                                   else {
-                                     r_raw
-                                   }
-                                   product * (if (n % r == 0) {
-                                     (n / r)
-                                   }
-                                   else {
-                                     n
-                                   })
-                                 }
-                               }
+  def sumDigits (num: Long): Int = {
+
+    var numword = java.lang.String.valueOf(num).elements
+    var sum = 0
+    numword.map(x => java.lang.String.valueOf(x))
+    numword.foreach(x => sum = sum.asInstanceOf[Int] + Integer.valueOf(x + "").asInstanceOf[Int])
+    // without the +"" the compiler complains Char can't be cast to string
+    // but we need the string, since Char value is just the int value for each character
+    sum
   }
 
-  def answer = {
-    calcSmallestNumberDivisibleByEntireRange(20)
+  //returns long whole number, number of exponential decimal places
+  def scientificNotationToDecimals (scientificNotation: String): Tuple2[Long, Int] = {
+    var eIndex = scientificNotation.indexOf("E")
+    var longNum = scientificNotation.substring(0, eIndex).replaceAll("\\.", "")
+    var exponents = scientificNotation.substring(eIndex + 1)
+    ((new java.lang.Long(longNum)).asInstanceOf[Long],
+      Integer.valueOf(exponents).asInstanceOf[Int])
   }
 
-  def main (args: Array[String]) = {
-    println(answer)
+  def answer () = {
+    var (significantNumber, exponents) = scientificNotationToDecimals(java.lang.Math.pow(2, 1000) + "")
+    sumDigits(significantNumber)
+  }
+
+   def main (args: Array[String]) = {
+     println(answer)
   }
 }

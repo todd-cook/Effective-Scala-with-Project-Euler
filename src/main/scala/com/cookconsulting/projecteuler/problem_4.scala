@@ -29,14 +29,13 @@
 package com.cookconsulting.projecteuler
 
 /**
-Problem 4
-    A palindromic number reads the same both ways.
-    The largest palindrome made from the product of two 2-digit numbers is
-    9009 = 91 * 99.
-    Find the largest palindrome made from the product of two 3-digit numbers.
-
-Solution:
-res52: Int = 906609
+ *
+ *  Problem 4
+ *  A palindromic number reads the same both ways.
+ *  The largest palindrome made from the product of two 2-digit numbers is
+ *  9009 = 91 * 99.
+ *  Find the largest palindrome made from the product of two 3-digit numbers.
+ *
  * @author : Todd Cook
  * @since : 4/24/2011
  */
@@ -48,8 +47,8 @@ object problem_4 {
     def createCeilingNumber (digits: Int): Int = ("9" * digits).toInt
 
     def createPalindromicNumberList (digitPlacesStart: Int,
-                                     digitPlacesEnd: Int)
-    :List[Tuple3[Int, Int, Int]] = {
+                                     digitPlacesEnd: Int) :List[Tuple3[Int, Int, Int]] = {
+        require(digitPlacesStart < digitPlacesEnd)
         val palindromes =
             for (a <- (createCeilingNumber (digitPlacesStart) + 1 to
                            createCeilingNumber (digitPlacesEnd)).toList;

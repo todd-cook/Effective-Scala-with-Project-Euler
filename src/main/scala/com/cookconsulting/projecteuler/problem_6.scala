@@ -30,55 +30,52 @@ package com.cookconsulting.projecteuler
 
 /**
  * Problem 6
-    The sum of the squares of the first ten natural numbers is,
-    1^(2) + 2^(2) + ... + 10^(2) = 385
-    The square of the sum of the first ten natural numbers is,
-    (1 + 2 + ... + 10)^(2) = 55^(2) = 3025
-    Hence the difference between the sum of the squares of the first
-    ten natural numbers and the square of the sum is 3025 - 385 = 2640
-    Find the difference between the sum of the squares of the first
-    one hundred natural numbers and the square of the sum.
-
-TODO fix
-implicit def iterableWithSum(it: Iterable[Int]) = new { def sum: BigInt = it.foldLeft(0)(_+_) }
-// result is coerced to be a BigInt, so I can take advantage of the "pow" method on BigInt.
-(1 to 100).sum.pow(2) - (1 to 100).map(n => n * n).sum
+ * The sum of the squares of the first ten natural numbers is,
+ * 1^(2) + 2^(2) + ... + 10^(2) = 385
+ * The square of the sum of the first ten natural numbers is,
+ * (1 + 2 + ... + 10)^(2) = 55^(2) = 3025
+ * Hence the difference between the sum of the squares of the first
+ * ten natural numbers and the square of the sum is 3025 - 385 = 2640
+ * Find the difference between the sum of the squares of the first
+ * one hundred natural numbers and the square of the sum.
+ *
+ * Commentary: for the closed form expressions see:
+ * Mathematics for Computer Science, by Prof. Albert R Meyer, pp.34-35, et al.
+ *   http://courses.csail.mit.edu/6.042/spring11/spring10-mcs.pdf
  * @author : Todd Cook
  * @since : 4/24/2011
  */
 
 object problem_6 {
 
+  /**
+   * Closed form expression for summation series
+   */
+  def sumOfRange (n: Int) = n * (n + 1) / 2
 
-    /**
-     * Gauss's closed form expression for summation series
-     */
-    def sumOfRange (n: Int) = n * (n + 1) / 2
+  /**
+   * Closed form expression for sum of consecutive squares
+   */
+  def sumOfSquares (n: Int) = (2 * n + 1) * (n + 1) * n / 6
 
-    /**
-     * Gauss's closed form expression for sum of consecutive squares
-     */
-    def sumOfSquares (n: Int) = {(2 * n + 1) * (n + 1) * n / 6}
+  def differenceBetweenSumOfSquaresAndSquareOfSum (n: Int) = {
+    math.pow(sumOfRange(n), 2).toInt - sumOfSquares(n)
+  }
 
-    def differenceBetweenSumOfSquaresAndSquareOfSum( n: Int)={
-      math.pow(sumOfRange(n), 2).toInt -  sumOfSquares (n)
-    }
+  /**
+   * Naive brute force implementation
+   */
+  def answer = {
+    var sum = (1 to 100).foldLeft(0)(_ + _);
+    var squareSum = sum * sum
+    var sumSquare: Int = 0
+    (1 to 100).foreach(n => sumSquare += n * n)
+    //println (squareSum - sumSquare)
+    (squareSum - sumSquare)
+  }
 
-    /**
-     * Brute force
-     */
-    def answer = {
-        var sum = (1 to 100).foldLeft (0) (_ + _);
-        var squareSum = sum * sum
-
-        var sumSquare: Int = 0
-        (1 to 100).foreach (n => sumSquare += n * n)
-        println (squareSum - sumSquare)
-        (squareSum - sumSquare)
-    }
-
-    def main (args: Array[String]) = {
-        println (answer)
-        println( differenceBetweenSumOfSquaresAndSquareOfSum (10))
-    }
+  def main (args: Array[String]) = {
+    println(answer)
+    println(differenceBetweenSumOfSquaresAndSquareOfSum(10))
+  }
 }
