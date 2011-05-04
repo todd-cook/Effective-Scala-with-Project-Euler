@@ -46,7 +46,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>frequency-analyzer</finalName>
+        <finalName>learn-scala-with-project-euler</finalName>
         <plugins>
             <plugin>
                 <groupId>org.scala-tools</groupId>
@@ -70,7 +70,6 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
-          
         </plugins>
     </build>
     <reporting>

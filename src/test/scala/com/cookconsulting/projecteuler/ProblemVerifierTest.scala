@@ -41,7 +41,7 @@ package com.cookconsulting.projecteuler
 import org.scalatest.junit.AssertionsForJUnit
 import org.junit.Test
 
-class ProblemVerifier extends AssertionsForJUnit {
+class ProblemVerifierTest extends AssertionsForJUnit {
 
   @Test
   def test_problem_1 () {
@@ -108,6 +108,34 @@ class ProblemVerifier extends AssertionsForJUnit {
   @Test
   def test_problem16 () {
     assert(problem_16.sumDigits(32768) === 26)
+  }
+
+   @Test
+  def test_BigSquareRoot () {
+    var bsr = new BigSquareRoot()
+    var result = bsr.get(new java.math.BigInteger("9"))
+    println(result)
+    assert(result.longValue === 3L)
+
+    /**
+     * The following is necessary because the representations are different
+     *
+     * scala> var bd =  new java.math.BigDecimal ("0.00000000000000000000")
+     * bd: java.math.BigDecimal = 0E-20
+     * scala> var bd2 =  new java.math.BigDecimal ("0.0")
+     *  bd2: java.math.BigDecimal = 0.0
+     *
+     */
+    assert(bsr.error.compareTo(bsr.ZERO) === 0)
+
+    result = bsr.get(new java.math.BigInteger("961"))
+    println(result)
+    assert(result.longValue === 31L)
+    assert(bsr.error.compareTo(bsr.ZERO) === 0)
+
+    result = bsr.get(new java.math.BigInteger("2999"))
+    println(result)
+    println(bsr.error)
   }
 
 }
