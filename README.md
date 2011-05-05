@@ -12,9 +12,9 @@ Solved Problems with source
 
 Objects of Interest
 -------------------
-Pascal's Triangle
-BigSquareRoot
-Sieve of Atkin
+* Pascal's Triangle
+* BigSquareRoot
+* Sieve of Atkin
 
 
 Who this is for
