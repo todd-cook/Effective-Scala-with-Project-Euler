@@ -83,13 +83,6 @@ class PascalsTriangle (val rows: Int = 67) {
         if (triangle(y)(x) == 0L) {
           triangle(y)(x) =
             (triangle(y - 1)(x - 1) + triangle(y - 1)(x))
-          // TODO remove debug code here
-          if ((triangle(y - 1)(x - 1) + triangle(y - 1)(x)).toString.length == "9223372036854775807".length) {
-            println("Warning approaching long limit at row :" + y + " col: " + x + " with value: " + triangle(y)(x))
-          }
-          if ((triangle(y - 1)(x - 1) > (java.lang.Long.MAX_VALUE / 2) && triangle(y - 1)(x) > (java.lang.Long.MAX_VALUE / 2))) {
-            println("welcome to overflow")
-          }
         }
       }
     })
