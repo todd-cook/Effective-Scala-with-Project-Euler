@@ -112,7 +112,7 @@ object problem_39 {
         // only even numbered perimeters produce
         // multiple solutions for integral length sides of a right triangle;
         // verified by brute force initial results
-        //if (n % 60 == 0){ // most common cluster
+        //if (n % 60 == 0){ // factor for most common cluster
         val results = createCandidates(n)
         if (results != Nil) {
           print("perimeter: " + n + " ")
