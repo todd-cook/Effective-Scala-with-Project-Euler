@@ -31,6 +31,8 @@ package com.cookconsulting.projecteuler
 import collection.mutable.ListBuffer
 
 /**
+ * Pascal's triangle built using the Java Long datatype; maximum row is 67
+ *
  * @author Todd Cook
  * @since 5/2/11 11:52 PM
  */
@@ -100,7 +102,7 @@ class PascalsTriangle (val rows: Int = 67) {
   }
 
   /**
-   * Provide a row
+   * @return list of Longs for the requested row
    * useful for binomial expansion
    * see: http://en.wikipedia.org/wiki/Pascals_triangle#Binomial_expansions
    */
@@ -110,15 +112,16 @@ class PascalsTriangle (val rows: Int = 67) {
   }
 
   /**
-   * The number combinations of n things taken k at a time
-   *
+   * @param n total number of items
+   * @param k number of items to be chosen
+   * @return number of combinations of n things taken k at a time
    */
   def nChooseK (n: Int, k: Int): Long = triangle(n)(k)
 
   /**
    * Helper function
    */
-  private def pullDiagonal (index: Int) = {
+  private def pullDiagonal (index: Int) :List[Long] = {
     var myList = for {y <- (index to rows - 1)
                       result = triangle(y)(y - index)
     } yield {
@@ -134,7 +137,8 @@ class PascalsTriangle (val rows: Int = 67) {
    * The nth triangle number is the number of dots in a triangle with n dots
    * on a side. A triangle number is, equivalently, the sum of the n natural
    * numbers from 1 to n.  ...
-   * see: http://en.wikipedia.org/wiki/Triangular_number
+   * @link : http://en.wikipedia.org/wiki/Triangular_number
+   * @return : List[Long] of triangle numbers
    */
   def triangleNumbers () = pullDiagonal(2)
 
@@ -143,24 +147,27 @@ class PascalsTriangle (val rows: Int = 67) {
    * number that represents a pyramid with a triangular base and three sides,
    * called a tetrahedron. The nth tetrahedral number is the sum of the first
    * n triangular numbers.  ...
-   * see: http://en.wikipedia.org/wiki/Tetrahedral_number
+   * @link http://en.wikipedia.org/wiki/Tetrahedral_number
+   * @return List[Long] of tetrahedral numbers
    */
   def tetrahedralNumbers () = pullDiagonal(3)
 
   /**
    * "Pentatope numbers belong in the class of figurate numbers, which can be
    * represented as regular, discrete geometric patterns.  ...
-   * see: http://en.wikipedia.org/wiki/Pentatope_number
+   * @link  http://en.wikipedia.org/wiki/Pentatope_number
+   * @return List[Long] of pentatope numbers
    */
   def pentatopeNumbers () = pullDiagonal(4)
 
   /**
    * "They are called central since they show up exactly in the middle of
    * the even-numbered rows in Pascal's triangle. ...
-   * see: http://en.wikipedia.org/wiki/Central_binomial_coefficient
+   * @link http://en.wikipedia.org/wiki/Central_binomial_coefficient
    * Note: the standard closed form expression is:
    * (2n)! / (n!)^2
-   * However this overflows the long datatype and fails when n < 11
+   * However this overflows the Long datatype and fails when n < 11
+   * @return List[Long] of numbers of the central binomial coefficients
    */
   def centralBinomialCoefficients () = {
     val results = for {y <- (0 to rows - 1)

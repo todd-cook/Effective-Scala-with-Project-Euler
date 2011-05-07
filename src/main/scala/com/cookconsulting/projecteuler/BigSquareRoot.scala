@@ -37,6 +37,8 @@ import java.math.BigInteger
  * see: http://www.merriampark.com/bigsqrt.htm
  *
  * @author Todd Cook
+ * @author Michael Gilleland
+ * @see
  * @since 4/30/11
  */
 
