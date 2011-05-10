@@ -40,6 +40,7 @@ package com.cookconsulting.projecteuler
 
 import org.scalatest.junit.AssertionsForJUnit
 import org.junit.Test
+import collection.mutable.ListBuffer
 
 class ProblemVerifierTest extends AssertionsForJUnit {
 
@@ -110,7 +111,7 @@ class ProblemVerifierTest extends AssertionsForJUnit {
     assert(problem_16.sumDigits(32768) === 26)
   }
 
-   @Test
+  @Test
   def test_BigSquareRoot () {
     var bsr = new BigSquareRoot()
     var result = bsr.get(new java.math.BigInteger("9"))
@@ -136,6 +137,24 @@ class ProblemVerifierTest extends AssertionsForJUnit {
     result = bsr.get(new java.math.BigInteger("2999"))
     println(result)
     println(bsr.error)
+  }
+
+  @Test
+  def test_problem_30 () {
+    var solutionRange = (2 to 10000000)
+    var solutions = new ListBuffer[Int]()
+    solutionRange.foreach(x => if (problem_30.testNumberEqualsPower(x, 4)) {
+      solutions.append(x)
+    })
+    assert(solutions.toList === List(1634, 8208, 9474))
+  }
+
+  @Test
+  def test_problem_32 () {
+    assert(problem_32.formPandigitalProductCombo(List(3, 9, 1, 8, 6, 7, 2, 5, 4))
+             === (39, 186, 7254))
+    assert(problem_32.checkPandigitalPermutation(
+      problem_32.formPandigitalProductCombo(List(3, 9, 1, 8, 6, 7, 2, 5, 4))) === true)
   }
 
 }

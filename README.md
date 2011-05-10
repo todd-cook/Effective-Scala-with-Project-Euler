@@ -16,7 +16,7 @@ a solution and leave it as a less-than ideal solution. For an example, see probl
 
 Solved Problems with Commentary:
 --------------------------------
-1-17, 19-22, 29, 34-36, 39, 45, 48
+1-17, 19-22, 29-30, 32, 34-36, 39, 45, 48
 
 Common Library classes:
 -----------------------

@@ -83,7 +83,7 @@ class PermutationGenerator (size: Int) {
    * @return List of Integers
    * @see http://en.wikipedia.org/wiki/Permutations#Systematic_generation_of_all_permutations
    */
-  def getNext (): List[Int] = {
+  def next (): List[Int] = {
 
     if (numLeft.equals(total)) {
       numLeft = numLeft.subtract(BigInteger.ONE)
@@ -128,7 +128,7 @@ object PermutationGenerator {
   def main (args: Array[String]) = {
     var pg = new PermutationGenerator(4)
     while (pg.hasMore) {
-      println(pg.getNext.toList)
+      println(pg.next.toList)
     }
   }
 }
