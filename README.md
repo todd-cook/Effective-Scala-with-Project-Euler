@@ -12,11 +12,11 @@ How to use this project:
 ------------------------
 Visit the project euler web site, find a problem that interests you, solve it or try to solve it,
 write a benchmark test against one of mine, and submit it as a push request. I'll gladly deprecate
-a solution and leave it as a less-than ideal solution. For an example, see problem_10.
+a solution and leave it as a less-than ideal approach. For an example, see problem_10.
 
 Solved Problems with Commentary:
 --------------------------------
-1-17, 19-22, 29-30, 32, 34-36, 39, 45, 48
+1-17, 19-22, 24, 29-30, 32, 34-36, 39, 45, 48
 
 Common Library classes:
 -----------------------
