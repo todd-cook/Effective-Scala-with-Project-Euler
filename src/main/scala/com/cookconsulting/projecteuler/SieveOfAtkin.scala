@@ -53,14 +53,13 @@ package com.cookconsulting.projecteuler
 
 import collection.mutable.ListBuffer
 
-class SieveOfAtkin (ceiling: Int) {
-  var primes = new ListBuffer[Int]();
-  var limit = ceiling;
+class SieveOfAtkin (val limit: Int) {
+  private var primes = new ListBuffer[Int]();
   findPrimes()
 
   def getPrimes (): List[Int] = primes.toList
 
-  def exclusiveOR (state: Boolean, shiftVal: Boolean): Boolean = {
+  private def exclusiveOR (state: Boolean, shiftVal: Boolean): Boolean = {
     if (!shiftVal) {
       return state
     }
@@ -73,78 +72,100 @@ class SieveOfAtkin (ceiling: Int) {
     return state
   }
 
-  def findPrimes () = {
-
-    var isPrime: Array[Boolean] = new Array[Boolean](limit + 1);
-    var sqrt = (math.sqrt(limit)).intValue
+  private def findPrimes () {
+    // the sieve is initialized to false
+    val isPrime: Array[Boolean] = new Array[Boolean](limit + 1);
+    val sqrt = (math.sqrt(limit)).round.intValue
 
     /**
-     * For each entry number n in the sieve list, with modulo-sixty remainder r :
-     * If r is 1, 13, 17, 29, 37, 41, 49, or 53, flip the entry for each possible solution to 4x2 + y2 = n.
-     * If r is 7, 19, 31, or 43, flip the entry for each possible solution to 3x2 + y2 = n.
-     * If r is 11, 23, 47, or 59, flip the entry for each possible solution to 3x2 - y2 = n when x > y.
-     * If r is something else, ignore it completely.
+     * put in candidate primes:
+     * integers which have an odd number of
+     * representations by certain quadratic forms
      */
     (1 to sqrt).foreach(x => {
-      (1 to sqrt).toList.foreach(y => {
-        var n = 4 * x * x + y * y;
-
-        if (n <= limit && (n % 60 == 1
-          || n % 60 == 13
-          || n % 60 == 17
-          || n % 60 == 29
-          || n % 60 == 37
-          || n % 60 == 41
-          || n % 60 == 49
-          || n % 60 == 53)) {
+      (1 to sqrt).foreach(y => {
+        var n = (4 * x * x) + (y * y)
+        if (n <= limit && (n % 12 == 1 || n % 12 == 5)) {
           isPrime(n) = exclusiveOR(isPrime(n), true)
         }
-
-        n = 3 * x * x + y * y;
-        if (n <= limit && (n % 60 == 7
-          || n % 60 == 19
-          || n % 60 == 31
-          || n % 60 == 43)) {
+        n = (3 * x * x) + (y * y)
+        if (n <= limit && (n % 12 == 7)) {
           isPrime(n) = exclusiveOR(isPrime(n), true)
         }
-
-        n = 3 * x * x - y * y;
-        if (x > y && n <= limit && (n % 12 == 11
-          || n % 60 == 23
-          || n % 60 == 47
-          || n % 60 == 59)) {
+        n = (3 * x * x) - (y * y)
+        if ((x > y) && (n <= limit) && (n % 12 == 11)) {
           isPrime(n) = exclusiveOR(isPrime(n), true)
         }
       })
     })
-
+    // eliminate composites by sieving
     (5 to sqrt).foreach(n => {
       if (isPrime(n)) {
-        var k = n * n
-        while (k <= limit) {
-          if (k > 0) {
-            isPrime(k) = false;
-          }
-          k *= k
-        }
-        var nSquared = n * n;
-        var k2 = nSquared;
-        var ii = 1
-        while (k2 <= limit) {
-          isPrime(k2) = false;
-          k2 = ii * k2
-          ii += 1
+        var primeSquared = n * n
+        var inc = 1
+        var primeSquaredInc = primeSquared * inc
+        while (primeSquaredInc <= limit) {
+          // n is prime, omit multiples of its square; this is
+          // sufficient because composites which managed to get
+          // on the list cannot be square-free
+          isPrime(primeSquaredInc) = false;
+          inc += 1
+          primeSquaredInc = primeSquared * inc
         }
       }
     })
-    primes.append(2);
-    primes.append(3);
-    primes.append(5);
-
+    primes.append(2)
+    primes.append(3)
     (5 to (limit - 1)).foreach(n => {
       if (isPrime(n)) {
         primes.append(n)
-      };
+      }
     })
+  }
+}
+
+object SieveOfAtkin {
+
+  /**
+   *  The simplest primality test is as follows: Given an input number n,
+   *  check whether any integer m from 2 to n - 1 divides n.
+   *  If n is divisible by any m then n is composite, otherwise it is prime.
+   *
+   *  However, rather than testing all m up to n - 1,
+   *  it is only necessary to test m up to sqrt n:
+   *  if n is composite then it can be factored into two values,
+   *  at least one of which must be less than or equal to sqrt n.
+   *
+   *  The efficiency can also be improved by skipping all even m except 2,
+   *  since if any even number divides n then 2 does.
+   *
+   *   from: http://en.wikipedia.org/wiki/Primality_test
+   */
+  def isPrime (n: Int): Boolean = {
+    if (n == 2 || n == 3) {
+      return true
+    }
+    if (n % 2 == 0 || n % 3 == 0) {
+      return false
+    }
+    val ceil = math.sqrt(n).round.intValue
+    var inc = 5
+    while (inc <= ceil) {
+      if (n % inc == 0) {
+        return false
+      }
+      inc += 2
+    }
+    true
+  }
+
+  def main (args: Array[String]) {
+    var soa = new SieveOfAtkin(2000000)
+    soa.getPrimes.foreach(a => if (!isPrime(a)) {
+      println("prime fail for: " + a)
+    })
+    println("total primes to 2,000,000: " + soa.getPrimes().length)
+    //     var soa = new SieveOfAtkin (1000)
+    //   println(soa.getPrimes.toList.mkString(", "))
   }
 }

@@ -58,15 +58,6 @@ object problem_7 {
    *
    *  The efficiency can also be improved by skipping all even m except 2,
    *  since if any even number divides n then 2 does.
-   *  It can be improved further by observing that all primes are of
-   *  the form 6k +/- 1, with 2 and 3 being the only exceptions.
-   *  This is because all integers can be expressed as (6k + i) for some
-   *  integer k and for i = -1, 0, 1, 2, 3, or 4;
-   *  2 divides (6k + 0), (6k + 2), (6k + 4); and 3 divides (6k + 3).
-   *  So a more efficient method is to test if n is divisible by 2 or 3,
-   *  then to check through all the numbers of
-   *  form 6k (plus or minus) 1  less than or equal to the sqrt n.
-   *  This is 3 times as fast as testing all m.
    *
    *   from: http://en.wikipedia.org/wiki/Primality_test
    */
@@ -80,16 +71,12 @@ object problem_7 {
     if (n % 3 == 0) {
       return false
     }
-    val ceil = math.sqrt(n).intValue
-    (1 to ceil).foreach(x => {
-      if ((6 * x) - 1 <= n) {
-        return true
-      }
-      if ((6 * x) + 1 <= n) {
-        return true
-      }
+    val ceil = math.sqrt(n).round.intValue
+    (5 to ceil).foreach(a => {
+      if ( n % a ==0)
+        return false
     })
-    false
+    true
   }
 
   def findNextPrime (currentPrimeNumber: Int): Int = {
