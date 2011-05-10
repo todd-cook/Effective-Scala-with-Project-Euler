@@ -5,7 +5,7 @@ Unit tests demonstrate and benchmark the problem solving algorithms.
 Effective Scala is quick, efficient, and understandable.
 
 Goal: solve the problems efficiently, using Scala effectively.
-By Products: A library of utilities for solving mathematical problems; examples of the practical
+By-products: A library of utilities for solving mathematical problems; examples of the practical
 applications of mathematics.
 
 How to use this project:
@@ -16,7 +16,7 @@ a solution and leave it as a less-than ideal solution. For an example, see probl
 
 Solved Problems with Commentary:
 --------------------------------
-1-17, 19-22, 29, 36, 39, 45, 48
+1-17, 19-22, 29, 34-36, 39, 45, 48
 
 Common Library classes:
 -----------------------
