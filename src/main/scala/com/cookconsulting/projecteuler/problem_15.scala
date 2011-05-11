@@ -51,6 +51,8 @@ package com.cookconsulting.projecteuler
  * @since : 4/24/2011
  */
 
+import scala.collection.mutable.ListBuffer
+
 object problem_15 {
 
   def answer () = {
@@ -63,5 +65,45 @@ object problem_15 {
     println((pt.centralBinomialCoefficients())(20))
   }
 
-  def main (args: Array[String]) = answer
+  /**
+   * Initial attempts that yielded results indicating the governing factor was a common series:
+   * the central binomial coefficient
+   */
+  def shiftList (myList: List[Int], shift: Int) = myList.slice(shift, myList.length - shift)
+
+  def createTupleGrid (x: Int, y: Int) = {
+    val results = new ListBuffer[Tuple2[Int, Int]]()
+    (0 to x).foreach(n => {
+      (0 to y).foreach(m => {
+        results.append(Tuple2[Int, Int](n, m))
+      })
+    })
+    results.toList
+  }
+
+  def findAnswer (x: Int, y: Int): List[List[Tuple2[Int, Int]]] = {
+    var ug = new UGraph()
+    var tupleGrid = createTupleGrid(x, y)
+    var startingPoint = List((0, 0))
+    val totalLeapsRequired = (x + y + 1)
+    ug.addAllVertices(tupleGrid)
+    var results: List[List[Tuple2[Int, Int]]] = List(startingPoint)
+    while (results(0).size < totalLeapsRequired) {
+      results = ug.findNextVertices(results)
+    }
+    results.filter(z => z.last == (x, y))
+  }
+
+  def factorial (x: Int) = (1 to x).toList.foldLeft(1)(_ * _)
+
+  def main (args: Array[String]) = {
+    // initial attempts that yielded the paths and the series of numbers...
+    (2 to 8).foreach(x => {
+      println("finding " + x + " by " + x + " grid possibilities")
+      var results = findAnswer(x, x)
+      println(results.mkString(", "))
+      println(results.length)
+    })
+    answer
+  }
 }
