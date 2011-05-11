@@ -50,6 +50,11 @@ import collection.mutable.HashMap
  */
 object problem_32 {
 
+  /**
+   * This pandigital formula: 2 digits * 3 digits = 4 digits
+   * is the only way it works; experimentation showed that
+   * 1 digit * 4 digits = 4 digits does not yield pandigital permutations
+   */
   def formPandigitalProductCombo (numbers: List[Int]): Tuple3[Int, Int, Int] = {
     val groupOne = (numbers(0) * 10) + numbers(1)
     val groupTwo = ((numbers(2) * 100) + (numbers(3) * 10) + (numbers(4)))
@@ -61,22 +66,16 @@ object problem_32 {
     (pandigitalCombo._1 * pandigitalCombo._2 == pandigitalCombo._3)
 
   def main (args: Array[String]) {
-    // generate all permutations; 9! = 362880 and they fit in memory
-    val buf = new ListBuffer[List[Int]]()
+    // generate all permutations; 9! = 362880; but test each one immediately, no need to store
     val pg = new PermutationGenerator(9)
-    while (pg.hasMore) {
-      buf.append(pg.next)
-    }
-    val permutations = buf.toList
-    println("Total permutations: " + permutations.size)
-    buf.clear
     val answers = new ListBuffer[Tuple3[Int, Int, Int]]()
-    permutations.foreach(a => {
-      val b = formPandigitalProductCombo(a)
+    while (pg.hasMore) {
+      val b = formPandigitalProductCombo(pg.next)
       if (checkPandigitalPermutation(b)) {
         answers.append(b)
       }
-    })
+    }
+    println("Total permutations: " + pg.getTotal)
     println("Found " + answers.size + " pandigital permutations")
     println(answers.toList)
     // now we isolate the products that only occur once
@@ -91,8 +90,7 @@ object problem_32 {
       solutions.append((tmp._1, tmp._2, a))
     }
     println(solutions.toList)
-    val products = for {product <- solutions.toList}
-                    yield (product._3)
+    val products = for {product <- solutions.toList} yield (product._3)
     println(products)
     println("sum of products: " + products.sum)
   }
