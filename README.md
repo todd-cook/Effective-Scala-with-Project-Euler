@@ -16,14 +16,18 @@ a solution and leave it as a less-than ideal approach. For an example, see probl
 
 Solved Problems with Commentary:
 --------------------------------
-1-22, 24-26, 28-30, 32, 34-36, 39, 45, 48, 67
+1-26, 28-32, 34-36, 39, 40, 45, 48, 67
 
-Common Library classes:
------------------------
+Utility classes:
+----------------
 * Pascal's Triangle
 * Big Square Root
 * Sieve of Atkin
 * Permutation Generator
+* Spiral Number Grid
+* Undirected Graph
+* Unit Fraction
+* CoinCollection, CoinConstraints, CoinCombination - generate combinations with restrictions
 
 Who this project is for:
 ------------------------
@@ -37,7 +41,7 @@ Who this project is for:
 * You'd like to improve your math skills and see if abstract concepts can give you practical ideas.
 
 History:
------------
+--------
 I began working on the Project Euler problems in October 2009, with Scala 2.7 and I've updated the
 code to be compliant with the 2.8.1 release. As Scala versions are promoted to release status, I
 will update the sources as necessary.
