@@ -39,7 +39,7 @@ import scala.collection.mutable.ListBuffer
 import scala.collection.mutable.HashSet
 import scala.List
 
-class UGraph {
+class UndirectedGraph {
   val vertices = new HashSet[Tuple2[Int, Int]]()
 
   def addVertex (vertex: Tuple2[Int, Int]) = vertices.add(vertex)

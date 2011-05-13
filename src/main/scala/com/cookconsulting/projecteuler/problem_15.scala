@@ -82,7 +82,7 @@ object problem_15 {
   }
 
   def findAnswer (x: Int, y: Int): List[List[Tuple2[Int, Int]]] = {
-    var ug = new UGraph()
+    var ug = new UndirectedGraph()
     var tupleGrid = createTupleGrid(x, y)
     var startingPoint = List((0, 0))
     val totalLeapsRequired = (x + y + 1)
