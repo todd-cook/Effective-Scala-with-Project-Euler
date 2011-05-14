@@ -154,10 +154,15 @@ class ProblemVerifierTest extends AssertionsForJUnit {
   def problem_24() {
     /**
      * The lexicographic permutations of 0, 1 and 2 are:
-
-012   021   102   120   201   210
+     * 012   021   102   120   201   210
      */
-
+    var pg = new PermutationGenerator(3)
+    assert((pg.next.map(a => a - 1).mkString("")) === "012")
+    assert((pg.next.map(a => a - 1).mkString("")) === "021")
+    assert((pg.next.map(a => a - 1).mkString("")) === "102")
+    assert((pg.next.map(a => a - 1).mkString("")) === "120")
+    assert((pg.next.map(a => a - 1).mkString("")) === "201")
+    assert((pg.next.map(a => a - 1).mkString("")) === "210")
   }
 
   @Test

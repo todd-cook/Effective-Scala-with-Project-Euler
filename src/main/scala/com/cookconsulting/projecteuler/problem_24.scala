@@ -47,7 +47,8 @@ object problem_24 {
 
   def answer = {
     val pg = new PermutationGenerator(10)
-    var inc = 0
+    var inc = 1
+
     while (inc < 1000000) {
       pg.next
       inc += 1
@@ -55,11 +56,10 @@ object problem_24 {
     var millionthPermutation = pg.next
     println(millionthPermutation)
     // lower the permutations by one, since the answer wants zero
-    println(millionthPermutation.map(a => a - 1))
-
+    println(millionthPermutation.map(a => a - 1).mkString(""))
   }
 
-  def main (args: Array[String]) = {
+  def main(args: Array[String]) = {
     answer
   }
 }
