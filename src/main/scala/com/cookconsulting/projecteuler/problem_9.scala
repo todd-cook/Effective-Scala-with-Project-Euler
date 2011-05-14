@@ -29,15 +29,14 @@
 package com.cookconsulting.projecteuler
 
 /**
-Problem 9
-A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,
-a^(2) + b^(2) = c^(2)
-
-For example, 3^(2) + 4^(2) = 9 + 16 = 25 = 5^(2).
-
-There exists exactly one Pythagorean triplet for which a + b + c = 1000.
-Find the product abc.
+ * Problem 9
+ * A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,
+ * a^(2) + b^(2) = c^(2)
  *
+ * For example, 3^(2) + 4^(2) = 9 + 16 = 25 = 5^(2).
+ *
+ * There exists exactly one Pythagorean triplet for which a + b + c = 1000.
+ * Find the product abc.
  *
  * @author : Todd Cook
  * @since : 4/24/2011
@@ -45,11 +44,11 @@ Find the product abc.
 
 object problem_9 {
 
-  def isPythagoreanTriplet (x: Tuple3[Int, Int, Int]): Boolean = {
+  def isPythagoreanTriplet(x: Tuple3[Int, Int, Int]): Boolean = {
     ((x._1 * x._1) + (x._2 * x._2) == (x._3 * x._3))
   }
 
-  def isTarget (x: Tuple3[Int, Int, Int], result: Int): Boolean = {
+  def isTarget(x: Tuple3[Int, Int, Int], result: Int): Boolean = {
     (x._1 + x._2 + x._3 == result)
   }
 
@@ -70,14 +69,14 @@ object problem_9 {
    *
    *
    */
-  def findPythagoreanTriplet (result: Int): Tuple3[Int, Int, Int] = {
+  def findPythagoreanTriplet(result: Int): Tuple3[Int, Int, Int] = {
     var ceiling = math.sqrt(result).intValue
     (1 to ceiling).toList.foreach(m => {
       (1 to ceiling).toList.foreach(n => {
         if (m > n) {
           val pythagoreanTriplet = euclidsFormula(m, n)
           if (isPythagoreanTriplet(pythagoreanTriplet) && isTarget(pythagoreanTriplet, result)) {
-            println("result found using m,n: " + m + ", " + n)
+            println("result found using m, n: %d, %d".format(m, n))
             return pythagoreanTriplet;
           }
         }
@@ -90,7 +89,7 @@ object problem_9 {
    * Euclid's formula for Pythagorean Triple, see
    * http://en.wikipedia.org/wiki/Pythagorean_triplet
    */
-  def euclidsFormula (m: Int, n: Int): Tuple3[Int, Int, Int] = {
+  def euclidsFormula(m: Int, n: Int): Tuple3[Int, Int, Int] = {
     require(m > n)
     require(n > 0)
     val a = 2 * m * n
@@ -99,7 +98,13 @@ object problem_9 {
     (a, b, c)
   }
 
-  def main (args: Array[String]) {
-    println(findPythagoreanTriplet(1000))
+  def answer() = {
+    val t3 = findPythagoreanTriplet(1000)
+    println(t3)
+    t3._1 * t3._2 * t3._3
+  }
+
+  def main(args: Array[String]) {
+    println(answer)
   }
 }

@@ -86,37 +86,35 @@ object problem_11 {
     List(20, 73, 35, 29, 78, 31, 90, 1, 74, 31, 49, 71, 48, 86, 81, 16, 23, 57, 5, 54),
     List(1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48))
 
-  def horizontalRow (column: Int, row: Int, amount: Int): List[Int] = {
-    (0 to amount - 1).toList.map(x => numbers(row - 1)(column - 1 + x))
+  def horizontalRow(column: Int, row: Int, amount: Int): List[Int] = {
+    (0 until amount).toList.map(x => numbers(row - 1)(column - 1 + x))
   }
 
-  def verticalRow (column: Int, row: Int, amount: Int): List[Int] = {
-    (0 to amount - 1).toList.map(x => numbers(row - 1 + x)(column - 1))
+  def verticalRow(column: Int, row: Int, amount: Int): List[Int] = {
+    (0 until amount).toList.map(x => numbers(row - 1 + x)(column - 1))
   }
 
   //  N
   //W   E
   //  S
-  def nwseDiagonal (column: Int, row: Int, amount: Int): List[Int] = {
-    (1 to amount - 1).toList.map(x => numbers(row - 1 + x)(column - 1 + x))
+  def nwseDiagonal(column: Int, row: Int, amount: Int): List[Int] = {
+    (1 to amount).toList.map(x => numbers(row - 1 + x)(column - 1 + x))
   }
 
-  def swneDiagonal (column: Int, row: Int, amount: Int): List[Int] = {
-    (1 to amount - 1).toList.map(x => numbers(row - 1 - x)(column - 1 + x))
+  def swneDiagonal(column: Int, row: Int, amount: Int): List[Int] = {
+    val yList = (0 until amount).toList.reverse
+    val xList = (0 until amount).toList
+    var coords = yList.zip(xList)
+    coords.map(a => numbers(a._1 + (row - amount))(a._2 + column))
   }
 
-  def checkMaxCombo (item: List[Int], item2: List[Int]): List[Int] = {
-    if (item.reduceLeft(_ * _) > item2.reduceLeft(_ * _)) {
-      item
-    }
-    else {
-      item2
-    }
+  def checkMaxCombo(item: List[Int], item2: List[Int]): List[Int] = {
+    if (item.reduceLeft(_ * _) > item2.reduceLeft(_ * _)) item else item2
   }
 
-  def answer () = {
+  def answer() = {
     var totalLength = numbers(0).size
-    var maxBoundary = numbers(0).size - 4
+    var maxBoundary = numbers(0).size - 3
     var maxcombo = List[Int](0, 0, 0)
     (1 to totalLength).foreach(y => (1 to maxBoundary).foreach(x => {
       maxcombo = checkMaxCombo(maxcombo, horizontalRow(x, y, 4))
@@ -127,7 +125,7 @@ object problem_11 {
     }))
     // nwse  x:  0 to maxboundary
     //	y: 0 to maxboundary
-    (0 to maxBoundary).foreach(y => (0 to maxBoundary).foreach(x => {
+    (0 to maxBoundary - 1).foreach(y => (0 to maxBoundary - 1).foreach(x => {
       maxcombo = checkMaxCombo(maxcombo, nwseDiagonal(x, y, 4))
     }))
     // swne  x: 0 to totalLength - 4
@@ -135,10 +133,11 @@ object problem_11 {
     (4 to totalLength).foreach(y => (0 to totalLength - 4).foreach(x => {
       maxcombo = checkMaxCombo(maxcombo, swneDiagonal(x, y, 4))
     }))
-    maxcombo
+    println(maxcombo)
+    maxcombo.reduceLeft(_ * _)
   }
 
-  def main (args: Array[String]) = {
+  def main(args: Array[String]) = {
     println(answer)
   }
 }

@@ -60,9 +60,9 @@ object problem_12 {
   /**
    * http://en.wikipedia.org/wiki/Triangle_numbers
    */
-  def makeTriangleNumber (seed: Long): Long = (seed * (seed + 1)) / 2L
+  def makeTriangleNumber(seed: Long): Long = (seed * (seed + 1)) / 2L
 
-  def findFactors (num: Long): List[Long] = {
+  def findFactors(num: Long): List[Long] = {
     var inc = 1L
     var buf = new ListBuffer[Long]()
     while (inc < num) {
@@ -74,7 +74,7 @@ object problem_12 {
     buf.toList
   }
 
-  def bruteForce () = {
+  def bruteForce() = {
     var max = 1
     (2 to 100000).foreach(x => {
       var result = countFactors(makeTriangleNumber(x))
@@ -90,7 +90,7 @@ object problem_12 {
    * Squares in base 16 end in 0, 1, 4, or 9
    * see: http://www.johndcook.com/blog/2008/11/17/fast-way-to-test-whether-a-number-is-a-square/
    */
-  def isPerfectSquare (n: Long): Boolean = {
+  def isPerfectSquare(n: Long): Boolean = {
     val hex = java.lang.Long.toHexString(n)
     val lastDigit = hex(hex.length - 1)
     if ((lastDigit == '0') || (lastDigit == '1') || (lastDigit == '4') || (lastDigit == '9')) {
@@ -110,11 +110,11 @@ object problem_12 {
    *
    * An integer x is triangular exactly if 8x + 1 is a square
    */
-  def isTriangleNumber (n: Long): Boolean = {
+  def isTriangleNumber(n: Long): Boolean = {
     isPerfectSquare((8 * n) + 1)
   }
 
-  def countFactors (n: Long): Int = {
+  def countFactors(n: Long): Int = {
     var count = 1
     var ii = 1L
     while (ii <= n / 2) {
@@ -126,7 +126,7 @@ object problem_12 {
     count
   }
 
-  def answer (seed: Int) {
+  def answer(seed: Int) {
     val MAX = 500
     var currentMax = 1L
     var inc = seed * 1L
@@ -137,7 +137,7 @@ object problem_12 {
         // optimization from brute force results; see below
         result = countFactors(triangleNum)
         if (result > currentMax) {
-          println(inc + " factors: " + result)
+          println("seed: %d = triangular number: %d with %d factors".format(inc, triangleNum, result))
           currentMax = result
         }
       }
@@ -146,9 +146,9 @@ object problem_12 {
     (inc, result)
   }
 
-  def main (args: Array[String]) = {
+  def main(args: Array[String]) = {
     // println( answer(1)) // uncomment this to see the long, slow progression
-    println(answer(12000))
+    answer(12000)
   }
 }
 

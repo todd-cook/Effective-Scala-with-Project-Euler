@@ -31,15 +31,11 @@ package com.cookconsulting.projecteuler
 import collection.mutable.ListBuffer
 
 /**
-Problem 7
-By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13,
-we can see that the 6th prime is 13.
-What is the 10001th prime number?
-
-Solution:
-For a discussion of testing prime numbers,
-see: http://en.wikipedia.org/wiki/Primality_test
-
+ * Problem 7
+ * By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13,
+ * we can see that the 6th prime is 13.
+ * What is the 10001th prime number?
+ *
  * @author : Todd Cook
  * @since : 4/24/2011
  */
@@ -61,7 +57,7 @@ object problem_7 {
    *
    *   from: http://en.wikipedia.org/wiki/Primality_test
    */
-  def isPrime (n: Int): Boolean = {
+  def isPrime(n: Int): Boolean = {
     if (n == 2 || n == 3) {
       return true
     }
@@ -73,13 +69,14 @@ object problem_7 {
     }
     val ceil = math.sqrt(n).round.intValue
     (5 to ceil).foreach(a => {
-      if ( n % a ==0)
+      if (n % a == 0) {
         return false
+      }
     })
     true
   }
 
-  def findNextPrime (currentPrimeNumber: Int): Int = {
+  def findNextPrime(currentPrimeNumber: Int): Int = {
     var nextPrimeNumber = 1 + currentPrimeNumber
     while (!isPrime(nextPrimeNumber)) {
       nextPrimeNumber += 1
@@ -87,7 +84,7 @@ object problem_7 {
     nextPrimeNumber
   }
 
-  def getPrimeList (numberOfPrimes: Int): List[Int] = {
+  def getPrimeList(numberOfPrimes: Int): List[Int] = {
     var primes = new ListBuffer[Int]()
     var primeCount = 0
     var num = 1
@@ -99,7 +96,7 @@ object problem_7 {
     primes.toList
   }
 
-  def isPrime (n: Long): Boolean = {
+  def isPrime(n: Long): Boolean = {
     if (n == 2L || n == 3L) {
       return true
     }
@@ -123,7 +120,7 @@ object problem_7 {
     false
   }
 
-  def findNextPrime (currentPrimeNumber: Long): Long = {
+  def findNextPrime(currentPrimeNumber: Long): Long = {
     var nextPrimeNumber = 1 + currentPrimeNumber
     while (!isPrime(nextPrimeNumber)) {
       nextPrimeNumber += 1
@@ -131,20 +128,19 @@ object problem_7 {
     nextPrimeNumber
   }
 
-  lazy val primeFactory: Stream[Long] = Stream.cons(2L, primeFactory.map(findNextPrime(_)))
-
-  def answer (): Int = {
-    var primes = getPrimeList(1001)
-    primes.last
+  def answer(): Int = {
+    println(getPrimeList(10001).last)
+    var primes = new SieveOfAtkin(1000000).getPrimes
+    primes(10000)
   }
 
-  def answer2 () = {
-    println(primeFactory(1001))
-  }
-
-  def main (args: Array[String]) {
+  def main(args: Array[String]) {
     println(answer)
-    answer2
   }
 }
 
+/**
+ * Solution:
+ * For a discussion of testing prime numbers,
+ * see: http://en.wikipedia.org/wiki/Primality_test
+ */

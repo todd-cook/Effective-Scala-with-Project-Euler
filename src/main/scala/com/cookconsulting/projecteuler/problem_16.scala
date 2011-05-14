@@ -41,32 +41,13 @@ package com.cookconsulting.projecteuler
 
 object problem_16 {
 
-  def sumDigits (num: Long): Int = {
-
-    var numword = java.lang.String.valueOf(num).elements
-    var sum = 0
-    numword.map(x => java.lang.String.valueOf(x))
-    numword.foreach(x => sum = sum.asInstanceOf[Int] + Integer.valueOf(x + "").asInstanceOf[Int])
-    // without the +"" the compiler complains Char can't be cast to string
-    // but we need the string, since Char value is just the int value for each character
-    sum
+  def answer() = {
+    val bi = new java.math.BigInteger("2")
+    val digitList = bi.pow(1000).toString.toList.map(a => java.lang.Integer.parseInt(a + ""))
+    digitList.sum
   }
 
-  //returns long whole number, number of exponential decimal places
-  def scientificNotationToDecimals (scientificNotation: String): Tuple2[Long, Int] = {
-    var eIndex = scientificNotation.indexOf("E")
-    var longNum = scientificNotation.substring(0, eIndex).replaceAll("\\.", "")
-    var exponents = scientificNotation.substring(eIndex + 1)
-    ((new java.lang.Long(longNum)).asInstanceOf[Long],
-      Integer.valueOf(exponents).asInstanceOf[Int])
-  }
-
-  def answer () = {
-    var (significantNumber, exponents) = scientificNotationToDecimals(java.lang.Math.pow(2, 1000) + "")
-    sumDigits(significantNumber)
-  }
-
-   def main (args: Array[String]) = {
-     println(answer)
+  def main(args: Array[String]) = {
+    println(answer)
   }
 }

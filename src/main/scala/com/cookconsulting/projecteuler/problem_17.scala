@@ -45,105 +45,22 @@ package com.cookconsulting.projecteuler
  * @since : 4/24/2011
  */
 
-object NumberString extends Enumeration {
-  type NumberString = Value
-  val one = Value(1, "one")
-  val two = Value(2, "two")
-  val three = Value(3, "three")
-  val four = Value(4, "four")
-  val five = Value(5, "five")
-  val six = Value(6, "six")
-  val seven = Value(7, "seven")
-  val eight = Value(8, "eight")
-  val nine = Value(9, "nine")
-  val ten = Value(10, "ten")
-  val eleven = Value(11, "eleven")
-  val twelve = Value(12, "twelve")
-  val thirteen = Value(13, "thirteen")
-  val fourteen = Value(14, "fourteen")
-  val fifteen = Value(15, "fifteen")
-  val sixteen = Value(16, "sixteen")
-  val seventeen = Value(17, "seventeen")
-  val eighteen = Value(18, "eighteen")
-  val nineteen = Value(19, "nineteen")
-  val twenty = Value(20, "twenty")
-  val thirty = Value(30, "thirty")
-  val forty = Value(40, "forty")
-  val fifty = Value(50, "fifty")
-  val sixty = Value(60, "sixty")
-  val seventy = Value(70, "seventy")
-  val eighty = Value(80, "eighty")
-  val ninety = Value(90, "ninety")
-}
-
 object problem_17 {
-  val number_strings = NumberString.values.toList.map(_.toString)
-  val number_values = NumberString.values.toList.map(_.id)
-  val stringsToNumbers = number_strings zip number_values toMap
-  val numbersToStrings = number_values zip number_strings toMap
 
-  def numberToWords (n: Int): String = {
-    var result = ""
-    if (n.toString.length >= 4 && n > 999 && n < 99999) {
-      result = numbersToStrings.get((n.toString.slice(
-        0, n.toString.length - 3)).toInt).get + " thousand"
-      if (n % 1000 == 0) {
-        return result;
-      }
-      else {
+  def removeSpaces(str: String) = str.replaceAll("\\s", "")
 
-        var numString = n.toString
-        if (n.toString.length == 5) {
-          numString = numString.slice(2, 5)
-        }
-        else {
-          numString = numString.slice(1, 4)
-        }
-        if (numString.toInt < 100) {
-          return result + " and " + numberToWords(numString.toInt)
-        }
-        else {
-          return result + " " + numberToWords(numString.toInt)
-        }
-      }
-    }
-    if (n.toString.length == 3 && n > 0 && n <= 999) {
-      result = numbersToStrings.get(
-        (n.toString.slice(0, 1)).toInt).get + " hundred"
-      if (n % 100 == 0) {
-        return result;
-      }
-      else {
-        result += " and " + numberToWords(n.toString.slice(1, 3).toInt)
-      }
-    }
-    if (n.toString.length <= 2 && n < 21 && n > 0) {
-      result += numbersToStrings.get(n).get
-    }
-    if (n > 20 && n < 100) {
-      var tensValue = numbersToStrings.get(
-        (n.toString.slice(0, 1) + "0").toInt).get
-      if ((n.toString.slice(1, 2)).toInt != 0) {
-        var onesValue = numbersToStrings.get(
-          (n.toString.slice(1, 2)).toInt).get
-        result += tensValue + "-" + onesValue
-      }
-      else {
-        result += tensValue
-      }
-    }
-    result
-  }
+  def removeHyphens(str: String) = str.replaceAll("-", "")
 
   def answer = {
-    (1 to 1000).toList.map(x =>
-                             numberToWords(x)).mkString.replaceAll("\\s ", "")
-      .replaceAll("-", "").length
+    val result = (1 to 1000).toList.map(x => NumberString.numberToWords(x)).mkString
+    removeHyphens(removeSpaces(result)).length
   }
 
-  def main (args: Array[String]) = {
-    //        println (numberToWords (15280))
-    //        println (numberToWords (15000))
+  def main(args: Array[String]) = {
+    println(NumberString.parse("twenty-one"))
+    println(NumberString.parse("Five hundred and twenty-one"))
+    println(NumberString.parse("two thousand five hundred and twenty-one"))
+    //  println(NumberString.parse("twenty-three thousand eight hundred and twenty-one")) //TODO
     println(answer)
   }
 }
