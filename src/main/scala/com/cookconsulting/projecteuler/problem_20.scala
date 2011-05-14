@@ -28,14 +28,12 @@
 
 package com.cookconsulting.projecteuler
 
+import java.math.BigInteger
+
 /**
  * Problem 20
  * n! means n * (n - 1) * ... * 3 * 2 * 1
  * Find the sum of the digits in the number 100!
- *
- * Solution:
- * result : 9.332621544394418E157 sum: 2.5368695556012736E158
- * res11: Double = 9.332621544394418E157
  *
  * @author : Todd Cook
  * @since : 4/24/2011
@@ -43,23 +41,24 @@ package com.cookconsulting.projecteuler
 
 object problem_20 {
 
-  def factorial (n: Int): Double = {
-    var sum = 0d
+  def factorialBI(n: Int): BigInteger = {
+    var bi = BigInteger.ONE
     var ii = n
-    var result = 0d
-    result += n
     while (ii > 1) {
-      result = result * (ii - 1)
-      sum += result
+      bi = bi.multiply(new java.math.BigInteger(ii.toString))
       ii -= 1
     }
-    println("result : " + result + " sum: " + sum)
-    result
+    bi
   }
 
-  def answer () = factorial(100)
-
-  def main (args: Array[String]) = {
-    println(answer)
+  def main(args: Array[String]) = {
+    var fact100 = factorialBI(100).toString
+    println(fact100.toList.map(a => a + "").map(b => java.lang.Integer.parseInt(b)).sum)
   }
 }
+
+/**
+ * Solution:
+ * result : 9.332621544394418E157 sum: 2.5368695556012736E158
+ * res11: Double = 9.332621544394418E157
+ */

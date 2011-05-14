@@ -34,11 +34,11 @@ package com.cookconsulting.projecteuler
  *
  * 1 Jan 1900 was a Monday.
  * Thirty days has September,
-      April, June and November.
-      All the rest have thirty-one,
-      Saving February alone,
-      Which has twenty-eight, rain or shine.
-      And on leap years, twenty-nine.
+ *    April, June and November.
+ *    All the rest have thirty-one,
+ *    Saving February alone,
+ *    Which has twenty-eight, rain or shine.
+ *    And on leap years, twenty-nine.
  * A leap year occurs on any year evenly divisible by 4, but not on a century unless it is
  * divisible by 400.
  *
@@ -56,23 +56,23 @@ import java.util.Calendar
 
 object problem_19 {
 
-  def answer () = {
+  def answer() = {
     var cal = new java.util.GregorianCalendar()
     var sdf = new java.text.SimpleDateFormat("yyyy-mm-DD")
-    cal.setTime(sdf.parse("1900-01-01"))
+    cal.setTime(sdf.parse("1901-01-01"))
     var sundaysTheFirst = 0
     while (cal.get(Calendar.YEAR) < 2001) {
       cal.add(Calendar.MONTH, 1)
       if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
         // println("Sunday found: " + cal.getTime)
+        sundaysTheFirst += 1
       }
-      sundaysTheFirst += 1
     }
     println("Number of months starting on Sunday: " + sundaysTheFirst)
     sundaysTheFirst
   }
 
-  def main (args: Array[String]) = {
+  def main(args: Array[String]) = {
     println(answer)
   }
 }
