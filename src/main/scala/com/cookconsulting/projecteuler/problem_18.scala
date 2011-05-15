@@ -102,7 +102,7 @@ object problem_18 {
   def generatePermutationsForRow (seed: CandidatePermutation, row: Int, combos: List[List[Int]])
   : List[CandidatePermutation] = {
     var col = seed.lastColumn
-    var less = col - 1
+    var less = col //- 1
     var equal = col
     var more = col + 1
     var max = combos(row).length - 1
@@ -121,7 +121,8 @@ object problem_18 {
   }
 
   def condenseEarlyPermutations (candidates: ListBuffer[CandidatePermutation], row: Int) = {
-    val trimRow = row - 6
+    val trimFactor = 5
+    val trimRow = row - trimFactor
     var currentMax = 0
     candidates.foreach(a => {
       var tmp = a.columns.slice(0, trimRow).sum
@@ -135,7 +136,7 @@ object problem_18 {
       }
     })
     val hashSet = new HashSet[List[Int]]()
-    candidates.foreach(a => hashSet.add(a.columns.slice(0, row - 3)))
+    candidates.foreach(a => hashSet.add(a.columns.slice(0, row - trimFactor)))
     //println("unique seeds starting with " + (trimRow + 1) + " digits" + hashSet.size)
     //println (hashSet.mkString)
   }
@@ -151,7 +152,7 @@ object problem_18 {
       })
       //println("Permutations size before trimming: " +
       //           newCandidates.length + " for row: " + (row + 1))
-      if (row >= 9 && row % 3 == 0) {
+      if (row > 8){  // } && row % 3 == 0) {
         condenseEarlyPermutations(newCandidates, row)
       }
       currentCandidates = newCandidates.toList
