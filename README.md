@@ -28,7 +28,7 @@ Utility classes:
 * Undirected Graph
 * Unit Fraction
 * CoinCollection, CoinConstraints, CoinCombination - generate combinations with restrictions
-* NumberString - convert from
+* NumberString - convert from digits to alphanumeric spellings and back
 
 Who this project is for:
 ------------------------
