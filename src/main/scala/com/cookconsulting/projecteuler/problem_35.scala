@@ -79,6 +79,7 @@ object problem_35 {
 
   def main (args: Array[String]) = {
     println(answer)
+    println(answer.length)
   }
 }
 

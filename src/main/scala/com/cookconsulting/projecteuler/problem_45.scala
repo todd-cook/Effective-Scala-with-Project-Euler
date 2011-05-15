@@ -44,24 +44,24 @@ package com.cookconsulting.projecteuler
 
 object problem_45 {
 
-  def triangleNumber (n: Long) = (n * (n + 1)) / 2
+  def triangleNumber(n: Long) = (n * (n + 1)) / 2
 
-  def pentagonalNumber (n: Long) = (n * (3 * n - 1)) / 2
+  def pentagonalNumber(n: Long) = (n * (3 * n - 1)) / 2
 
-  def hexagonalNumber (n: Long) = n * (2 * n - 1)
+  def hexagonalNumber(n: Long) = n * (2 * n - 1)
 
-  def isPentagonal (x: Long) = {
+  def isPentagonal(x: Long) = {
     var n = (math.sqrt((24d * x) + 1) + 1) / 6
     (pentagonalNumber(n.longValue) == x)
   }
 
-  def quadraticFormula (a: Long, b: Long, c: Long): Tuple2[Long, Long] = {
+  def quadraticFormula(a: Long, b: Long, c: Long): Tuple2[Long, Long] = {
     val xLow = (-b + (math.sqrt((b * b) - 4d * a * c))) / (2 * a)
     val xHigh = (-b - (math.sqrt((b * b) - 4d * a * c))) / (2 * a)
     (xLow.longValue, xHigh.longValue)
   }
 
-  def recoverSeeds (x: Long): Tuple3[Long, Long, Long] = {
+  def recoverSeeds(x: Long): Tuple3[Long, Long, Long] = {
     val pentSeed = quadraticFormula(3L, -1L, -(2L * x))._1
     val triangleSeed = quadraticFormula(1L, 1L, -(2L * x))._1
     val hexSeed = quadraticFormula(2L, -1L, -x)._1
@@ -77,7 +77,7 @@ object problem_45 {
     result(0)
   }
 
-  def answerProcedural () = {
+  def answerProcedural() = {
     var ii = 287L
     var finished = false
     while (!finished) {
@@ -100,8 +100,9 @@ object problem_45 {
    *  triangular number (the 1st, 3rd, 5th, 7th, etc.) is a hexagonal number.
    *  http://en.wikipedia.org/wiki/Hexagonal_number
    */
-  def main (args: Array[String]) = {
-    println(answerFunctional)
+  def main(args: Array[String]) = {
+    val answerSeed = answerFunctional
+    println(answerSeed + " = " + triangleNumber(answerSeed))
     println(answerProcedural)
     println(recoverSeeds(triangleNumber(285)))
     println(recoverSeeds(triangleNumber(55385L)))

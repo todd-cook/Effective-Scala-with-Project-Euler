@@ -48,7 +48,7 @@ package com.cookconsulting.projecteuler
 
 object problem_40 {
 
-  def createIrrationalDecimalString (places: Int): String = (0 to places).toList.mkString("")
+  def createIrrationalDecimalString(places: Int): String = (1 to places).toList.mkString("")
 
   /**
    * Binary search implementation
@@ -56,7 +56,7 @@ object problem_40 {
    * included anyway to see how it was modified to discover the target
    * see binarySearchFun() below
    */
-  def binarySearch (values: List[Int], goal: Int) = {
+  def binarySearch(values: List[Int], goal: Int) = {
     var topPlace = values.length - 1
     var midPlace = (values.length - 1) / 2
     var botPlace = 0
@@ -103,7 +103,7 @@ object problem_40 {
    * 1 = more than goal
    *
    */
-  def testCandidate (candidate: Int): Int = {
+  def testCandidate(candidate: Int): Int = {
     createIrrationalDecimalString(candidate).length.asInstanceOf[Int]
   }
 
@@ -111,7 +111,7 @@ object problem_40 {
    * A sort of binary search for quickly finding the closest target
    * of course, values must be a sorted list
    */
-  def binarySearchFun (values: List[Int], test: (=> Int) => Int, goal: Int) = {
+  def binarySearchFun(values: List[Int], test: (=> Int) => Int, goal: Int) = {
     var topPlace = values.length - 1
     var midPlace = (values.length - 1) / 2
     var botPlace = 0
@@ -164,18 +164,24 @@ object problem_40 {
      * using a binary search styled narrowing approach, the optimum length was found and
      * this doesn't require extra memory being allocated
      */
-    val digits = (0 to 185185).toList.mkString("")
-    println(1d * digits(1).toInt * digits(10).toInt *
-              digits(100).toInt * digits(1000).toInt *
-              digits(10000).toInt * digits(100000).toInt
-              * digits(1000000).toInt)
+    val digits = (1 to 185185).toList.mkString("")
+
+    println(
+      java.lang.Integer.parseInt(digits(1 - 1) + "") *
+        java.lang.Integer.parseInt(digits(10 - 1) + "") *
+        java.lang.Integer.parseInt(digits(100 - 1) + "") *
+        java.lang.Integer.parseInt(digits(1000 - 1) + "") *
+        java.lang.Integer.parseInt(digits(10000 - 1) + "") *
+        java.lang.Integer.parseInt(digits(100000 - 1) + "") *
+        java.lang.Integer.parseInt(digits(1000000 - 1) + ""))
+
     // see commentary below
     binarySearchFun(candidates, testCandidate(_), 1000000)
     // demonstration of clause that catches inexact solution
     binarySearchFun(candidates, testCandidate(_), 1000001)
   }
 
-  def main (args: Array[String]) = {
+  def main(args: Array[String]) = {
     println(answer)
   }
 }

@@ -183,4 +183,15 @@ class ProblemVerifierTest extends AssertionsForJUnit {
       problem_32.formPandigitalProductCombo(List(3, 9, 1, 8, 6, 7, 2, 5, 4))) === true)
   }
 
+  @Test
+  def test_problem_45() {
+    val pentagons = List(1L, 5L, 12L, 22L, 35L, 40755L)
+    pentagons.foreach(a => assert(problem_45.isPentagonal(a)))
+  }
+
+  @Test
+  def test_problem_45_Quadratic() {
+    assert(problem_45.recoverSeeds(problem_45.triangleNumber(285L)) === (285L, 165L, 143L))
+  }
+
 }

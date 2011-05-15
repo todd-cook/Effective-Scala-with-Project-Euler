@@ -28,6 +28,7 @@ Utility classes:
 * Undirected Graph
 * Unit Fraction
 * CoinCollection, CoinConstraints, CoinCombination - generate combinations with restrictions
+* NumberString - convert from
 
 Who this project is for:
 ------------------------

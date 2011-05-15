@@ -61,7 +61,7 @@ object problem_23 {
         } yield  (a)
   }
 
-  def isAbundant (num: Int) = (num < properDivisors(num).foldLeft(0)(_ + _))
+  def isAbundant (num: Int) = if (num  > 11) (num < properDivisors(num).foldLeft(0)(_ + _)) else false
 
   def answer () = {
 
@@ -70,25 +70,25 @@ object problem_23 {
                                if (isAbundant(a))
                               } yield (a)
 
-    println("number of abundant numbers 1 to 28123: " + abundantNumbers.length)
+    println("number of abundant numbers 1 to %d:  %d".format(LIMIT,  abundantNumbers.length))
     val nonAbundantSums = new Array[Boolean](LIMIT + 1)
 
     (1 to LIMIT).foreach(a =>  nonAbundantSums(a) = true)
-    abundantNumbers.foreach(b => nonAbundantSums(b) = true)
+    //abundantNumbers.foreach(b => nonAbundantSums(b) = true)
 
     // we only need half of the abundant numbers, since we have to do a Cartesian product
-    val halfAbundant = abundantNumbers.filter(a => (a < (LIMIT / 2)))
+    val halfAbundant = abundantNumbers.filter(a => (a < (LIMIT )))
     halfAbundant.foreach(a => {
       abundantNumbers.foreach(b => {
         val abundantSum = a + b
-        if (abundantSum < LIMIT) {
+        if (abundantSum <= LIMIT) {
           nonAbundantSums(abundantSum) = false
         }
       })
     })
 
-    var total = 0D
-    (0 until nonAbundantSums.length).foreach(a => if (nonAbundantSums(a)) {
+    var total = 0
+    (1 until nonAbundantSums.length).foreach(a => if (nonAbundantSums(a)) {
       total += a
     })
     println("sum of non-abundant integers between 1 - 28123: " + total)

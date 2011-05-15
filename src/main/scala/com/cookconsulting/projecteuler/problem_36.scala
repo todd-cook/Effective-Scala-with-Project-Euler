@@ -56,7 +56,7 @@ object problem_36 {
       (x)
     }
     println(palindromes.toList)
-    println(palindromes.sum)
+    palindromes.sum
   }
 
   def main (args: Array[String]) = {
