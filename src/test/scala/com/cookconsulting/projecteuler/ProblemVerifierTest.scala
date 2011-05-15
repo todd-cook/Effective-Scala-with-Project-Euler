@@ -151,7 +151,7 @@ class ProblemVerifierTest extends AssertionsForJUnit {
   }
 
   @Test
-  def problem_24() {
+  def test_problem_24() {
     /**
      * The lexicographic permutations of 0, 1 and 2 are:
      * 012   021   102   120   201   210
@@ -163,6 +163,27 @@ class ProblemVerifierTest extends AssertionsForJUnit {
     assert((pg.next.map(a => a - 1).mkString("")) === "120")
     assert((pg.next.map(a => a - 1).mkString("")) === "201")
     assert((pg.next.map(a => a - 1).mkString("")) === "210")
+  }
+
+  @Test
+  def test_problem_28() {
+    //21 22 23 24 25
+    //20  7  8  9 10
+    //19  6  1  2 11
+    //18  5  4  3 12
+    //17 16 15 14 13
+    //
+    //It can be verified that the sum of the numbers on the diagonals is 101.
+    val sng = new SpiralNumberGrid(5, 1)
+    println(sng)
+    val tlbrDiagonal = sng.getTopLeftToBottomRightDiagonal
+    val bltrDiagonal = sng.getBottomLeftToTopRightDiagonal
+    println("top left, bottom right: " + tlbrDiagonal)
+    println("sum : %d ".format(tlbrDiagonal.sum))
+    println("bottom left to top right: " + bltrDiagonal)
+    println("sum : %d ".format(bltrDiagonal.sum))
+    println("total: %d ".format(tlbrDiagonal.sum + bltrDiagonal.sum -1 ))
+    assert( 101 === (tlbrDiagonal.sum + bltrDiagonal.sum - 1 ))
   }
 
   @Test

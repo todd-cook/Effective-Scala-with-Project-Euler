@@ -52,14 +52,17 @@ package com.cookconsulting.projecteuler
 
 object problem_28 {
 
-  def answer () {
+  def answer() {
     val numberGrid = new SpiralNumberGrid(1001, 1)
     val tlbrDiagonalSum = numberGrid.getTopLeftToBottomRightDiagonal.foldLeft(0)(_ + _)
     val bltrDiagonalSum = numberGrid.getBottomLeftToTopRightDiagonal.foldLeft(0)(_ + _)
     println("diagonal tlbrDiagonal sum for a 1001 number grid: " + tlbrDiagonalSum)
     println("diagonal bltrDiagonal sum for a 1001 number grid: " + bltrDiagonalSum)
-    println("Sum of the diagonals for a 1001 number grid: " + (tlbrDiagonalSum + bltrDiagonalSum))
+    // we have to subtract 1, because it is the axis value of the diagonals, and otherwise
+    // it would be counted twice when it appears only once
+    println("Sum of the diagonals for a 1001 number grid: %d ".format(
+      tlbrDiagonalSum + bltrDiagonalSum - 1))
   }
 
-  def main (args: Array[String]) = answer()
+  def main(args: Array[String]) = answer()
 }
