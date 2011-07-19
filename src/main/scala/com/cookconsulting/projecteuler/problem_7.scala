@@ -36,8 +36,8 @@ import collection.mutable.ListBuffer
  * we can see that the 6th prime is 13.
  * What is the 10001th prime number?
  *
- * @author : Todd Cook
- * @since : 4/24/2011
+ * @author  Todd Cook
+ * @since  4/24/2011
  */
 
 object problem_7 {
@@ -106,18 +106,15 @@ object problem_7 {
     if (n % 3 == 0) {
       return false
     }
-    val ceil = math.sqrt(n)
-    var x = 1d
-    while (x < ceil) {
-      if ((6L * x) - 1 <= n) {
-        return true
+    val ceil = math.sqrt(n).longValue
+    var seed = 5L
+    while (seed < ceil){
+      if (n % seed == 0) {
+        return false
       }
-      if ((6L * x) + 1 <= n) {
-        return true
-      }
-      x += 1
+      seed += 2
     }
-    false
+    true
   }
 
   def findNextPrime(currentPrimeNumber: Long): Long = {
