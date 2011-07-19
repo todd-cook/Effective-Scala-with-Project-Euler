@@ -16,10 +16,10 @@ a solution and leave it as a less-than ideal approach. For an example, see probl
 
 Solved Problems with Commentary:
 --------------------------------
-1-26, 28-32, 34-36, 39, 40, 45, 48, 67
+1-17, 19-26, 28-31, 34-41, 45, 48, 55, 56, 69, 74, 92, 97
 
-Utility classes:
-----------------
+Utility classes with unit tests:
+--------------------------------
 * Pascal's Triangle
 * Big Square Root
 * Sieve of Atkin
@@ -44,8 +44,10 @@ Who this project is for:
 History:
 --------
 I began working on the Project Euler problems in October 2009, with Scala 2.7 and I've updated the
-code to be compliant with the 2.8.1 release. As Scala versions are promoted to release status, I
-will update the sources as necessary.
+code to be compliant with each major release. As Scala versions are promoted to release status, I
+will update the sources as necessary, and whenever possible change solutions to illustrate and
+leverage new functionality, e.g. the Scala 2.9.0 release brought the parallel collections
+functionality and that has been used in the recent solutions (e.g. # 74, 92).
 
 Related Links:
 --------------
