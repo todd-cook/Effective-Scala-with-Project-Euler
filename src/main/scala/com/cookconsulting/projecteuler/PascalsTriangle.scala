@@ -55,14 +55,14 @@ class PascalsTriangle (val rows: Int = 67) {
   private var triangle = List(Array[Long](rows))
   private var builder = new ListBuffer[Array[Long]]()
   // construct the triangle:
-  (1 to rows) foreach (x => builder.append(new Array[Long](rows)))
+  Iterator.range (1, rows + 1).foreach (x => builder.append(new Array[Long](rows)))
   triangle = builder.toList
   // the first column is all ones
-  (0 to rows - 1) foreach (y => triangle(y)(0) = 1L)
+  Iterator.range(0, rows).foreach (y => triangle(y)(0) = 1L)
   // the second column is the natural numbers
-  (1 to rows - 1) foreach (y => triangle(y)(1) = y.toLong)
+  Iterator.range(1, rows).foreach (y => triangle(y)(1) = y.toLong)
   // populate the right edge of the triangle
-  (0 to rows - 1) foreach (y => triangle(y)(y) = 1L)
+  Iterator.range(0, rows).foreach (y => triangle(y)(y) = 1L)
 
   /**
    * Since we've already done the simple step of populating the second
@@ -79,8 +79,8 @@ class PascalsTriangle (val rows: Int = 67) {
    * 1  4  6   4   1
    * ...etc
    */
-  (3 to rows - 1) foreach (y => {
-    (2 to rows - 1) foreach (x => {
+  Iterator.range(3, rows).foreach (y => {
+    Iterator.range(2, rows).foreach (x => {
       if (x < y) {
         if (triangle(y)(x) == 0L) {
           triangle(y)(x) =
@@ -112,6 +112,8 @@ class PascalsTriangle (val rows: Int = 67) {
   }
 
   /**
+   * Combinatorics math function "n choose k"
+   *
    * @param n total number of items
    * @param k number of items to be chosen
    * @return number of combinations of n things taken k at a time
@@ -135,8 +137,9 @@ class PascalsTriangle (val rows: Int = 67) {
    * equilateral triangle uniformly filled with dots. For example, three
    * dots can be arranged in a triangle; thus three is a triangle number.
    * The nth triangle number is the number of dots in a triangle with n dots
-   * on a side. A triangle number is, equivalently, the sum of the n natural
-   * numbers from 1 to n.  ...
+   * on a side.
+   * A triangle number is also the Gaussian summation series;
+   * the sum of the natural numbers from 1 to n.
    * @link : http://en.wikipedia.org/wiki/Triangular_number
    * @return : List[Long] of triangle numbers
    */
@@ -184,10 +187,11 @@ class PascalsTriangle (val rows: Int = 67) {
 object PascalsTriangle {
 
   /**
-   * Used to show that the closed form expression formula fails with the long datatype when
+   * Used to show that the closed form expression formula fails with the long data type when
    * n > 11
+   * method is marked private to show that it's just for illustration purposes
    */
-  def naiveCentralBinomialCoeffiecent (n: Int): Long = {
+  private def naiveCentralBinomialCoeffiecent (n: Int): Long = {
     try {
       factorial(2 * n) / math.pow((factorial(n)), 2).toLong
     }
@@ -197,9 +201,12 @@ object PascalsTriangle {
     }
   }
 
-  def factorial (n: Int): Long = {
+  /**
+   * Method is marked private to show that it's just for illustration purposes
+   */
+  private def factorial (n: Int): Long = {
     var result = 1L
-    (1 to n).toList.foreach(x => {
+    Iterator.range(1, n + 1).foreach(x => {
       result = result * x
     })
     result
