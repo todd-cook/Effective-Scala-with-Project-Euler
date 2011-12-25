@@ -50,7 +50,7 @@ class PermutationGenerator (size: Int) {
   var total = getFactorial(size)
   var numLeft = getFactorial(size)
 
-  (1 to size).foreach(ii => items.append(ii))
+  Iterator.range(1, size + 1).foreach(ii => items.append(ii))
 
   /**
    * @return BigInteger - number of permutations not yet generated
@@ -72,7 +72,7 @@ class PermutationGenerator (size: Int) {
     */
    def getFactorial (n: Int) = {
     var fact = BigInteger.ONE;
-    (1 to n).foreach(ii => {
+    Iterator.range(1, n + 1).foreach(ii => {
       fact = fact.multiply(new BigInteger(Integer.toString(ii)))
     })
     fact
@@ -131,4 +131,32 @@ object PermutationGenerator {
       println(pg.next.toList)
     }
   }
+
+  /**
+   * Count the number of transpositions; the distance from
+   * a permutation to the paragon; primiere model
+   * http://en.wikipedia.org/wiki/Parity_of_a_permutation
+   */
+  def parityOfAPermutation (model :List[Int], permutation :List[Int]) :Int ={
+    var parity = 0
+    var mold = new ListBuffer[Int]()
+    mold.appendAll(model)
+//    println("mold = " + mold.toList.mkString)
+//    println("permutation = " + permutation.toList.mkString)
+    Iterator.range(0, model.length-1).foreach(a => {
+      var initialModelValue =  mold(a)
+      var initialPermutationValue = permutation(a)
+      if (initialModelValue != initialPermutationValue){
+           parity += 1;
+        var tmp = permutation.indexOf(initialModelValue )
+        var tmp2 = mold(tmp)
+        mold(tmp) =initialModelValue
+        mold(a) = tmp2
+   //      println("mold = " +mold.toList.mkString)
+      }
+    })
+    parity
+  }
+
+
 }
