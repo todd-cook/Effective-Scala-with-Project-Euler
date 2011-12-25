@@ -35,6 +35,7 @@ import java.math.BigInteger
  * This is a scala port of Michael Gilleland's code for computing the square root of large
  * numbers using Heron's method.
  * see: http://www.merriampark.com/bigsqrt.htm
+ * see also: http://en.wikipedia.org/wiki/Square_root
  *
  * @author Todd Cook
  * @author Michael Gilleland
@@ -44,66 +45,60 @@ import java.math.BigInteger
 
 class BigSquareRoot {
 
-  val ZERO = BigDecimal.ZERO
-  val ONE = BigDecimal.ONE
-  val TWO =  new BigDecimal("2")
+  val context = java.math.MathContext.DECIMAL128
+  val ZERO = new BigDecimal( "0", context)
+  val ONE = new BigDecimal( "1", context)
+  val TWO = new BigDecimal("2", context)
   val DEFAULT_MAX_ITERATIONS = 50
   val DEFAULT_SCALE = 10
 
-  var error = BigDecimal.ZERO
+  var error = ZERO
   var iterations = 0
   var traceFlag = false
   var scale = DEFAULT_SCALE
   var maxIterations = DEFAULT_MAX_ITERATIONS
 
-  //---------------------------------------
-  // The error is the original number minus
-  // (sqrt * sqrt). If the original number
-  // was a perfect square, the error is 0.
-  //---------------------------------------
-
+  /**
+   * The error is the original number minus (sqrt * sqrt). If the original number
+   * was a perfect square, the error is 0.
+   */
   def getError () = error
 
-  //-------------------------------------------------------------
-  // Number of iterations performed when square root was computed
-  //-------------------------------------------------------------
-
+  /**
+   * Number of iterations performed when square root was computed
+   */
   def getIterations () = iterations
 
-  //-----------
-  // Trace flag
-  //-----------
-
+  /**
+   * Trace flag
+   */
   def getTraceFlag () = traceFlag
 
   def setTraceFlag (flag: Boolean) {
     traceFlag = flag;
   }
 
-  //------
-  // Scale
-  //------
-
+  /**
+   * Scale
+   */
   def getScale () = scale
 
   def setScale (scale: Int) {
     this.scale = scale;
   }
 
-  //-------------------
-  // Maximum iterations
-  //-------------------
-
+  /**
+   * Maximum iterations
+   */
   def getMaxIterations () = maxIterations
 
   def setMaxIterations (maxIterations: Int) {
     this.maxIterations = maxIterations;
   }
 
-  //--------------------------
-  // Get initial approximation
-  //--------------------------
-
+  /**
+   * Get initial approximation
+   */
   private def getInitialApproximation (n: BigDecimal) = {
     var integerPart = n.toBigInteger();
     var length = integerPart.toString().length();
@@ -114,11 +109,10 @@ class BigSquareRoot {
     ONE.movePointRight(length);
   }
 
-  //----------------
-  // Get square root
-  //----------------
-
-  def get (n: BigInteger) :BigDecimal = get(new BigDecimal(n))
+  /**
+   * Get square root
+   */
+  def get (n: BigInteger) :BigDecimal = get(new BigDecimal(n, context))
 
   def get (n: BigDecimal) :BigDecimal ={
 
@@ -129,7 +123,7 @@ class BigSquareRoot {
     var initialGuess = getInitialApproximation(n);
     trace("Initial guess " + initialGuess.toString());
     var lastGuess = ZERO;
-    var guess = new BigDecimal(initialGuess.toString());
+    var guess = new BigDecimal(initialGuess.toString(), context);
     // Iterate
     iterations = 0;
     var more = true;
@@ -151,65 +145,63 @@ class BigSquareRoot {
       guess
   }
 
-  //------
-  // Trace
-  //------
-
+  /**
+   * Trace
+   */
   def trace (s: String) = {
     if (traceFlag) {
       println(s)
     }
   }
+}
 
-  //----------------------
-  // Get random BigInteger
-  //----------------------
-
-  def getRandomBigInteger (nDigits: Int) {
+/**
+ * For demo and diagnostics
+ */
+object BigSquareRoot {
+  /**
+   * Get random BigInteger
+   */
+  private def getRandomBigInteger (nDigits: Int) :BigInteger = {
     var sb = new StringBuffer();
     var r = new java.util.Random();
     (0 until nDigits).foreach(ii => sb.append(r.nextInt(10)))
-    return new BigInteger(sb.toString)
+    new BigInteger(sb.toString)
   }
 
-  //-----
-  // Test
-  //-----
+  /**
+   * Test and show diagnostics
+   */
+   def main (args: Array[String]) {
+     showDiagnostics
+   }
 
-  //  def static void main (String[] args) {
-  //
-  //    BigInteger n;
-  //    BigDecimal sqrt;
-  //    BigSquareRoot app = new BigSquareRoot ();
-  //    app.setTraceFlag (true);
-  //
-  //    // Generate a random big integer with a hundred digits
-  //
-  //    n = BigSquareRoot.getRandomBigInteger (100);
-  //
-  //    // Build an array of test numbers
-  //
-  //    String testNums[] = {"9", "30", "720", "1024", n.toString ()};
-  //
-  //    for (int i = 0; i < testNums.length; i++) {
-  //      n = new BigInteger (testNums[i]);
-  //      if (i > 0) {
-  //        System.out.println ("----------------------------");
-  //      }
-  //      System.out.println ("Computing the square root of");
-  //      System.out.println (n.toString ());
-  //      int length = n.toString ().length ();
-  //      if (length > 20) {
-  //        app.setScale (length / 2);
-  //      }
-  //      sqrt = app.get (n);
-  //      System.out.println ("Iterations " + app.getIterations ());
-  //      System.out.println ("Sqrt " + sqrt.toString ());
-  //      System.out.println (sqrt.multiply (sqrt).toString ());
-  //      System.out.println (n.toString ());
-  //      System.out.println ("Error " + app.getError ().toString ());
-  //    }
-  //
-  //  }
+  private def showDiagnostics {
 
+    val app = new BigSquareRoot();
+    app.setTraceFlag(true);
+    // Generate a random big integer with a hundred digits
+    var n = BigSquareRoot.getRandomBigInteger(100);
+    // Build an array of test numbers
+    val testNums = List("9", "30", "720", "1024", n.toString());
+    Iterator.range(0, testNums.length )
+      .foreach(i => {
+        n = new BigInteger(testNums(i))
+      if (i > 0) {
+        System.out.println("----------------------------");
+      }
+      println("Computing the square root of");
+      println(n.toString());
+      var length = n.toString().length();
+      if (length > 20) {
+        app.setScale(length / 2);
+      }
+      var sqrt = app.get(n);
+      println("Iterations " + app.getIterations());
+      println("Sqrt " + sqrt.toString());
+      println(sqrt.multiply(sqrt).toString());
+      println(n.toString());
+      println("Error " + app.getError().toString());
+    })
+  }
 }
