@@ -41,18 +41,25 @@ import java.math.BigInteger
 
 object problem_20 {
 
-  def factorialBI(n: Int): BigInteger = {
-    var bi = BigInteger.ONE
+  /**
+  * Iterative
+  */
+  def factorialBI (n :Int) :BigInteger = {
+    if (n == 0)
+      return BigInteger.ONE
+    if (n <= 2)
+      return new BigInteger(n.toString)
     var ii = n
+    var result = new BigInteger(n.toString)
     while (ii > 1) {
-      bi = bi.multiply(new java.math.BigInteger(ii.toString))
+      result = result.multiply  ( new BigInteger( ( ii -1).toString))
       ii -= 1
-    }
-    bi
+      }
+    result
   }
 
   def main(args: Array[String]) = {
-    var fact100 = factorialBI(100).toString
+    val fact100 = factorialBI(100).toString
     println(fact100.toList.map(a => a + "").map(b => java.lang.Integer.parseInt(b)).sum)
   }
 }

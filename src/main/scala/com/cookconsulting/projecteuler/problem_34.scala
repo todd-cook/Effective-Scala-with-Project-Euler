@@ -46,16 +46,33 @@ import collection.mutable.ListBuffer
 
 object problem_34 {
 
-  //because we only need factorial for 0 = 9
-  def factorial (number: Int): Int = {
-    (1 to number).toList.foldLeft(1)(_ * _)
+
+  /**
+  * Iterative
+  */
+  def factorial (n :Int)  :Double = {
+    if (n == 0)
+      return 1d
+    if (n <= 2)
+      return n.asInstanceOf[Double];
+    var ii = n
+    var result = 0d
+    result += n
+    while (ii > 1) {
+      result = result * (ii -1)
+      ii -= 1
+      }
+    result
   }
 
   def numberAsDigitList (num: Int): List[Int] =
     num.toString.toList.map(x => java.lang.Integer.parseInt(x + ""))
 
+  /**
+   * Int, Int map is okay because we only need factorial for 0-9
+   */
   val factorialMap = new HashMap[Int, Int]()
-  (0 to 9).toList.foreach(x => factorialMap += (x -> factorial(x)))
+  (0 to 9).toList.foreach(x => factorialMap += (x -> (factorial(x)).toInt))
 
   def isCurious (num: Int): Boolean = {
     val factorialList = numberAsDigitList(num).map(x => (x * 0) + factorialMap(x))
@@ -71,7 +88,7 @@ object problem_34 {
    * Run this to see it take forever and deliver the same results as answer2
    */
   def answer = {
-    var curiousNumbers = new ListBuffer[Int]()
+    val curiousNumbers = new ListBuffer[Int]()
     var ii = 3
     while (ii < Integer.MAX_VALUE) {
       if (isCurious(ii)) {
@@ -84,7 +101,7 @@ object problem_34 {
   }
 
   def answer2 () = {
-    var curiousNumbers = new ListBuffer[Int]()
+    val curiousNumbers = new ListBuffer[Int]()
     (3 to 50000).foreach(a => if (isCurious(a)) {
       curiousNumbers.append(a)
     })

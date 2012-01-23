@@ -64,12 +64,22 @@ import collection.mutable.HashSet
 
 object problem_74 {
 
-  //because we only need factorial for 0 = 9
-  def factorial(number: Int): Int = if (number == 0) {
-    1
-  }
-  else {
-    (1 to number).toList.foldLeft(1)(_ * _)
+  /**
+  * Iterative
+  */
+  def factorial (n :Int)  :Double = {
+    if (n == 0)
+      return 1d
+    if (n <= 2)
+      return n.asInstanceOf[Double];
+    var ii = n
+    var result = 0d
+    result += n
+    while (ii > 1) {
+      result = result * (ii -1)
+      ii -= 1
+      }
+    result
   }
 
   val digitFactorials = (0 to 9).toList.map(a => factorial(a))

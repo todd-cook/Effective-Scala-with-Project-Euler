@@ -82,9 +82,9 @@ object problem_15 {
   }
 
   def findAnswer (x: Int, y: Int): List[List[Tuple2[Int, Int]]] = {
-    var ug = new UndirectedGraph()
-    var tupleGrid = createTupleGrid(x, y)
-    var startingPoint = List((0, 0))
+    val ug = new UndirectedGraph()
+    val tupleGrid = createTupleGrid(x, y)
+    val startingPoint = List((0, 0))
     val totalLeapsRequired = (x + y + 1)
     ug.addAllVertices(tupleGrid)
     var results: List[List[Tuple2[Int, Int]]] = List(startingPoint)
@@ -94,7 +94,24 @@ object problem_15 {
     results.filter(z => z.last == (x, y))
   }
 
-  def factorial (x: Int) = (1 to x).toList.foldLeft(1)(_ * _)
+
+  /**
+  * Iterative
+  */
+  def factorial (n :Int)  :Double = {
+    if (n == 0)
+      return 1d
+    if (n <= 2)
+      return n.asInstanceOf[Double];
+    var ii = n
+    var result = 0d
+    result += n
+    while (ii > 1) {
+      result = result * (ii -1)
+      ii -= 1
+      }
+    result
+  }
 
   def main (args: Array[String]) = {
     // initial attempts that yielded the paths and the series of numbers...
