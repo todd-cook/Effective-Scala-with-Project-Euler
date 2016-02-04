@@ -53,7 +53,7 @@ object problem_4 {
             for (a <- (createCeilingNumber (digitPlacesStart) + 1 to
                            createCeilingNumber (digitPlacesEnd)).toList;
                  b <- (a to createCeilingNumber (digitPlacesEnd));
-                 val p = a * b
+                 p = a * b
                  if isPalindrome (p.toString)
             ) yield (a, b, p)
         palindromes
