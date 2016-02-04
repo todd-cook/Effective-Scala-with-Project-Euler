@@ -113,21 +113,4 @@
             </roles>
         </developer>
     </developers>
-    <repositories>
-        <repository>
-            <id>scala-tools.org-repo-snapshots</id>
-            <name>http://www.scala-tools.org/repo-snapshots</name>
-            <url>http://www.scala-tools.org/repo-snapshots</url>
-        </repository>
-        <repository>
-            <id>http-www.scala-tools.org-repo-releases</id>
-            <name>http://www.scala-tools.org/repo-releases</name>
-            <url>http://www.scala-tools.org/repo-releases</url>
-        </repository>
-        <repository>
-            <id>http-repo1.maven.org-maven2</id>
-            <name>http://repo1.maven.org/maven2</name>
-            <url>http://repo1.maven.org/maven2</url>
-        </repository>
-    </repositories>
 </project>

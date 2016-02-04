@@ -48,6 +48,7 @@ code to be compliant with each major release. As Scala versions are promoted to 
 will update the sources as necessary, and whenever possible change solutions to illustrate and
 leverage new functionality, e.g. the Scala 2.9.0 release brought the parallel collections
 functionality and that has been used in the recent solutions (e.g. # 74, 92).
+Now updated to: Scala 2.11.4
 
 Related Links:
 --------------
