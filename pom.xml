@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>Learn-Scala-With-Project-Euler</groupId>
-    <artifactId>Learn-Scala-With-Project-Euler</artifactId>
+    <groupId>com.wordtrellis</groupId>
+    <artifactId>Effective-Scala-With-Project-Euler</artifactId>
     <version>1.0</version>
     <properties>
         <scala.version>2.11.4</scala.version>
@@ -106,7 +106,7 @@
             <id>Todd</id>
             <name>Cook</name>
             <email>todd.g.cook AT gmail.com</email>
-            <url>http://cookconsulting.com</url>
+            <url>http://wordtrellis.com</url>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
