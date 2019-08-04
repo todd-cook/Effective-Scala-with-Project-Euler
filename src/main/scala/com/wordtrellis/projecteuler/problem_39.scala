@@ -1,30 +1,4 @@
-/*
- * Copyright (c) 2011, Todd Cook.
- *  All rights reserved.
- *
- *  Redistribution and use in source and binary forms, with or without modification,
- *  are permitted provided that the following conditions are met:
- *
- *      * Redistributions of source code must retain the above copyright notice,
- *        this list of conditions and the following disclaimer.
- *      * Redistributions in binary form must reproduce the above copyright notice,
- *        this list of conditions and the following disclaimer in the documentation
- *        and/or other materials provided with the distribution.
- *      * Neither the name of the <ORGANIZATION> nor the names of its contributors
- *        may be used to endorse or promote products derived from this software
- *        without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+
 package com.wordtrellis.projecteuler
 
 import collection.mutable.ListBuffer
@@ -39,7 +13,7 @@ import collection.mutable.ListBuffer
  * For which value of p <= 1000, is the number of solutions maximised?
  *
  * @author : Todd Cook
- * @since : 4/24/2011
+ *
  */
 
 object problem_39 {
@@ -86,8 +60,8 @@ object problem_39 {
     false
   }
 
-  def createCandidates (m: Int) = {
-    val buf = new ListBuffer[Tuple3[Int, Int, Int]]()
+  def createCandidates (m: Int): List[(Int, Int, Int)] = {
+    val buf = new ListBuffer[(Int, Int, Int)]()
     // a < b < c
     // minimum integral right triangle: 3, 4, 5
     (5 to m).toList.foreach(c => {
@@ -104,7 +78,7 @@ object problem_39 {
     buf.toList
   }
 
-  def answer = {
+  def answer(): Unit = {
     val candidates = createCandidates(120)
     println(candidates)
     (12 to 1000).foreach(n => {
@@ -123,7 +97,7 @@ object problem_39 {
     })
   }
 
-  def main (args: Array[String]) = {
-    println(answer)
+  def main (args: Array[String]): Unit = {
+    println(answer())
   }
 }

@@ -27,6 +27,8 @@
 
 package com.wordtrellis.projecteuler
 
+import com.wordtrellis.projecteuler
+
 import collection.mutable.ListBuffer
 
 /**
@@ -38,48 +40,50 @@ import collection.mutable.ListBuffer
 
 object NumberString extends Enumeration {
   type NumberString = Value
-  val one = Value(1, "one")
-  val two = Value(2, "two")
-  val three = Value(3, "three")
-  val four = Value(4, "four")
-  val five = Value(5, "five")
-  val six = Value(6, "six")
-  val seven = Value(7, "seven")
-  val eight = Value(8, "eight")
-  val nine = Value(9, "nine")
-  val ten = Value(10, "ten")
-  val eleven = Value(11, "eleven")
-  val twelve = Value(12, "twelve")
-  val thirteen = Value(13, "thirteen")
-  val fourteen = Value(14, "fourteen")
-  val fifteen = Value(15, "fifteen")
-  val sixteen = Value(16, "sixteen")
-  val seventeen = Value(17, "seventeen")
-  val eighteen = Value(18, "eighteen")
-  val nineteen = Value(19, "nineteen")
-  val twenty = Value(20, "twenty")
-  val thirty = Value(30, "thirty")
-  val forty = Value(40, "forty")
-  val fifty = Value(50, "fifty")
-  val sixty = Value(60, "sixty")
-  val seventy = Value(70, "seventy")
-  val eighty = Value(80, "eighty")
-  val ninety = Value(90, "ninety")
-  val hundred = Value(100, "hundred")
-  val thousand = Value(1000, "thousand")
+  val one: projecteuler.NumberString.Value = Value(1, "one")
+  val two: projecteuler.NumberString.Value = Value(2, "two")
+  val three: projecteuler.NumberString.Value = Value(3, "three")
+  val four: projecteuler.NumberString.Value = Value(4, "four")
+  val five: projecteuler.NumberString.Value = Value(5, "five")
+  val six: projecteuler.NumberString.Value = Value(6, "six")
+  val seven: projecteuler.NumberString.Value = Value(7, "seven")
+  val eight: projecteuler.NumberString.Value = Value(8, "eight")
+  val nine: projecteuler.NumberString.Value = Value(9, "nine")
+  val ten: projecteuler.NumberString.Value = Value(10, "ten")
+  val eleven: projecteuler.NumberString.Value = Value(11, "eleven")
+  val twelve: projecteuler.NumberString.Value = Value(12, "twelve")
+  val thirteen: projecteuler.NumberString.Value = Value(13, "thirteen")
+  val fourteen: projecteuler.NumberString.Value = Value(14, "fourteen")
+  val fifteen: projecteuler.NumberString.Value = Value(15, "fifteen")
+  val sixteen: projecteuler.NumberString.Value = Value(16, "sixteen")
+  val seventeen: projecteuler.NumberString.Value = Value(17, "seventeen")
+  val eighteen: projecteuler.NumberString.Value = Value(18, "eighteen")
+  val nineteen: projecteuler.NumberString.Value = Value(19, "nineteen")
+  val twenty: projecteuler.NumberString.Value = Value(20, "twenty")
+  val thirty: projecteuler.NumberString.Value = Value(30, "thirty")
+  val forty: projecteuler.NumberString.Value = Value(40, "forty")
+  val fifty: projecteuler.NumberString.Value = Value(50, "fifty")
+  val sixty: projecteuler.NumberString.Value = Value(60, "sixty")
+  val seventy: projecteuler.NumberString.Value = Value(70, "seventy")
+  val eighty: projecteuler.NumberString.Value = Value(80, "eighty")
+  val ninety: projecteuler.NumberString.Value = Value(90, "ninety")
+  val hundred: projecteuler.NumberString.Value = Value(100, "hundred")
+  val thousand: projecteuler.NumberString.Value = Value(1000, "thousand")
 
   private val number_strings = NumberString.values.toList.map(_.toString)
   private val number_values = NumberString.values.toList.map(_.id)
-  private val stringsToNumbers = number_strings zip number_values toMap
-  private val numbersToStrings = number_values zip number_strings toMap
+//  print(number_strings)
+//  print (number_values)
+  private val stringsToNumbers = number_strings.zip (number_values).toMap
+  private val numbersToStrings = number_values. zip( number_strings).toMap
 
   def numberToWords(n: Int): String = {
     var result = ""
     if (n.toString.length >= 4 && n > 999 && n < 99999) {
-      result = numbersToStrings.get((n.toString.slice(
-        0, n.toString.length - 3)).toInt).get + " thousand"
+      result = numbersToStrings.get(n.toString.slice(
+        0, n.toString.length - 3).toInt).get + " thousand"
       if (n % 1000 == 0) {
-        return result;
+        return result
       }
       else {
         var numString = n.toString
@@ -99,9 +103,9 @@ object NumberString extends Enumeration {
     }
     if (n.toString.length == 3 && n > 0 && n <= 999) {
       result = numbersToStrings.get(
-        (n.toString.slice(0, 1)).toInt).get + " hundred"
+        n.toString.slice(0, 1).toInt).get + " hundred"
       if (n % 100 == 0) {
-        return result;
+        return result
       }
       else {
         result += " and " + numberToWords(n.toString.slice(1, 3).toInt)
@@ -113,9 +117,9 @@ object NumberString extends Enumeration {
     if (n > 20 && n < 100) {
       var tensValue = numbersToStrings.get(
         (n.toString.slice(0, 1) + "0").toInt).get
-      if ((n.toString.slice(1, 2)).toInt != 0) {
-        var onesValue = numbersToStrings.get(
-          (n.toString.slice(1, 2)).toInt).get
+      if (n.toString.slice(1, 2).toInt != 0) {
+        val onesValue = numbersToStrings.get(
+          n.toString.slice(1, 2).toInt).get
         result += tensValue + "-" + onesValue
       }
       else {
@@ -131,11 +135,11 @@ object NumberString extends Enumeration {
    */
   def parse(str: String): Int = {
     var result = 0
-    var values = str.toLowerCase.replaceAll(" and ", " ")
+    val values = str.toLowerCase.replaceAll(" and ", " ")
       .replaceAll("-", " ")
       .replaceAll("\\s+", " ").split(" ").toList
 
-    var valuesList = new ListBuffer[Int]()
+    val valuesList = new ListBuffer[Int]()
     valuesList.appendAll(values.map(a => {
       NumberString.withName(a).id
     }))

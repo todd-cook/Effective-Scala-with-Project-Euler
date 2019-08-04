@@ -1,30 +1,4 @@
-/*
- * Copyright (c) 2011, Todd Cook.
- *  All rights reserved.
- *
- *  Redistribution and use in source and binary forms, with or without modification,
- *  are permitted provided that the following conditions are met:
- *
- *      * Redistributions of source code must retain the above copyright notice,
- *        this list of conditions and the following disclaimer.
- *      * Redistributions in binary form must reproduce the above copyright notice,
- *        this list of conditions and the following disclaimer in the documentation
- *        and/or other materials provided with the distribution.
- *      * Neither the name of the <ORGANIZATION> nor the names of its contributors
- *        may be used to endorse or promote products derived from this software
- *        without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+
 package com.wordtrellis.projecteuler
 
 import collection.mutable.{HashSet, ListBuffer}
@@ -66,7 +40,7 @@ import collection.mutable.{HashSet, ListBuffer}
  * and requires a clever method! ;o)
  *
  * @author : Todd Cook
- * @since : 4/24/2011
+ *
  */
 
 object problem_18 {
@@ -89,24 +63,24 @@ object problem_18 {
     List(4, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 4, 23))
 
   class CandidatePermutation (val lastColumn: Int, val columns: List[Int]) {
-    override def toString () = columns.mkString(", ")
+    override def toString: String = columns.mkString(", ")
   }
 
   class Permutation (val values: List[Int]) {
-    def totalvalue () = values.foldLeft(0)(_ + _)
+    def totalvalue (): Int = values.foldLeft(0)(_ + _)
 
-    override def toString () = "Values: " + values.mkString(", ") +
+    override def toString: String = "Values: " + values.mkString(", ") +
       " total sum of values: " + totalvalue()
   }
 
   def generatePermutationsForRow (seed: CandidatePermutation, row: Int, combos: List[List[Int]])
   : List[CandidatePermutation] = {
-    var col = seed.lastColumn
-    var less = col //- 1
-    var equal = col
-    var more = col + 1
-    var max = combos(row).length - 1
-    var tmpCandidates = new ListBuffer[CandidatePermutation]()
+    val col = seed.lastColumn
+    val less = col //- 1
+    val equal = col
+    val more = col + 1
+    val max = combos(row).length - 1
+    val tmpCandidates = new ListBuffer[CandidatePermutation]()
     if (less > -1) {
       tmpCandidates.append(
         new CandidatePermutation(less, (combos(row)(less) :: seed.columns.reverse).reverse))
@@ -120,12 +94,12 @@ object problem_18 {
     tmpCandidates.toList
   }
 
-  def condenseEarlyPermutations (candidates: ListBuffer[CandidatePermutation], row: Int) = {
+  def condenseEarlyPermutations (candidates: ListBuffer[CandidatePermutation], row: Int): Unit = {
     val trimFactor = 5
     val trimRow = row - trimFactor
     var currentMax = 0
     candidates.foreach(a => {
-      var tmp = a.columns.slice(0, trimRow).sum
+      val tmp = a.columns.slice(0, trimRow).sum
       if (tmp > currentMax) {
         currentMax = tmp
       }
@@ -141,12 +115,12 @@ object problem_18 {
     //println (hashSet.mkString)
   }
 
-  def answer () = {
+  def answer (): Unit = {
     var row = 1
     var currentCandidates = List(new CandidatePermutation(0, List(75)))
     while (row < combolist.length) {
       // create a new ListBuffer to hold each iteration of permutations
-      var newCandidates = new ListBuffer[CandidatePermutation]()
+      val newCandidates = new ListBuffer[CandidatePermutation]()
       currentCandidates.foreach(candidate => {
         newCandidates.appendAll(generatePermutationsForRow(candidate, row, combolist))
       })
@@ -160,14 +134,14 @@ object problem_18 {
       //    currentCandidates.foreach (println (_))
       row += 1
     }
-    var candidates = currentCandidates.toList.sortWith(_.columns.sum > _.columns.sum)
-    var topfive = candidates.slice(0, 5)
+    val candidates = currentCandidates.toList.sortWith(_.columns.sum > _.columns.sum)
+    val topfive = candidates.slice(0, 5)
     println("Top Five Results:")
     topfive.foreach(a => println(a.columns.mkString(", ") + " = " + a.columns.sum))
     println("Done!")
   }
 
-  def main (args: Array[String]) = answer()
+  def main (args: Array[String]): Unit = answer()
 }
 
 /**

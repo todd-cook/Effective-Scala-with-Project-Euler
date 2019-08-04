@@ -1,30 +1,4 @@
-/*
- * Copyright (c) 2011, Todd Cook.
- *  All rights reserved.
- *
- *  Redistribution and use in source and binary forms, with or without modification,
- *  are permitted provided that the following conditions are met:
- *
- *      * Redistributions of source code must retain the above copyright notice,
- *        this list of conditions and the following disclaimer.
- *      * Redistributions in binary form must reproduce the above copyright notice,
- *        this list of conditions and the following disclaimer in the documentation
- *        and/or other materials provided with the distribution.
- *      * Neither the name of the <ORGANIZATION> nor the names of its contributors
- *        may be used to endorse or promote products derived from this software
- *        without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+
 
 package com.wordtrellis.projecteuler
 
@@ -59,12 +33,12 @@ package com.wordtrellis.projecteuler
  * (up, down, left, right, or diagonally) in the 20 * 20 grid?
  *
  * @author : Todd Cook
- * @since : 4/24/2011
+ *
  */
 
 object problem_11 {
 
-  var numbers = List[List[Int]](
+  val numbers: List[List[Int]] = List[List[Int]](
     List(8, 2, 22, 97, 38, 15, 0, 40, 0, 75, 4, 5, 7, 78, 52, 12, 50, 77, 91, 8),
     List(49, 49, 99, 40, 17, 81, 18, 57, 60, 87, 17, 40, 98, 43, 69, 48, 4, 56, 62, 0),
     List(81, 49, 31, 73, 55, 79, 14, 29, 93, 71, 40, 67, 53, 88, 30, 3, 49, 13, 36, 65),
@@ -104,7 +78,7 @@ object problem_11 {
   def swneDiagonal(column: Int, row: Int, amount: Int): List[Int] = {
     val yList = (0 until amount).toList.reverse
     val xList = (0 until amount).toList
-    var coords = yList.zip(xList)
+    val coords = yList.zip(xList)
     coords.map(a => numbers(a._1 + (row - amount))(a._2 + column))
   }
 
@@ -112,9 +86,9 @@ object problem_11 {
     if (item.reduceLeft(_ * _) > item2.reduceLeft(_ * _)) item else item2
   }
 
-  def answer() = {
-    var totalLength = numbers(0).size
-    var maxBoundary = numbers(0).size - 3
+  def answer(): Int = {
+    val totalLength = numbers(0).size
+    val maxBoundary = numbers(0).size - 3
     var maxcombo = List[Int](0, 0, 0)
     (1 to totalLength).foreach(y => (1 to maxBoundary).foreach(x => {
       maxcombo = checkMaxCombo(maxcombo, horizontalRow(x, y, 4))
@@ -137,7 +111,7 @@ object problem_11 {
     maxcombo.reduceLeft(_ * _)
   }
 
-  def main(args: Array[String]) = {
-    println(answer)
+  def main(args: Array[String]): Unit = {
+    println(answer())
   }
 }

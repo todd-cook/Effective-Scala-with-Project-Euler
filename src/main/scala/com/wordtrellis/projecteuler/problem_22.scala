@@ -1,30 +1,4 @@
-/*
- * Copyright (c) 2011, Todd Cook.
- *  All rights reserved.
- *
- *  Redistribution and use in source and binary forms, with or without modification,
- *  are permitted provided that the following conditions are met:
- *
- *      * Redistributions of source code must retain the above copyright notice,
- *        this list of conditions and the following disclaimer.
- *      * Redistributions in binary form must reproduce the above copyright notice,
- *        this list of conditions and the following disclaimer in the documentation
- *        and/or other materials provided with the distribution.
- *      * Neither the name of the <ORGANIZATION> nor the names of its contributors
- *        may be used to endorse or promote products derived from this software
- *        without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+
 
 package com.wordtrellis.projecteuler
 
@@ -42,7 +16,7 @@ package com.wordtrellis.projecteuler
  * What is the total of all the name scores in the file?
  *
  * @author : Todd Cook
- * @since : 5/7/2011
+
  */
 
 import collection.mutable.ListBuffer
@@ -51,11 +25,11 @@ import java.io.File
 
 object problem_22 {
 
-  val offset = ('A'.charValue - 1)
+  val offset: Int = 'A'.charValue - 1
   private var names = List[String]()
 
   def getNumericValue (word: String): Int = {
-    word.toList.map(x => (x.charValue - offset)).foldLeft(0)(_ + _)
+    word.toList.map(x => x.charValue - offset).foldLeft(0)(_ + _)
   }
 
   def initialize (fileLocation: String) {
@@ -64,8 +38,8 @@ object problem_22 {
     }
   }
 
-  def score () = {
-    var nameValues = new ListBuffer[Tuple2[Int, Int]]()
+  def score (): Long = {
+    var nameValues = new ListBuffer[(Int, Int)]()
     var totalSum = 0L
     names.foreach(x => totalSum += getNumericValue(x) * (names.indexOf(x) + 1))
     println("total sum: " + totalSum)
@@ -73,23 +47,23 @@ object problem_22 {
   }
 
   def validate (word: String) {
-    println(word.toList.map(x => (x.charValue - offset)).mkString(", "))
-    println(word.toList.map(x => (x.charValue - offset)).foldLeft(0)(_ + _))
+    println(word.toList.map(x => x.charValue - offset).mkString(", "))
+    println(word.toList.map(x => x.charValue - offset).foldLeft(0)(_ + _))
     println(names.indexOf(word) + 1)
     println(word + " = " + getNumericValue(word) * (names.indexOf(word) + 1))
   }
 
-  def answer (fileLocation: String) = {
+  def answer (fileLocation: String): Long = {
     initialize(fileLocation)
-    score
+    score()
   }
 
-  def main (args: Array[String]) = {
+  def main (args: Array[String]): Unit = {
     if (args.length > 0) {
       println(answer(args(0)))
     }
     else {
-      var location = new File(".").getCanonicalPath + File.separator + "src" + File.separator +
+      val location = new File(".").getCanonicalPath + File.separator + "src" + File.separator +
         "main" + File.separator + "resources" + File.separator + "names.txt"
       println(location)
       println(answer(location))

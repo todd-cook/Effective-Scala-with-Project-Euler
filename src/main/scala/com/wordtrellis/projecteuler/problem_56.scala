@@ -45,12 +45,12 @@ object problem_56 {
 
     def sumDigits (str: String): Int = str.toList.map (a => java.lang.Integer.parseInt (a + "")).sum
 
-    def answer () = {
+    def answer (): Int = {
         var winner = (0, 0)
         var high = 0
         (1 until 100).foreach (a => {
             (1 until 100).foreach (b => {
-                var tmp = sumDigits (new java.math.BigInteger (a.toString).pow (b).toString)
+              val tmp = sumDigits(new java.math.BigInteger(a.toString).pow(b).toString)
                 if (tmp > high) {
                     high = tmp
                     winner = (a, b)
@@ -61,7 +61,7 @@ object problem_56 {
         high
     }
 
-    def main (args: Array[String]) = {
-        println (answer)
+    def main (args: Array[String]): Unit = {
+        println (answer())
     }
 }

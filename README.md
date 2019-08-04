@@ -46,9 +46,9 @@ History:
 I began working on the Project Euler problems in October 2009, with Scala 2.7 and I've updated the
 code to be compliant with each major release. As Scala versions are promoted to release status, I
 will update the sources as necessary, and whenever possible change solutions to illustrate and
-leverage new functionality, e.g. the Scala 2.9.0 release brought the parallel collections
-functionality and that has been used in the recent solutions (e.g. # 74, 92).
-Now updated to: Scala 2.11.4
+leverage new functionality.
+
+Now updated to: Scala 2.13.0
 
 Related Links:
 --------------

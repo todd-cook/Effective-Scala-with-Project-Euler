@@ -43,9 +43,9 @@ import scala.collection.mutable.HashSet
 class CoinConstraints (val possibleCoins: List[Int], val totalSum: Int) {
   val minValue = possibleCoins(0)
   // initial seed is a list of the smallest denomination
-  val initialSeed = (1 to totalSum / minValue).toList.map(x => x * 0 + minValue)
+  val initialSeed: List[Int] = (1 to totalSum / minValue).toList.map(x => x * 0 + minValue)
 
-  def maxOccurrencesFor (coin: Int) = totalSum / coin
+  def maxOccurrencesFor (coin: Int): Int = totalSum / coin
 }
 
 /**
@@ -53,16 +53,16 @@ class CoinConstraints (val possibleCoins: List[Int], val totalSum: Int) {
  */
 class CoinCombination (val coins: List[Int]) {
 
-  val totalValue = coins.foldLeft(0)(_ + _)
+  val totalValue: Int = coins.foldLeft(0)(_ + _)
 
-  override def hashCode = coins.hashCode
+  override def hashCode: Int = coins.hashCode
 
-  override def equals (other: Any) = other match {
+  override def equals (other: Any): Boolean = other match {
     case that: CoinCombination => this.coins.hashCode == that.coins.hashCode
     case _ => false
   }
 
-  override def toString = coins.mkString(", ")
+  override def toString: String = coins.mkString(", ")
 }
 
 /**
@@ -75,7 +75,7 @@ class CoinCollection (val coinConstraints: CoinConstraints) {
 
   def create (coins: List[Int]) = new CoinCombination(coins.sortWith(_ < _))
 
-  def add (coinCombination: CoinCombination) = possibleCombinations.add(coinCombination)
+  def add (coinCombination: CoinCombination): Boolean = possibleCombinations.add(coinCombination)
 
   // initialize
   add(create(coinConstraints.initialSeed))
@@ -96,7 +96,7 @@ class CoinCollection (val coinConstraints: CoinConstraints) {
       return newCombo
     }
     // if the calculated value is more than the max value, return the initial seed
-    return create(coinConstraints.initialSeed)
+    create(coinConstraints.initialSeed)
   }
 
   def expandCombinations (newCoin: Int, maxOccurs: Int): Unit = {

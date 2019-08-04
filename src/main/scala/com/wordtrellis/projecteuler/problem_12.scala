@@ -1,30 +1,4 @@
-/*
- * Copyright (c) 2011, Todd Cook.
- *  All rights reserved.
- *
- *  Redistribution and use in source and binary forms, with or without modification,
- *  are permitted provided that the following conditions are met:
- *
- *      * Redistributions of source code must retain the above copyright notice,
- *        this list of conditions and the following disclaimer.
- *      * Redistributions in binary form must reproduce the above copyright notice,
- *        this list of conditions and the following disclaimer in the documentation
- *        and/or other materials provided with the distribution.
- *      * Neither the name of the <ORGANIZATION> nor the names of its contributors
- *        may be used to endorse or promote products derived from this software
- *        without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+
 
 package com.wordtrellis.projecteuler
 
@@ -50,7 +24,7 @@ package com.wordtrellis.projecteuler
  *
  * Commentary after the program
  * @author : Todd Cook
- * @since : 5/7/2011
+
  */
 
 import scala.collection.mutable.ListBuffer
@@ -64,7 +38,7 @@ object problem_12 {
 
   def findFactors(num: Long): List[Long] = {
     var inc = 1L
-    var buf = new ListBuffer[Long]()
+    val buf = new ListBuffer[Long]()
     while (inc < num) {
       if (num % inc == 0) {
         buf.append(inc)
@@ -74,10 +48,10 @@ object problem_12 {
     buf.toList
   }
 
-  def bruteForce() = {
+  def bruteForce(): Int = {
     var max = 1
     (2 to 100000).foreach(x => {
-      var result = countFactors(makeTriangleNumber(x))
+      val result = countFactors(makeTriangleNumber(x))
       if (result > max) {
         println(x + " factors: " + result)
         max = result
@@ -94,7 +68,7 @@ object problem_12 {
     val hex = java.lang.Long.toHexString(n)
     val lastDigit = hex(hex.length - 1)
     if ((lastDigit == '0') || (lastDigit == '1') || (lastDigit == '4') || (lastDigit == '9')) {
-      return true;
+      return true
     }
     val bsr = new BigSquareRoot()
     val result = bsr.get(new java.math.BigInteger(n.toString))
@@ -132,7 +106,7 @@ object problem_12 {
     var inc = seed * 1L
     var result = 0
     while (currentMax < MAX) {
-      var triangleNum = makeTriangleNumber(inc)
+      val triangleNum = makeTriangleNumber(inc)
       if (triangleNum % 2 == 0) {
         // optimization from brute force results; see below
         result = countFactors(triangleNum)
@@ -146,7 +120,7 @@ object problem_12 {
     (inc, result)
   }
 
-  def main(args: Array[String]) = {
+  def main(args: Array[String]): Unit = {
     // println( answer(1)) // uncomment this to see the long, slow progression
     answer(12000)
   }

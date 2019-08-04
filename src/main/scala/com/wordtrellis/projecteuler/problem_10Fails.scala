@@ -1,30 +1,4 @@
-/*
- * Copyright (c) 2011, Todd Cook.
- *  All rights reserved.
- *
- *  Redistribution and use in source and binary forms, with or without modification,
- *  are permitted provided that the following conditions are met:
- *
- *      * Redistributions of source code must retain the above copyright notice,
- *        this list of conditions and the following disclaimer.
- *      * Redistributions in binary form must reproduce the above copyright notice,
- *        this list of conditions and the following disclaimer in the documentation
- *        and/or other materials provided with the distribution.
- *      * Neither the name of the <ORGANIZATION> nor the names of its contributors
- *        may be used to endorse or promote products derived from this software
- *        without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+
 
 package com.wordtrellis.projecteuler
 
@@ -42,9 +16,9 @@ import collection.mutable.ListBuffer
 
 class SieveOfEratosthenes (MAX: Int) {
 
-  val MAX_FACTOR = math.sqrt(MAX).intValue + 1
+  val MAX_FACTOR: Int = math.sqrt(MAX).intValue + 1
 
-  var primeCandidates = new ListBuffer[Int]()
+  val primeCandidates = new ListBuffer[Int]()
 
   (2 to MAX).foreach(x => {
     if ((x % 2 == 0) || (x % 3 == 0) || (x % 5 == 0) || (x % 7 == 0)) {}
@@ -57,9 +31,9 @@ class SieveOfEratosthenes (MAX: Int) {
     print("removing factors...")
     primeCandidates.foreach(x => {
       (x to MAX_FACTOR).foreach(y => {
-        var candidate = y * x
+        val candidate = y * x
         if (candidate <= MAX) {
-          var location = primeCandidates.indexOf(candidate)
+          val location = primeCandidates.indexOf(candidate)
           if (location != -1) {
             primeCandidates.remove(location)
           }
@@ -72,7 +46,7 @@ class SieveOfEratosthenes (MAX: Int) {
     primeCandidates.append(7)
   }
 
-  def primes () = primeCandidates.sortWith(_ < _).toList
+  def primes (): List[Int] = primeCandidates.sortWith(_ < _).toList
 }
 
 object problem_10Fails {
@@ -96,18 +70,18 @@ object problem_10Fails {
      Sum: 4.39906638395E11
    */
 
-  def answer () = {
-    var start = java.lang.System.currentTimeMillis
-    var soe = new SieveOfEratosthenes(2000000)
-    var end = java.lang.System.currentTimeMillis
+  def answer (): Unit = {
+    val start = java.lang.System.currentTimeMillis
+    val soe = new SieveOfEratosthenes(2000000)
+    val end = java.lang.System.currentTimeMillis
     println("Initialized in seconds: " + (end - start) / 1000d)
     soe.createSieve()
     println("Constructed in seconds: " + (java.lang.System.currentTimeMillis - start) / 1000d)
-    println("Found " + soe.primes.size + " primes")
-    println("Sum: " + sumBigList(soe.primes))
+    println("Found " + soe.primes().size + " primes")
+    println("Sum: " + sumBigList(soe.primes()))
   }
 
-  def main (args: Array[String]) = answer
+  def main (args: Array[String]): Unit = answer()
 
 }
 
@@ -144,12 +118,12 @@ object Sieve {
 
   def primes (nums: Stream[Int]): Stream[Int] =
     Stream.cons(nums.head,
-                primes((nums tail) filter (x => x % nums.head != 0)))
+                primes((nums.tail) filter (x => x % nums.head != 0)))
 
   def main (args: Array[String]): Unit = {
     //  val n = Integer.parseInt(args(0))
     val n = 2000000
-    println(primes(ints(2)) take n toList)
+    println(primes(ints(2)).take(n).toList)
   }
 }
 
@@ -161,11 +135,11 @@ object problem_10Fail2 {
   // var MAX =1000
   class SieveOfEratosthenes (MAX: Int) {
     var primeCandidates = new ListBuffer[Int]()
-    primeCandidates.appendAll((2 :: 3 :: 5 :: ((2 to MAX).filter(x => x % 2 != 0).filter(x => x % 3 != 0).filter(x => x % 5 != 0).toList)))
+    primeCandidates.appendAll(2 :: 3 :: 5 :: ((2 to MAX).filter(x => x % 2 != 0).filter(x => x % 3 != 0).filter(x => x % 5 != 0).toList))
 
     // 533333
 
-    def createSieve () = {
+    def createSieve (): Unit = {
       var pos = 3
       while (pos < primeCandidates.size) {
         primeCandidates = sieveTheNumbers(pos, primeCandidates)
@@ -177,8 +151,8 @@ object problem_10Fail2 {
     }
 
     def sieveTheNumbers (position: Int, numbers: ListBuffer[Int]): ListBuffer[Int] = {
-      var number = numbers(position)
-      var square = number * number
+      val number = numbers(position)
+      val square = number * number
       //numbers.filter(x => x <= square) ::: numbers.filter(x => x > square).filter ( x => x % number  != 0)
 
       var ii = 0
@@ -199,18 +173,18 @@ object problem_10Fail2 {
 
     createSieve()
 
-    def primes () = primeCandidates
+    def primes (): ListBuffer[Int] = primeCandidates
   }
 
-  def answer () = {
-    var start = java.lang.System.currentTimeMillis
-    var soe = new SieveOfEratosthenes(2000000)
-    var end = java.lang.System.currentTimeMillis
+  def answer (): Unit = {
+    val start = java.lang.System.currentTimeMillis
+    val soe = new SieveOfEratosthenes(2000000)
+    val end = java.lang.System.currentTimeMillis
     println("elapsed milliseconds:  " + (end - start))
     println(soe.primes().mkString(" "))
     println("Sum: " + soe.primes().reduceLeft(_ + _))
   }
 
-  def main (args: Array[String]) = answer
+  def main (args: Array[String]): Unit = answer()
 
 }

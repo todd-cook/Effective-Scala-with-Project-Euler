@@ -1,35 +1,10 @@
-/*
- * Copyright (c) 2011, Todd Cook.
- *  All rights reserved.
- *
- *  Redistribution and use in source and binary forms, with or without modification,
- *  are permitted provided that the following conditions are met:
- *
- *      * Redistributions of source code must retain the above copyright notice,
- *        this list of conditions and the following disclaimer.
- *      * Redistributions in binary form must reproduce the above copyright notice,
- *        this list of conditions and the following disclaimer in the documentation
- *        and/or other materials provided with the distribution.
- *      * Neither the name of the <ORGANIZATION> nor the names of its contributors
- *        may be used to endorse or promote products derived from this software
- *        without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+
 
 package com.wordtrellis.projecteuler
 
 import collection.mutable.ListBuffer
 import collection.mutable.HashMap
+
 
 /**
  * Problem 32
@@ -46,7 +21,7 @@ import collection.mutable.HashMap
  * in your sum.
  *
  * @author : Todd Cook
- * @since : 5/7/2011
+
  */
 object problem_32 {
 
@@ -55,22 +30,22 @@ object problem_32 {
    * is the only way it works; experimentation showed that
    * 1 digit * 4 digits = 4 digits does not yield pandigital permutations
    */
-  def formPandigitalProductCombo (numbers: List[Int]): Tuple3[Int, Int, Int] = {
+  def formPandigitalProductCombo (numbers: List[Int]): (Int, Int, Int) = {
     val groupOne = (numbers(0) * 10) + numbers(1)
-    val groupTwo = ((numbers(2) * 100) + (numbers(3) * 10) + (numbers(4)))
-    val groupThree = ((numbers(5) * 1000) + (numbers(6) * 100) + (numbers(7) * 10) + (numbers(8)))
+    val groupTwo = (numbers(2) * 100) + (numbers(3) * 10) + numbers(4)
+    val groupThree = (numbers(5) * 1000) + (numbers(6) * 100) + (numbers(7) * 10) + numbers(8)
     (groupOne, groupTwo, groupThree)
   }
 
-  def checkPandigitalPermutation (pandigitalCombo: Tuple3[Int, Int, Int]): Boolean =
-    (pandigitalCombo._1 * pandigitalCombo._2 == pandigitalCombo._3)
+  def checkPandigitalPermutation (pandigitalCombo: (Int, Int, Int)): Boolean =
+    pandigitalCombo._1 * pandigitalCombo._2 == pandigitalCombo._3
 
   def main (args: Array[String]) {
     // generate all permutations; 9! = 362880; but test each one immediately, no need to store
     val pg = new PermutationGenerator(9)
-    val answers = new ListBuffer[Tuple3[Int, Int, Int]]()
-    while (pg.hasMore) {
-      val b = formPandigitalProductCombo(pg.next)
+    val answers = new ListBuffer[(Int, Int, Int)]()
+    while (pg.hasMore()) {
+      val b = formPandigitalProductCombo(pg.next())
       if (checkPandigitalPermutation(b)) {
         answers.append(b)
       }
@@ -79,8 +54,8 @@ object problem_32 {
     println("Found " + answers.size + " pandigital permutations")
     println(answers.toList)
     // now we isolate the products that only occur once
-    val map = new HashMap[Int, Tuple2[Int, Int]]()
-    val solutions = new ListBuffer[Tuple3[Int, Int, Int]]()
+    val map = new  HashMap[Int, (Int, Int)]()
+    val solutions = new ListBuffer[(Int, Int, Int)]()
     answers.toList.foreach(x => map.put(x._3, (x._1, x._2)))
     // this is a little clumsy and ugly, however other, more syntactically sugary attempts failed.
     val it = map.keySet.iterator
@@ -90,7 +65,7 @@ object problem_32 {
       solutions.append((tmp._1, tmp._2, a))
     }
     println(solutions.toList)
-    val products = for {product <- solutions.toList} yield (product._3)
+    val products = for {product <- solutions.toList} yield product._3
     println(products)
     println("sum of products: " + products.sum)
   }

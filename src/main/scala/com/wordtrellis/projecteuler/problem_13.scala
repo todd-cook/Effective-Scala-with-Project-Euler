@@ -1,30 +1,4 @@
-/*
- * Copyright (c) 2011, Todd Cook.
- *  All rights reserved.
- *
- *  Redistribution and use in source and binary forms, with or without modification,
- *  are permitted provided that the following conditions are met:
- *
- *      * Redistributions of source code must retain the above copyright notice,
- *        this list of conditions and the following disclaimer.
- *      * Redistributions in binary form must reproduce the above copyright notice,
- *        this list of conditions and the following disclaimer in the documentation
- *        and/or other materials provided with the distribution.
- *      * Neither the name of the <ORGANIZATION> nor the names of its contributors
- *        may be used to endorse or promote products derived from this software
- *        without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+
 
 package com.wordtrellis.projecteuler
 
@@ -140,7 +114,7 @@ Work out the first ten digits of the sum of the following one-hundred 50-digit n
  * When I awoke to common sense, I used Java's standard library for BigInteger. Doh!
  *
  * @author : Todd Cook
- * @since : 4/24/2011
+ *
  */
 
 import collection.mutable.ListBuffer
@@ -154,7 +128,7 @@ import collection.mutable.ListBuffer
  */
 object problem_13 {
 
-  val bigNumberList = List[String](
+  val bigNumberList: List[String] = List[String](
     "37107287533902102798797998220837590246510135740250",
     "46376937677490009712648124896970078050417018260538",
     "74324986199524741059474233309513058123726617309629",
@@ -257,22 +231,22 @@ object problem_13 {
     "53503534226472524250874054075591789781264330331690")
 
   def addStringNumbers (num1: String, num2: String): String = {
-    var numListOne = new ListBuffer[Int]()
-    var numListTwo = new ListBuffer[Int]()
+    val numListOne = new ListBuffer[Int]()
+    val numListTwo = new ListBuffer[Int]()
     num1.foreach(x => numListOne.append(Integer.valueOf(x).asInstanceOf[Int]))
     num2.foreach(x => numListTwo.append(Integer.valueOf(x).asInstanceOf[Int]))
-    var combolist = numListOne.toList.zip(numListTwo.toList)
+    val combolist = numListOne.toList.zip(numListTwo.toList)
     var summedList = combolist.map(x => x._1 + x._2)
 
     if (numListOne.toList.length > numListTwo.toList.length) {
-      var difference = numListOne.toList.length - numListTwo.toList.length
-      var appendage = numListOne.slice(0, difference - 1)
+      val difference = numListOne.toList.length - numListTwo.toList.length
+      val appendage = numListOne.slice(0, difference - 1)
       summedList = appendage.toList ::: summedList
 
     }
     else if (numListOne.toList.length < numListTwo.toList.length) {
-      var difference = numListTwo.toList.length - numListOne.toList.length
-      var appendage = numListTwo.slice(0, difference - 1)
+      val difference = numListTwo.toList.length - numListOne.toList.length
+      val appendage = numListTwo.slice(0, difference - 1)
       summedList = appendage.toList ::: summedList
     }
     condenseList(summedList).mkString("")
@@ -283,20 +257,20 @@ object problem_13 {
   }
 
   // returns tuple:remainder to be carried over,  digit to add,
-  def calculateCarryover (num: Int): Tuple2[Int, Int] = {
+  def calculateCarryover (num: Int): (Int, Int) = {
     if (num <= 9) {
       (0, num)
     }
     else {
-      var tmp = java.lang.String.valueOf(num)
-      var remainder = tmp.substring(0, tmp.length - 1)
+      val tmp = java.lang.String.valueOf(num)
+      val remainder = tmp.substring(0, tmp.length - 1)
       (Integer.valueOf(remainder).asInstanceOf[Int],
         Integer.valueOf(lastDigitAsString(num)).asInstanceOf[Int])
     }
   }
 
   def condenseList (nums: List[Int]): List[Int] = {
-    var buf = new ListBuffer[Int]()
+    val buf = new ListBuffer[Int]()
     var carryOver = 0
     var nextCarryover = 0
     var digitToAdd = 0
@@ -304,7 +278,7 @@ object problem_13 {
     while (ii != -1) {
       carryOver = nextCarryover
       // the first time this will be zero, other times it will carry over the next number
-      var t = calculateCarryover(nums(ii) + carryOver)
+      val t = calculateCarryover(nums(ii) + carryOver)
       nextCarryover = t._1
       digitToAdd = t._2
       buf.prepend(digitToAdd)
@@ -319,13 +293,13 @@ object problem_13 {
 
   def test (list: List[Int], list2: List[Int]): String = {
 
-    var combolist = list.zip(list2)
-    var summedList = combolist.map(x => x._1 + x._2)
+    val combolist = list.zip(list2)
+    val summedList = combolist.map(x => x._1 + x._2)
     println(list.mkString(" "))
     println("+")
     println(list2.mkString(" "))
     println("=")
-    var result = condenseList(summedList).mkString("")
+    val result = condenseList(summedList).mkString("")
     println(result)
     result
   }
@@ -351,12 +325,12 @@ object problem_13 {
       println("Test Fail")
     }
     println("Summing one-hundred 50-digit numbers:")
-    var result = testThorough()
+    val result = testThorough()
     println("Total result:\n" + result)
     println("First Ten digits of the result: " + result.slice(0, 10))
   }
 
-  def answer () = {
+  def answer (): Unit = {
     var sum = java.math.BigInteger.ZERO
     bigNumberList.foreach(x => {
       sum = sum.add(new java.math.BigInteger(x))
@@ -365,5 +339,5 @@ object problem_13 {
     println(sum.toString.slice(0,10))
   }
 
-  def main (args: Array[String]) = answer()
+  def main (args: Array[String]): Unit = answer()
 }

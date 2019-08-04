@@ -38,7 +38,7 @@ package com.wordtrellis.projecteuler
  * @author : Todd Cook
  * @author : Michael Gilleland
  * @see http://www.merriampark.com/perm.htm
- * @since : 5/7/11
+ *
  */
 
 import java.math.BigInteger
@@ -47,32 +47,32 @@ import collection.mutable.ListBuffer
 class PermutationGenerator (size: Int) {
   require(size > 1)
   var items = new ListBuffer[Int]()
-  var total = getFactorial(size)
-  var numLeft = getFactorial(size)
+  var total: BigInteger = getFactorial(size)
+  var numLeft: BigInteger = getFactorial(size)
 
   Iterator.range(1, size + 1).foreach(ii => items.append(ii))
 
   /**
    * @return BigInteger - number of permutations not yet generated
    */
-  def getNumLeft () = numLeft
+  def getNumLeft (): BigInteger = numLeft
 
   /**
    * @return BigInteger - total number of permutations
    */
-  def getTotal () = total
+  def getTotal (): BigInteger = total
 
   /**
    * @return Boolean - are there any more permutations?
    */
-  def hasMore () = (numLeft.compareTo(BigInteger.ZERO) == 1)
+  def hasMore (): Boolean = (numLeft.compareTo(BigInteger.ZERO) == 1)
 
   /**
     * @return BigInteger - factorial number of permutations
     */
-   def getFactorial (n: Int) = {
-    var fact = BigInteger.ONE;
-    Iterator.range(1, n + 1).foreach(ii => {
+   def getFactorial (n: Int): BigInteger = {
+    var fact = BigInteger.ONE
+     Iterator.range(1, n + 1).foreach(ii => {
       fact = fact.multiply(new BigInteger(Integer.toString(ii)))
     })
     fact
@@ -117,7 +117,7 @@ class PermutationGenerator (size: Int) {
       s += 1
     }
     numLeft = numLeft.subtract(BigInteger.ONE)
-    return items.toList
+    items.toList
   }
 }
 
@@ -125,10 +125,10 @@ class PermutationGenerator (size: Int) {
  * Example usage
  */
 object PermutationGenerator {
-  def main (args: Array[String]) = {
+  def main (args: Array[String]): Unit = {
     var pg = new PermutationGenerator(4)
-    while (pg.hasMore) {
-      println(pg.next.toList)
+    while (pg.hasMore()) {
+      println(pg.next().toList)
     }
   }
 
@@ -147,7 +147,7 @@ object PermutationGenerator {
       var initialModelValue =  mold(a)
       var initialPermutationValue = permutation(a)
       if (initialModelValue != initialPermutationValue){
-           parity += 1;
+           parity += 1
         var tmp = permutation.indexOf(initialModelValue )
         var tmp2 = mold(tmp)
         mold(tmp) =initialModelValue

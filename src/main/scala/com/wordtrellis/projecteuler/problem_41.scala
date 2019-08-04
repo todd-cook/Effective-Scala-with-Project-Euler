@@ -45,17 +45,17 @@ object problem_41 {
   def checkForPandigitalPrimes(digits: Int): List[Long] = {
     val pg = new PermutationGenerator(digits)
     val candidates = new ListBuffer[Long]()
-    while (pg.hasMore) {
-      val candidate = pg.next.mkString("").toLong
+    while (pg.hasMore()) {
+      val candidate = pg.next().mkString("").toLong
       if (candidate % 2 != 0 && candidate % 3 != 0) {
         candidates.append(candidate)
       }
     }
     println("Using %d digits, number of pandigital candidates: %d".format(digits, candidates.size))
-    candidates.filter(a => (problem_7.isPrime(a))).toList
+    candidates.filter(a => problem_7.isPrime(a)).toList
   }
 
-  def answer() = {
+  def answer(): Long = {
     val pandigitalPrimes = new ListBuffer[Long]()
     (4 to 9).toList.foreach(a => pandigitalPrimes.appendAll(checkForPandigitalPrimes(a)))
     println(pandigitalPrimes)
@@ -63,6 +63,6 @@ object problem_41 {
   }
 
   def main(args: Array[String]) {
-    println(answer)
+    println(answer())
   }
 }

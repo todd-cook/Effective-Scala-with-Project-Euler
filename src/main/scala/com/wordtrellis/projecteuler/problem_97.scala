@@ -44,8 +44,8 @@ package com.wordtrellis.projecteuler
 
 object problem_97 {
 
-  def answer() = {
-    var start = System.currentTimeMillis
+  def answer(): String = {
+    val start = System.currentTimeMillis
     val seed = new java.math.BigInteger("28433")
     val bigTwo = new java.math.BigInteger("2").pow(7830457)
     val nonMersenne = seed.multiply(bigTwo).add(java.math.BigInteger.ONE).toString
@@ -54,7 +54,7 @@ object problem_97 {
  }
 
   def main(args: Array[String]) {
-    println(answer)
+    println(answer())
   }
 }
 

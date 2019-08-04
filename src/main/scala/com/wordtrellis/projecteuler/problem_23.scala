@@ -1,30 +1,4 @@
-/*
- * Copyright (c) 2011, Todd Cook.
- *  All rights reserved.
- *
- *  Redistribution and use in source and binary forms, with or without modification,
- *  are permitted provided that the following conditions are met:
- *
- *      * Redistributions of source code must retain the above copyright notice,
- *        this list of conditions and the following disclaimer.
- *      * Redistributions in binary form must reproduce the above copyright notice,
- *        this list of conditions and the following disclaimer in the documentation
- *        and/or other materials provided with the distribution.
- *      * Neither the name of the <ORGANIZATION> nor the names of its contributors
- *        may be used to endorse or promote products derived from this software
- *        without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+
 
 package com.wordtrellis.projecteuler
 
@@ -50,25 +24,25 @@ package com.wordtrellis.projecteuler
  *  sum of two abundant numbers.
  *
  * @author : Todd Cook
- * @since : 5/13/2011
+ *
  */
 
 object problem_23 {
 
   def properDivisors (num: Int): List[Int] = {
     for {a <- (1 to (num / 2) + 1).toList
-         if (num % a == 0)
-        } yield  (a)
+         if num % a == 0
+        } yield  a
   }
 
-  def isAbundant (num: Int) = if (num  > 11) (num < properDivisors(num).foldLeft(0)(_ + _)) else false
+  def isAbundant (num: Int): Boolean = if (num  > 11) num < properDivisors(num).foldLeft(0)(_ + _) else false
 
-  def answer () = {
+  def answer (): Int = {
 
     val LIMIT = 28123
-    val abundantNumbers = for {a <- (1 to LIMIT)
-                               if (isAbundant(a))
-                              } yield (a)
+    val abundantNumbers = for {a <- 1 to LIMIT
+                               if isAbundant(a)
+                              } yield a
 
     println("number of abundant numbers 1 to %d:  %d".format(LIMIT,  abundantNumbers.length))
     val nonAbundantSums = new Array[Boolean](LIMIT + 1)
@@ -77,7 +51,7 @@ object problem_23 {
     //abundantNumbers.foreach(b => nonAbundantSums(b) = true)
 
     // we only need half of the abundant numbers, since we have to do a Cartesian product
-    val halfAbundant = abundantNumbers.filter(a => (a < (LIMIT )))
+    val halfAbundant = abundantNumbers.filter(a => a < LIMIT)
     halfAbundant.foreach(a => {
       abundantNumbers.foreach(b => {
         val abundantSum = a + b
@@ -95,8 +69,8 @@ object problem_23 {
     total
   }
 
-  def main (args: Array[String]) = {
-    println(answer)
+  def main (args: Array[String]): Unit = {
+    println(answer())
   }
 }
 

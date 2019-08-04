@@ -88,7 +88,7 @@ object problem_69 {
       }
       pos -= 1
     }
-    return tot
+     tot
   }
 
   /**
@@ -102,13 +102,13 @@ new max calculated in 37.703000 seconds: (30030,5760,5)
    * 100000 elements
    * Total processing took 458.094000 seconds
    */
-  def answer(total: Int = 100000) = {
+  def answer(total: Int = 100000): Unit = {
     val start = System.currentTimeMillis
-    val computations = new ListBuffer[Tuple3[Int, Int, Double]]
+    val computations = new ListBuffer[(Int, Int, Double)]
     var ii = 1
     while (ii < total) {
       val phiA = Phi(ii)
-      val result = (ii, phiA, ((ii + 0d) / phiA))
+      val result = (ii, phiA, (ii + 0d) / phiA)
       if (result._3 > 3.0D) {
         computations.append(result)
       }
@@ -126,18 +126,18 @@ new max calculated in 37.703000 seconds: (30030,5760,5)
    */
   def answerParallel(total: Int = 100000): Unit = {
     val start = System.currentTimeMillis
-    var computations = (1 to total).toList.par.map(a => {
+    val computations = (1 to total).toList.map(a => { // par
       val phiA = Phi(a)
       val phiARatio = (a + 0D) / phiA
-    //  if (phiARatio > 5.0D) {
-        (a, phiA, phiARatio)
-     // }
+      //  if (phiARatio > 5.0D) {
+      (a, phiA, phiARatio)
+      // }
     }).filter(b => b._3 > 4.0d)
     println("Total processing took %f seconds".format((System.currentTimeMillis - start) / 1000d))
     computations.toList.sortBy (_._3).foreach(b => println(b))
   }
 
-  def main(args: Array[String]) = {
+  def main(args: Array[String]): Unit = {
     //  1000000
     //  answerParallel ()
     answerParallel(1000000)
@@ -147,7 +147,7 @@ new max calculated in 37.703000 seconds: (30030,5760,5)
 
 /**
  *
-/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/bin/java -Xmx1024M -Dfile.encoding=UTF-8 -classpath /System/Library/Java/Support/CoreDeploy.bundle/Contents/Resources/Java/deploy.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/dt.jar:/System/Library/Java/Support/Deploy.bundle/Contents/Resources/Java/javaws.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/jce.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/jconsole.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/management-agent.jar:/System/Library/Java/Support/Deploy.bundle/Contents/Resources/Java/plugin.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/sa-jdi.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Classes/alt-rt.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Classes/charsets.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Classes/classes.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Classes/jsse.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Classes/ui.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/ext/apple_provider.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/ext/sunpkcs11.jar:/Users/todd/IdeaProjects/Effective-Scala-With-Project-Euler/target/classes:/Users/todd/.m2/repository/org/scala-lang/scala-library/2.9.0.RC4/scala-library-2.9.0.RC4.jar:/Users/todd/.m2/repository/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar:/Users/todd/.m2/repository/org/slf4j/slf4j-simple/1.6.1/slf4j-simple-1.6.1.jar com.cookconsulting.projecteuler.problem_69
+/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/bin/java -Xmx1024M -Dfile.encoding=UTF-8 -classpath /System/Library/Java/Support/CoreDeploy.bundle/Contents/Resources/Java/deploy.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/dt.jar:/System/Library/Java/Support/Deploy.bundle/Contents/Resources/Java/javaws.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/jce.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/jconsole.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/management-agent.jar:/System/Library/Java/Support/Deploy.bundle/Contents/Resources/Java/plugin.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/sa-jdi.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Classes/alt-rt.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Classes/charsets.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Classes/classes.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Classes/jsse.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Classes/ui.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/ext/apple_provider.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/ext/sunpkcs11.jar:/Users/todd/IdeaProjects/Effective-Scala-With-Project-Euler/target/classes:/Users/todd/.m2/repository/org/scala-lang/scala-library/2.9.0.RC4/scala-library-2.9.0.RC4.jar:/Users/todd/.m2/repository/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar:/Users/todd/.m2/repository/org/slf4j/slf4j-simple/1.6.1/slf4j-simple-1.6.1.jar com.wordtrellis.projecteuler.problem_69
 Total processing took 8980.161000 seconds
 (128010,32000,4.0003125)
 (256020,64000,4.0003125)

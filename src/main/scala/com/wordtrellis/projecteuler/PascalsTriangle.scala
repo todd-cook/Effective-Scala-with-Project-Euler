@@ -1,30 +1,4 @@
-/*
- * Copyright (c) 2011, Todd Cook.
- *  All rights reserved.
- *
- *  Redistribution and use in source and binary forms, with or without modification,
- *  are permitted provided that the following conditions are met:
- *
- *      * Redistributions of source code must retain the above copyright notice,
- *        this list of conditions and the following disclaimer.
- *      * Redistributions in binary form must reproduce the above copyright notice,
- *        this list of conditions and the following disclaimer in the documentation
- *        and/or other materials provided with the distribution.
- *      * Neither the name of the <ORGANIZATION> nor the names of its contributors
- *        may be used to endorse or promote products derived from this software
- *        without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+
 
 package com.wordtrellis.projecteuler
 
@@ -53,7 +27,7 @@ class PascalsTriangle (val rows: Int = 67) {
   require(rows < 68)
 
   private var triangle = List(Array[Long](rows))
-  private var builder = new ListBuffer[Array[Long]]()
+  private val builder = new ListBuffer[Array[Long]]()
   // construct the triangle:
   Iterator.range (1, rows + 1).foreach (x => builder.append(new Array[Long](rows)))
   triangle = builder.toList
@@ -84,7 +58,7 @@ class PascalsTriangle (val rows: Int = 67) {
       if (x < y) {
         if (triangle(y)(x) == 0L) {
           triangle(y)(x) =
-            (triangle(y - 1)(x - 1) + triangle(y - 1)(x))
+            triangle(y - 1)(x - 1) + triangle(y - 1)(x)
         }
       }
     })
@@ -93,7 +67,7 @@ class PascalsTriangle (val rows: Int = 67) {
   /**
    * Prints out the triangle in left-justified, "Matrix" format
    */
-  override def toString (): String = {
+  override def toString: String = {
     val buf = new StringBuilder()
     triangle.foreach(ar => {
       buf.append(ar.toList.filter(_ > 0).mkString("  ")).append("\n")
@@ -124,10 +98,10 @@ class PascalsTriangle (val rows: Int = 67) {
    * Helper function
    */
   private def pullDiagonal (index: Int) :List[Long] = {
-    var myList = for {y <- (index to rows - 1)
+    val myList = for {y <- index to rows - 1
                       result = triangle(y)(y - index)
     } yield {
-      (result)
+      result
     }
     myList.toList
   }
@@ -143,7 +117,7 @@ class PascalsTriangle (val rows: Int = 67) {
    * http://en.wikipedia.org/wiki/Triangular_number
    * @return : List[Long] of triangle numbers
    */
-  def triangleNumbers () = pullDiagonal(2)
+  def triangleNumbers (): List[Long] = pullDiagonal(2)
 
   /**
    * "A tetrahedral number, or triangular pyramidal number, is a figurate
@@ -153,7 +127,7 @@ class PascalsTriangle (val rows: Int = 67) {
    * http://en.wikipedia.org/wiki/Tetrahedral_number
    * @return List[Long] of tetrahedral numbers
    */
-  def tetrahedralNumbers () = pullDiagonal(3)
+  def tetrahedralNumbers (): List[Long] = pullDiagonal(3)
 
   /**
    * "Pentatope numbers belong in the class of figurate numbers, which can be
@@ -161,7 +135,7 @@ class PascalsTriangle (val rows: Int = 67) {
    * http://en.wikipedia.org/wiki/Pentatope_number
    * @return List[Long] of pentatope numbers
    */
-  def pentatopeNumbers () = pullDiagonal(4)
+  def pentatopeNumbers (): List[Long] = pullDiagonal(4)
 
   /**
    * "They are called central since they show up exactly in the middle of
@@ -172,13 +146,13 @@ class PascalsTriangle (val rows: Int = 67) {
    * However this overflows the Long datatype and fails when n < 11
    * @return List[Long] of numbers of the central binomial coefficients
    */
-  def centralBinomialCoefficients () = {
-    val results = for {y <- (0 to rows - 1)
+  def centralBinomialCoefficients (): List[Long] = {
+    val results = for {y <- 0 to rows - 1
                        row = y
-                       if (row % 2 == 0)
-                       result = (triangle(row)(math.round(y / 2f)))
+                       if row % 2 == 0
+                       result = triangle(row)(math.round(y / 2f))
     } yield {
-      (result)
+      result
     }
     results.toList
   }
@@ -193,7 +167,7 @@ object PascalsTriangle {
    */
   private def naiveCentralBinomialCoeffiecent (n: Int): Long = {
     try {
-      factorial(2 * n) / math.pow((factorial(n)), 2).toLong
+      factorial(2 * n) / math.pow(factorial(n), 2).toLong
     }
     catch {
       case ex: Exception => println("failure at n: " + n)
@@ -214,14 +188,14 @@ object PascalsTriangle {
 
   def main (args: Array[String]) {
     val pt = new PascalsTriangle()
-    println(pt.toString)
+    println(pt.toString())
     println(pt.nChooseK(10, 8))
-    println(pt.centralBinomialCoefficients)
-    println(pt.triangleNumbers)
-    println(pt.tetrahedralNumbers)
-    println(pt.pentatopeNumbers)
-    println((pt.centralBinomialCoefficients())(20))
-    println(((0 to 67).toList.map(naiveCentralBinomialCoeffiecent(_))).mkString(", "))
-    println(pt.centralBinomialCoefficients.mkString(", "))
+    println(pt.centralBinomialCoefficients())
+    println(pt.triangleNumbers())
+    println(pt.tetrahedralNumbers())
+    println(pt.pentatopeNumbers())
+    println(pt.centralBinomialCoefficients()(20))
+    println((0 to 67).toList.map(naiveCentralBinomialCoeffiecent(_)).mkString(", "))
+    println(pt.centralBinomialCoefficients().mkString(", "))
   }
 }

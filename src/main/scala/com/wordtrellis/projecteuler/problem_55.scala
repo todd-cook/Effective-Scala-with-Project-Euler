@@ -63,30 +63,30 @@ package com.wordtrellis.projecteuler
 
 object problem_55 {
 
-    def isPalindromic (a: Long): Boolean = (a.toString.reverse == a.toString)
+    def isPalindromic (a: Long): Boolean = a.toString.reverse == a.toString
 
     def isLychrel (a: Long): Boolean = {
         var candidate = a
         (1 to 30).foreach (b => {
-            var newCandidate = candidate + candidate.toString.reverse.toLong
+          val newCandidate = candidate + candidate.toString.reverse.toLong
             if (isPalindromic (newCandidate)) return false
             else candidate = newCandidate
         })
         true
     }
 
-    def answer () = {
+    def answer (): Unit = {
         var ii = 0
         (1 until 10000).foreach (a => if (isLychrel (a + 0L)) ii += 1)
       println(  ii + " Lychrel numbers")
     }
 
-    def main (args: Array[String]) = {
+    def main (args: Array[String]): Unit = {
                 println(isLychrel(56L))
                 println(isLychrel(57L))
                 println(isLychrel(59L))
                 println(isLychrel(89L))
-        println (answer)
+        println (answer())
     }
 }
 

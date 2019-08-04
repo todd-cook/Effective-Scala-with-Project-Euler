@@ -1,29 +1,3 @@
-/*
- * Copyright (c) 2011, Todd Cook.
- *   All rights reserved.
- *   Redistribution and use in source and binary forms, with or without modification,
- *   are permitted provided that the following conditions are met:
- *
- *      * Redistributions of source code must retain the above copyright notice,
- *        this list of conditions and the following disclaimer.
- *      * Redistributions in binary form must reproduce the above copyright notice,
- *        this list of conditions and the following disclaimer in the documentation
- *        and/or other materials provided with the distribution.
- *      * Neither the name of the <ORGANIZATION> nor the names of its contributors
- *        may be used to endorse or promote products derived from this software
- *        without specific prior written permission.
- *
- *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- *   ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *   FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *   DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *   OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
 
 package com.wordtrellis.projecteuler
 
@@ -47,25 +21,25 @@ import collection.mutable.ListBuffer
  */
 class SpiralNumberGrid(items: Int, start: Int) {
 
-  val middle = items / 2
-  val MAX = items * items
+  val middle: Int = items / 2
+  val MAX: Int = items * items
   // Temp data
-  private var currPosition: Tuple2[Int, Int] = (middle, middle)
-  private var values = new ListBuffer[ListBuffer[Int]]()
+  private var currPosition: (Int, Int) = (middle, middle)
+  private val values = new ListBuffer[ListBuffer[Int]]()
   // prepopulate the number grid
   (1 to items).foreach(a => {
-    var row = new ListBuffer[Int]()
+    val row = new ListBuffer[Int]()
     row.appendAll((1 to items).toList.map(_ * 0))
     values.append(row)
   })
 
-  private def right(seed: Tuple2[Int, Int]) = (seed._1, seed._2 + 1)
+  private def right(seed: (Int, Int)) = (seed._1, seed._2 + 1)
 
-  private def down(seed: Tuple2[Int, Int]) = (seed._1 + 1, seed._2)
+  private def down(seed: (Int, Int)) = (seed._1 + 1, seed._2)
 
-  private def left(seed: Tuple2[Int, Int]) = (seed._1, seed._2 - 1)
+  private def left(seed: (Int, Int)) = (seed._1, seed._2 - 1)
 
-  private def up(seed: Tuple2[Int, Int]) = (seed._1 - 1, seed._2)
+  private def up(seed: (Int, Int)) = (seed._1 - 1, seed._2)
 
   private var loop = 1
   private var ii = 1
@@ -107,22 +81,22 @@ class SpiralNumberGrid(items: Int, start: Int) {
   // create the spiral on construction
   spiral()
 
-  override def toString() = {
-    var buf = new StringBuilder()
+  override def toString: String = {
+    val buf = new StringBuilder()
     (0 to values.size - 1).foreach(ii => buf.append(values(ii).mkString("  ") + "\n"))
     buf.toString
   }
 
   def getTopLeftToBottomRightDiagonal :List[Int] = {
-    var diagonalValues = new ListBuffer[Int]()
+    val diagonalValues = new ListBuffer[Int]()
     (0 to values(0).length - 1).foreach(x => diagonalValues.append(values(x)(x)))
     diagonalValues.toList
   }
 
   def getBottomLeftToTopRightDiagonal :List[Int] = {
-    var diagonalValues = new ListBuffer[Int]()
-    var colvals = (0 to values(0).length - 1).toList
-    var rowvals = (0 to values(0).length - 1).toList.reverse
+    val diagonalValues = new ListBuffer[Int]()
+    val colvals = (0 to values(0).length - 1).toList
+    val rowvals = (0 to values(0).length - 1).toList.reverse
     colvals.foreach(x => diagonalValues.append(values(rowvals(x))(colvals(x))))
     diagonalValues.toList
   }
@@ -133,21 +107,21 @@ class SpiralNumberGrid(items: Int, start: Int) {
  * Another version with more clutter
  */
 class SpiralNumberGrid2(items: Int, start: Int) {
-  var middle = java.lang.Math.rint((0.2d + items) / 2).intValue
+  val middle: Int = java.lang.Math.rint((0.2d + items) / 2).intValue
   var rows = 0
   var columns = 0
   // now StartPosition: 2,3, Direction East, initial value 0
-  var currPosition: Tuple2[Int, Int] = (middle - 2, middle - 1)
+  var currPosition: (Int, Int) = (middle - 2, middle - 1)
   //(middle, middle)
   // prepopulate the number grid
-  var values = new ListBuffer[ListBuffer[Int]]()
+  val values = new ListBuffer[ListBuffer[Int]]()
   var direction = 1
   var lineLength = 1
   var ii = 2
 
   def spiral() {
     var (row, col) = currPosition
-    var currDirection = direction % 4
+    val currDirection = direction % 4
     // the clockwise spiral goes in a progression:
     // East, South, West, North
     if (currDirection == 0) {
@@ -197,22 +171,22 @@ class SpiralNumberGrid2(items: Int, start: Int) {
     currPosition = (row, col)
   }
 
-  override def toString() = {
-    var buf = new StringBuilder()
+  override def toString: String = {
+    val buf = new StringBuilder()
     (0 to values.size - 1).foreach(ii => buf.append(values(ii).mkString("  ") + "\n"))
     buf.toString
   }
 
-  def getTopLeftToBottomRightDiagonal(): List[Int] = {
-    var diagonalValues = new ListBuffer[Int]()
+  def getTopLeftToBottomRightDiagonal: List[Int] = {
+    val diagonalValues = new ListBuffer[Int]()
     (0 to values(0).length - 1).foreach(x => diagonalValues.append(values(x)(x)))
     diagonalValues.toList
   }
 
-  def getBottomLeftToTopRightDiagonal(): List[Int] = {
-    var diagonalValues = new ListBuffer[Int]()
-    var colvals = (0 to values(0).length - 1).toList
-    var rowvals = (0 to values(0).length - 1).toList.reverse
+  def getBottomLeftToTopRightDiagonal: List[Int] = {
+    val diagonalValues = new ListBuffer[Int]()
+    val colvals = (0 to values(0).length - 1).toList
+    val rowvals = (0 to values(0).length - 1).toList.reverse
     colvals.foreach(x => diagonalValues.append(values(rowvals(x))(colvals(x))))
     diagonalValues.toList
   }
@@ -228,7 +202,7 @@ class SpiralNumberGrid2(items: Int, start: Int) {
    */
   def initialize() {
     for (newRow <- 1 to items) {
-      var row = new ListBuffer[Int]()
+      val row = new ListBuffer[Int]()
       row.appendAll((1 to items).toList.map(_ * 0))
       values.append(row)
     }
@@ -246,7 +220,7 @@ class SpiralNumberGrid2(items: Int, start: Int) {
 }
 
 object SpiralNumberGrid {
-  def main(args: Array[String]) = {
+  def main(args: Array[String]): Unit = {
     val sng = new SpiralNumberGrid(5, 1)
     println(sng)
   }

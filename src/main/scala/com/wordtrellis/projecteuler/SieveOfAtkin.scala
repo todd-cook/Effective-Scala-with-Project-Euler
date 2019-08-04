@@ -1,30 +1,4 @@
-/*
- * Copyright (c) 2011, Todd Cook.
- *  All rights reserved.
- *
- *  Redistribution and use in source and binary forms, with or without modification,
- *  are permitted provided that the following conditions are met:
- *
- *      * Redistributions of source code must retain the above copyright notice,
- *        this list of conditions and the following disclaimer.
- *      * Redistributions in binary form must reproduce the above copyright notice,
- *        this list of conditions and the following disclaimer in the documentation
- *        and/or other materials provided with the distribution.
- *      * Neither the name of the <ORGANIZATION> nor the names of its contributors
- *        may be used to endorse or promote products derived from this software
- *        without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+
 
 package com.wordtrellis.projecteuler
 
@@ -48,16 +22,16 @@ package com.wordtrellis.projecteuler
  *  http://en.wikipedia.org/wiki/Sieve_of_Atkin
  *
  * @author : Todd Cook
- * @since : Oct 11, 2009
+ *
  */
 
 import collection.mutable.ListBuffer
 
 class SieveOfAtkin (val limit: Int) {
-  private var primes = new ListBuffer[Int]();
+  private var primes = new ListBuffer[Int]()
   findPrimes()
 
-  def getPrimes (): List[Int] = primes.toList
+  def getPrimes() :List[Int] = primes.toList
 
   private def exclusiveOR (state: Boolean, shiftVal: Boolean): Boolean = {
     if (!shiftVal) {
@@ -69,12 +43,12 @@ class SieveOfAtkin (val limit: Int) {
     if (!state && shiftVal) {
       return true
     }
-    return state
+    state
   }
 
   private def findPrimes () {
     // the sieve is initialized to false
-    val isPrime: Array[Boolean] = new Array[Boolean](limit + 1);
+    val isPrime: Array[Boolean] = new Array[Boolean](limit + 1)
     val sqrt = (math.sqrt(limit)).round.intValue
 
     /**
@@ -108,7 +82,7 @@ class SieveOfAtkin (val limit: Int) {
           // n is prime, omit multiples of its square; this is
           // sufficient because composites which managed to get
           // on the list cannot be square-free
-          isPrime(primeSquaredInc) = false;
+          isPrime(primeSquaredInc) = false
           inc += 1
           primeSquaredInc = primeSquared * inc
         }
@@ -161,7 +135,7 @@ object SieveOfAtkin {
 
   def main (args: Array[String]) {
     var soa = new SieveOfAtkin(2000000)
-    soa.getPrimes.foreach(a => if (!isPrime(a)) {
+    soa.getPrimes().foreach(a => if (!isPrime(a)) {
       println("prime fail for: " + a)
     })
     println("total primes to 2,000,000: " + soa.getPrimes().length)

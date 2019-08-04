@@ -35,14 +35,14 @@ package com.wordtrellis.projecteuler
  *   1^(1) + 2^(2) + 3^(3) + ... + 1000^(1000)
  *
  * @author : Todd Cook
- * @since : 5/7/11
+ *
  */
 
 object problem_48 {
 
-  def main (args: Array[String]) = {
+  def main (args: Array[String]): Unit = {
     var sum = java.math.BigInteger.ZERO
-    (1 to 1000).foreach(x => sum = sum.add((new java.math.BigInteger(x.toString)).pow(x)))
+    (1 to 1000).foreach(x => sum = sum.add(new java.math.BigInteger(x.toString).pow(x)))
     println(sum.toString)
     println(sum.toString.slice(sum.toString.length - 10, sum.toString.length))
   }

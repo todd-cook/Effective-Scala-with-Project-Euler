@@ -1,30 +1,4 @@
-/*
- * Copyright (c) 2011, Todd Cook.
- *  All rights reserved.
- *
- *  Redistribution and use in source and binary forms, with or without modification,
- *  are permitted provided that the following conditions are met:
- *
- *      * Redistributions of source code must retain the above copyright notice,
- *        this list of conditions and the following disclaimer.
- *      * Redistributions in binary form must reproduce the above copyright notice,
- *        this list of conditions and the following disclaimer in the documentation
- *        and/or other materials provided with the distribution.
- *      * Neither the name of the <ORGANIZATION> nor the names of its contributors
- *        may be used to endorse or promote products derived from this software
- *        without specific prior written permission.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- *  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- *  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- *  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- *  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- *  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- *  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+
 
 package com.wordtrellis.projecteuler
 
@@ -37,7 +11,7 @@ package com.wordtrellis.projecteuler
  * four million.
  *
  * @author : Todd Cook
- * @since : 4/24/2011
+ *
  */
 
 object problem_2 {
@@ -45,28 +19,6 @@ object problem_2 {
   /**
    * Create a list of Fibonacci integers, up to the given ceiling parameter
    */
-  def makeFibo (ceiling: Int, col: List[Int]): List[Int] = {
-    if (col == Nil) {
-      return makeFibo(ceiling, List(0, 1, 1))
-    }
-    if (col.last >= ceiling) {
-      return col
-    }
-
-    var total = col((col.size) - 1) + col(col.size - 2)
-    val newCollection = total :: (col reverse) reverse
-
-    if (newCollection.last == ceiling) {
-      return newCollection
-    }
-    else {
-      makeFibo(ceiling, newCollection)
-    }
-  }
-
-  def maxFibo (ceiling: Int): List[Int] = makeFibo(ceiling, Nil)
-
-  def answer = maxFibo(4000000).filter(_ % 2 == 0).foldLeft(0)(_ + _)
 
   /**
    *
@@ -97,23 +49,26 @@ object problem_2 {
     adapted from: http://grokcode.com/75/learning-scala-with-project-euler/
    */
 
-  def answer2 = {
-    lazy val fib: Stream[Int] =
-      Stream.cons(0, Stream.cons(1, fib.zip(fib.tail).map(p => p._1 + p._2)))
-    implicit def iterableWithSum (it: Iterable[Int]) = new {
-      def sum = it.foldLeft(0)(_ + _)
+  def make_fibo(ceiling :Int= 4000000 ): List[Int] = {
+    lazy val fib: LazyList[Int] =
+      LazyList.cons(0, LazyList.cons(1, fib.zip(fib.tail).map(p => p._1 + p._2)))
+    implicit def iterableWithSum (it: Iterable[Int]): Object {
+      def sum: Int
+    } = new {
+      def sum: Int = it.foldLeft(0)(_ + _)
     }
-    fib.filter(_ % 2 == 0).takeWhile(_ <= 4000000).sum
+    var res = fib.filter(_ % 2 == 0).takeWhile(_  <= ceiling)
+    res.toList
   }
 
   /**
    * Another implementation
    */
-  private def fibInc (pair: Tuple2[Int, Int]): Tuple2[Int, Int] = {
+  private def fibInc (pair: (Int, Int)): (Int, Int) = {
     (pair._2, pair._1 + pair._2)
   }
 
-  def answer3 = {
+  def answer3: Int = {
     var total = 0
     var seed = (1, 2)
     while (seed._2 < 4000000) {
@@ -125,9 +80,10 @@ object problem_2 {
     total
   }
 
-  def main (args: Array[String]) = {
-    println(answer)
-    println(answer2)
+  def main (args: Array[String]): Unit = {
+    println(make_fibo(89) )
+    println(make_fibo() )
+    println(make_fibo().sum)
     println(answer3)
   }
 }

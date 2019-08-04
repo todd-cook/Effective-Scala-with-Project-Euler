@@ -71,7 +71,7 @@ object problem_74 {
     if (n == 0)
       return 1d
     if (n <= 2)
-      return n.asInstanceOf[Double];
+      return n.asInstanceOf[Double]
     var ii = n
     var result = 0d
     result += n
@@ -82,7 +82,7 @@ object problem_74 {
     result
   }
 
-  val digitFactorials = (0 to 9).toList.map(a => factorial(a))
+  val digitFactorials: List[Double] = (0 to 9).toList.map(a => factorial(a))
 
   def sumDigitFactorials(n: Int): Int = n.toString.toList.map(
     a => digitFactorials(java.lang.Integer.parseInt(a + ""))).sum.toInt
@@ -93,7 +93,7 @@ object problem_74 {
   //    sumDigitFactorials (1454)
   //    sumDigitFactorials (169)
 
-  def countChainLength(n: Int) = {
+  def countChainLength(n: Int): Int = {
     var seed = n
     val links = new HashSet[Int]()
     while (!links.contains(seed)) {
@@ -103,14 +103,14 @@ object problem_74 {
     links.size
   }
 
-  def answer() = {
+  def answer(): List[(Int, Int)] = {
     val results =
-      (1 to 1000000).toList.par.map(a => (a, countChainLength(a))).filter(b => b._2 == 60)
+      (1 to 1000000).toList.map(a => (a, countChainLength(a))).filter(b => b._2 == 60) // par
     println(results.toList.size)
     results
   }
 
-  def main(args: Array[String]) = {
-    println(answer)
+  def main(args: Array[String]): Unit = {
+    println(answer())
   }
 }

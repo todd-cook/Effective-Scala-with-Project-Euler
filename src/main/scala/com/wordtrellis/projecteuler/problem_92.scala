@@ -56,14 +56,14 @@ object problem_92{
         buildChain(squareSum, desiredGoal , undesiredGoal)
     }
 
-    def answer() ={
+    def answer(): Int ={
         var eightyNine = 0
-        (2 to 10000000).par.foreach(a => if (buildChain(a, 89, 1)) eightyNine += 1)
+        (2 to 10000000).foreach(a => if (buildChain(a, 89, 1)) eightyNine += 1) // par
         eightyNine
     }
 
-    def main (args: Array[String]) = {
-        println (answer)
+    def main (args: Array[String]): Unit = {
+        println (answer())
     }
 }
 /**
