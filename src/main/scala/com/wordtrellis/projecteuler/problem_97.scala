@@ -28,38 +28,37 @@
 package com.wordtrellis.projecteuler
 
 /**
- *  Problem 97
- *
- *  The first known prime found to exceed one million digits was discovered in 1999, and is a
- *  Mersenne prime of the form 26972593−1; it contains exactly 2,098,960 digits. Subsequently
- *  other Mersenne primes, of the form 2p−1, have been found which contain more digits.
- *
- *  However, in 2004 there was found a massive non-Mersenne prime which contains 2,357,207 digits:
- *  28433 * 2^7830457 + 1
- *
- *  Find the last ten digits of this prime number.
- * @author Todd Cook
- * @since 5/22/2011
- */
-
+  *  Problem 97
+  *
+  *  The first known prime found to exceed one million digits was discovered in 1999, and is a
+  *  Mersenne prime of the form 26972593−1; it contains exactly 2,098,960 digits. Subsequently
+  *  other Mersenne primes, of the form 2p−1, have been found which contain more digits.
+  *
+  *  However, in 2004 there was found a massive non-Mersenne prime which contains 2,357,207 digits:
+  *  28433 * 2^7830457 + 1
+  *
+  *  Find the last ten digits of this prime number.
+  * @author Todd Cook
+  *
+  */
 object problem_97 {
 
+    def main(args: Array[String]) :Unit = {
+    println(answer())
+  }
+
   def answer(): String = {
-    val start = System.currentTimeMillis
-    val seed = new java.math.BigInteger("28433")
-    val bigTwo = new java.math.BigInteger("2").pow(7830457)
+    val start       = System.currentTimeMillis
+    val seed        = new java.math.BigInteger("28433")
+    val bigTwo      = new java.math.BigInteger("2").pow(7830457)
     val nonMersenne = seed.multiply(bigTwo).add(java.math.BigInteger.ONE).toString
     println("Computation took %f seconds".format((System.currentTimeMillis - start) / 1000d))
     nonMersenne.slice(nonMersenne.length - 10, nonMersenne.length)
- }
-
-  def main(args: Array[String]) {
-    println(answer())
   }
 }
 
 /**
- * Computation took 1098.184000 seconds
- * 8739992577
- * at 128m
- */
+  * Computation took 1098.184000 seconds
+  * 8739992577
+  * at 128m
+  */

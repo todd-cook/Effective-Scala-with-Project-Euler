@@ -1,45 +1,43 @@
-
 package com.wordtrellis.projecteuler
 
 /**
- * Problem 40
- *
- * An irrational decimal fraction is created by concatenating the positive
- * integers:
- *
- * 0.123456789101112131415161718192021...
- *
- * It can be seen that the 12^(th) digit of the fractional part is 1.
- *
- * If d_(n) represents the n^(th) digit of the fractional part, find the value
- * of the following expression.
- *
- * d_(1) * d_(10) * d_(100) * d_(1000) * d_(10000) * d_(100000) * d_(1000000)
- *
- * @author : Todd Cook
- *
- */
-
+  * Problem 40
+  *
+  * An irrational decimal fraction is created by concatenating the positive
+  * integers:
+  *
+  * 0.123456789101112131415161718192021...
+  *
+  * It can be seen that the 12^(th) digit of the fractional part is 1.
+  *
+  * If d_(n) represents the n^(th) digit of the fractional part, find the value
+  * of the following expression.
+  *
+  * d_(1) * d_(10) * d_(100) * d_(1000) * d_(10000) * d_(100000) * d_(1000000)
+  *
+  * @author : Todd Cook
+  *
+  */
 object problem_40 {
 
-  def createIrrationalDecimalString(places: Int): String = (1 to places).toList.mkString("")
+  val candidates: List[Int] = (0 to 1000000).toList
 
   /**
-   * Binary search implementation
-   * not used in solving the optimization of this problem, but
-   * included anyway to see how it was modified to discover the target
-   * see binarySearchFun() below
-   */
+    * Binary search implementation
+    * not used in solving the optimization of this problem, but
+    * included anyway to see how it was modified to discover the target
+    * see binarySearchFun() below
+    */
   def binarySearch(values: List[Int], goal: Int): Int = {
-    var topPlace = values.length - 1
-    var midPlace = (values.length - 1) / 2
-    var botPlace = 0
-    var topValue = values(topPlace)
+    var topPlace    = values.length - 1
+    var midPlace    = (values.length - 1) / 2
+    var botPlace    = 0
+    var topValue    = values(topPlace)
     var bottomValue = values(botPlace)
-    var midpoint = values(midPlace)
-    val start = values(midpoint)
-    var process = true
-    var ii = 0
+    var midpoint    = values(midPlace)
+    val start       = values(midpoint)
+    var process     = true
+    var ii          = 0
 
     while (process == true) {
       ii += 1
@@ -68,33 +66,63 @@ object problem_40 {
     start
   }
 
-  val candidates: List[Int] = (0 to 1000000).toList
+  def main(args: Array[String]): Unit = {
+    println(answer)
+  }
+
+  def answer: Int = {
+
+    /**
+      * Originally this answer was arrived at by brute force, e.g.
+      *   var digits = (0 to 1000000).toList.mkString ("")
+      * However that approach required increasing memory to accommodate the huge amount of data;
+      * using a binary search styled narrowing approach, the optimum length was found and
+      * this doesn't require extra memory being allocated
+      */
+    val digits = (1 to 185185).toList.mkString("")
+
+    println(
+      java.lang.Integer.parseInt(s"${digits(1 - 1)}") *
+        java.lang.Integer.parseInt(s"${digits(10 - 1)}") *
+        java.lang.Integer.parseInt(s"${digits(100 - 1)}") *
+        java.lang.Integer.parseInt(s"${digits(1000 - 1)}") *
+        java.lang.Integer.parseInt(s"${digits(10000 - 1)}") *
+        java.lang.Integer.parseInt(s"${digits(100000 - 1)}") *
+        java.lang.Integer.parseInt(s"${digits(1000000 - 1)}"))
+
+    // see commentary below
+    binarySearchFun(candidates, testCandidate(_), 1000000)
+    // demonstration of clause that catches inexact solution
+    binarySearchFun(candidates, testCandidate(_), 1000001)
+  }
 
   /**
-   * returns:
-   * -1 = less than goal
-   * 0 = goal
-   * 1 = more than goal
-   *
-   */
+    * returns:
+    * -1 = less than goal
+    * 0 = goal
+    * 1 = more than goal
+    *
+    */
   def testCandidate(candidate: Int): Int = {
     createIrrationalDecimalString(candidate).length.asInstanceOf[Int]
   }
 
+  def createIrrationalDecimalString(places: Int): String = (1 to places).toList.mkString("")
+
   /**
-   * A sort of binary search for quickly finding the closest target
-   * of course, values must be a sorted list
-   */
+    * A sort of binary search for quickly finding the closest target
+    * of course, values must be a sorted list
+    */
   def binarySearchFun(values: List[Int], test: Int => Int, goal: Int): Int = {
-    var topPlace = values.length - 1
-    var midPlace = (values.length - 1) / 2
-    var botPlace = 0
-    var topValue = values(topPlace)
+    var topPlace    = values.length - 1
+    var midPlace    = (values.length - 1) / 2
+    var botPlace    = 0
+    var topValue    = values(topPlace)
     var bottomValue = values(botPlace)
-    var midpoint = values(midPlace)
-    val start = values(midpoint)
-    var process = true
-    var ii = 0
+    var midpoint    = values(midPlace)
+    val start       = values(midpoint)
+    var process     = true
+    var ii          = 0
 
     while (process == true) {
       ii += 1
@@ -129,55 +157,26 @@ object problem_40 {
     }
     start
   }
-
-  def answer: Int = {
-    /**
-     * Originally this answer was arrived at by brute force, e.g.
-     *   var digits = (0 to 1000000).toList.mkString ("")
-     * However that approach required increasing memory to accommodate the huge amount of data;
-     * using a binary search styled narrowing approach, the optimum length was found and
-     * this doesn't require extra memory being allocated
-     */
-    val digits = (1 to 185185).toList.mkString("")
-
-    println(
-      java.lang.Integer.parseInt(s"${digits(1 - 1)}") *
-        java.lang.Integer.parseInt(s"${digits(10 - 1)}") *
-        java.lang.Integer.parseInt(s"${digits(100 - 1)}") *
-        java.lang.Integer.parseInt(s"${digits(1000 - 1)}") *
-        java.lang.Integer.parseInt(s"${digits(10000 - 1)}") *
-        java.lang.Integer.parseInt(s"${digits(100000 - 1)}") *
-        java.lang.Integer.parseInt(s"${digits(1000000 - 1)}"))
-
-    // see commentary below
-    binarySearchFun(candidates, testCandidate(_), 1000000)
-    // demonstration of clause that catches inexact solution
-    binarySearchFun(candidates, testCandidate(_), 1000001)
-  }
-
-  def main(args: Array[String]): Unit = {
-    println(answer)
-  }
 }
 
 /**
- * Commentary:
- *
- * Optimization problem:
- * Determine the min value to reach one million irrational decimal places
- * one million digits is reached before one millions digits are concatenated
- * together what is the closest number that generates one million digits
- *
- *  naive solution takes forever
- *        var ii = 1000000
- *        while( (0 to ii).toList.mkString("").length > 1000000)
- * {ii -= 1}
- *        println (ii)
- *
- *  Better: exploit the linear nature of the possible solutions by
- *  using a modified binary search:
- *
- *
+  * Commentary:
+  *
+  * Optimization problem:
+  * Determine the min value to reach one million irrational decimal places
+  * one million digits is reached before one millions digits are concatenated
+  * together what is the closest number that generates one million digits
+  *
+  *  naive solution takes forever
+  *        var ii = 1000000
+  *        while( (0 to ii).toList.mkString("").length > 1000000)
+  * {ii -= 1}
+  *        println (ii)
+  *
+  *  Better: exploit the linear nature of the possible solutions by
+  *  using a modified binary search:
+  *
+  *
 Results:
 
 topValue: 		1000000
@@ -289,4 +288,4 @@ Closest approximation:	185184
 result: 		1000006
 via 20 iterations
 
- */
+  */

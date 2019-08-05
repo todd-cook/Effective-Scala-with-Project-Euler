@@ -1,13 +1,11 @@
-
 package com.wordtrellis.projecteuler
 
 import org.scalatest.FlatSpec
 
 /**
   * @author Todd Cook
-  * @since 4/30/11
+  *
   */
-
 class BigSquareRootTest extends FlatSpec {
 
   val bsr = new BigSquareRoot()
@@ -26,12 +24,10 @@ class BigSquareRootTest extends FlatSpec {
     * bd2: java.math.BigDecimal = 0.0
     *
     */
-
   "BigSquare root of 961 " should "be 31" in {
     val result = bsr.get(new java.math.BigInteger("961"))
     assert(result.longValue === 31L)
     assert(bsr.error.compareTo(bsr.ZERO) === 0)
   }
-
 
 }

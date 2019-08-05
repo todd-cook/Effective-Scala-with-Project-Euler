@@ -26,56 +26,55 @@
  */
 package com.wordtrellis.projecteuler
 
-import collection.mutable.ListBuffer
+import scala.collection.mutable.ListBuffer
 
 /**
- * Problem 69
- *
- * Euler's Totient function, Phi(n) [sometimes called the phi function],
- * is used to determine the number of numbers less than n which are relatively
- * prime to n.
- * For example, as 1, 2, 4, 5, 7, and 8, are all less than nine and relatively
- * prime to nine,
- * Phi(9)=6.
- * n      Relatively Prime      Phi (n)      n / phi (n)
- * 2      1                     1            2
- * 3      1,2                   2            1.5
- * 4      1,3                   2            2
- * 5      1,2,3,4               4            1.25
- * 6      1,5                   2            3
- * 7      1,2,3,4,5,6           6            1.1666...
- * 8      1,3,5,7               4            2
- * 9      1,2,4,5,7,8           6            1.5
- * 10     1,3,7,9               4            2.5
- *
- * It can be seen that n=6 produces a maximum n / phi (n) for n <= 10.
- * Find the value of n <= 1,000,000 for which n / phi (n) is a maximum.
- *
- * @author Todd Cook
- * @since 5/22/2011
- */
-
+  * Problem 69
+  *
+  * Euler's Totient function, Phi(n) [sometimes called the phi function],
+  * is used to determine the number of numbers less than n which are relatively
+  * prime to n.
+  * For example, as 1, 2, 4, 5, 7, and 8, are all less than nine and relatively
+  * prime to nine,
+  * Phi(9)=6.
+  * n      Relatively Prime      Phi (n)      n / phi (n)
+  * 2      1                     1            2
+  * 3      1,2                   2            1.5
+  * 4      1,3                   2            2
+  * 5      1,2,3,4               4            1.25
+  * 6      1,5                   2            3
+  * 7      1,2,3,4,5,6           6            1.1666...
+  * 8      1,3,5,7               4            2
+  * 9      1,2,4,5,7,8           6            1.5
+  * 10     1,3,7,9               4            2.5
+  *
+  * It can be seen that n=6 produces a maximum n / phi (n) for n <= 10.
+  * Find the value of n <= 1,000,000 for which n / phi (n) is a maximum.
+  *
+  * @author Todd Cook
+  *
+  */
 object problem_69 {
 
   /**
-   * http://en.wikipedia.org/wiki/Greatest_common_divisor
-   */
-  def gcd(a: Int, b: Int): Int = if (a % b == 0) {
-    b
-  }
-  else {
-    gcd(b, a % b)
-  }
+    * http://en.wikipedia.org/wiki/Greatest_common_divisor
+    */
+  def gcd(a: Int, b: Int): Int =
+    if (a % b == 0) {
+      b
+    } else {
+      gcd(b, a % b)
+    }
 
   /**
-   *
-   * http://en.wikipedia.org/wiki/Least_common_multiple
-   */
+    *
+    * http://en.wikipedia.org/wiki/Least_common_multiple
+    */
   def lcm(a: Int, b: Int): Int = (a / gcd(a, b)) * b
 
   /**
-   * http://en.wikipedia.org/wiki/Totient_function
-   */
+    * http://en.wikipedia.org/wiki/Totient_function
+    */
   def Phi(n: Int): Int = {
     if (n == 1) {
       return 1
@@ -88,26 +87,26 @@ object problem_69 {
       }
       pos -= 1
     }
-     tot
+    tot
   }
 
   /**
-   * new max calculated in 0.016000 seconds: (2,1,2)
+    * new max calculated in 0.016000 seconds: (2,1,2)
 new max calculated in 0.063000 seconds: (6,2,3)
 new max calculated in 0.063000 seconds: (210,48,4)
 new max calculated in 37.703000 seconds: (30030,5760,5)
 
-   */
+    */
   /**
-   * 100000 elements
-   * Total processing took 458.094000 seconds
-   */
+    * 100000 elements
+    * Total processing took 458.094000 seconds
+    */
   def answer(total: Int = 100000): Unit = {
-    val start = System.currentTimeMillis
+    val start        = System.currentTimeMillis
     val computations = new ListBuffer[(Int, Int, Double)]
-    var ii = 1
+    var ii           = 1
     while (ii < total) {
-      val phiA = Phi(ii)
+      val phiA   = Phi(ii)
       val result = (ii, phiA, (ii + 0d) / phiA)
       if (result._3 > 3.0D) {
         computations.append(result)
@@ -119,22 +118,25 @@ new max calculated in 37.703000 seconds: (30030,5760,5)
   }
 
   /**
-   * 100000 elements
-   * Total processing took 95.953000 seconds at regular memory
-   * with 512M: Total processing took 83.531000 seconds
-   *
-   */
+    * 100000 elements
+    * Total processing took 95.953000 seconds at regular memory
+    * with 512M: Total processing took 83.531000 seconds
+    *
+    */
   def answerParallel(total: Int = 100000): Unit = {
     val start = System.currentTimeMillis
-    val computations = (1 to total).toList.map(a => { // par
-      val phiA = Phi(a)
-      val phiARatio = (a + 0D) / phiA
-      //  if (phiARatio > 5.0D) {
-      (a, phiA, phiARatio)
-      // }
-    }).filter(b => b._3 > 4.0d)
+    val computations = (1 to total).toList
+      .map(a => { // par
+        val phiA      = Phi(a)
+        val phiARatio = (a + 0D) / phiA
+        //  if (phiARatio > 5.0D) {
+        (a, phiA, phiARatio)
+        // }
+      })
+      .filter(b => b._3 > 4.0d)
     println("Total processing took %f seconds".format((System.currentTimeMillis - start) / 1000d))
-    computations.toList.sortBy (_._3).foreach(b => println(b))
+    import scala.math.Ordering.Double.IeeeOrdering
+    computations.toList.sortBy(_._3).foreach(b => println(b))
   }
 
   def main(args: Array[String]): Unit = {
@@ -146,7 +148,7 @@ new max calculated in 37.703000 seconds: (30030,5760,5)
 }
 
 /**
- *
+  *
 /Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/bin/java -Xmx1024M -Dfile.encoding=UTF-8 -classpath /System/Library/Java/Support/CoreDeploy.bundle/Contents/Resources/Java/deploy.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/dt.jar:/System/Library/Java/Support/Deploy.bundle/Contents/Resources/Java/javaws.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/jce.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/jconsole.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/management-agent.jar:/System/Library/Java/Support/Deploy.bundle/Contents/Resources/Java/plugin.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/sa-jdi.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Classes/alt-rt.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Classes/charsets.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Classes/classes.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Classes/jsse.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Classes/ui.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/ext/apple_provider.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/1.6.0_22-b04-307.jdk/Contents/Home/lib/ext/sunpkcs11.jar:/Users/todd/IdeaProjects/Effective-Scala-With-Project-Euler/target/classes:/Users/todd/.m2/repository/org/scala-lang/scala-library/2.9.0.RC4/scala-library-2.9.0.RC4.jar:/Users/todd/.m2/repository/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar:/Users/todd/.m2/repository/org/slf4j/slf4j-simple/1.6.1/slf4j-simple-1.6.1.jar com.wordtrellis.projecteuler.problem_69
 Total processing took 8980.161000 seconds
 (128010,32000,4.0003125)
@@ -11393,4 +11395,4 @@ Total processing took 8980.161000 seconds
 (510510,92160,5.539388020833333)
 
 Process finished with exit code 0
-*/
+  */

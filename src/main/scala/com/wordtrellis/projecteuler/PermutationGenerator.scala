@@ -28,62 +28,64 @@
 package com.wordtrellis.projecteuler
 
 /**
- *   Generate permutations in lexicographic order
- *
- *   Of course, don't make the size too large. Recall that the number of
- *   permutations is n! which can be very large, even when n is as small as 20
- *   20! = 2,432,902,008,176,640,000 and
- *   21! overflows a Java long, which is why we use BigInteger instead.
- *
- * @author : Todd Cook
- * @author : Michael Gilleland
- * @see http://www.merriampark.com/perm.htm
- *
- */
-
+  *   Generate permutations in lexicographic order
+  *
+  *   Of course, don't make the size too large. Recall that the number of
+  *   permutations is n! which can be very large, even when n is as small as 20
+  *   20! = 2,432,902,008,176,640,000 and
+  *   21! overflows a Java long, which is why we use BigInteger instead.
+  *
+  * @author : Todd Cook
+  * @author : Michael Gilleland
+  * @see http://www.merriampark.com/perm.htm
+  *
+  */
 import java.math.BigInteger
-import collection.mutable.ListBuffer
 
-class PermutationGenerator (size: Int) {
+import scala.collection.mutable.ListBuffer
+
+class PermutationGenerator(size: Int) {
   require(size > 1)
-  var items = new ListBuffer[Int]()
-  var total: BigInteger = getFactorial(size)
+  var items               = new ListBuffer[Int]()
+  var total: BigInteger   = getFactorial(size)
   var numLeft: BigInteger = getFactorial(size)
 
   Iterator.range(1, size + 1).foreach(ii => items.append(ii))
 
   /**
-   * @return BigInteger - number of permutations not yet generated
-   */
-  def getNumLeft (): BigInteger = numLeft
+    * @return BigInteger - number of permutations not yet generated
+    */
+  def getNumLeft(): BigInteger = numLeft
 
   /**
-   * @return BigInteger - total number of permutations
-   */
-  def getTotal (): BigInteger = total
+    * @return BigInteger - total number of permutations
+    */
+  def getTotal(): BigInteger = total
 
   /**
-   * @return Boolean - are there any more permutations?
-   */
-  def hasMore (): Boolean = (numLeft.compareTo(BigInteger.ZERO) == 1)
+    * @return Boolean - are there any more permutations?
+    */
+  def hasMore(): Boolean = (numLeft.compareTo(BigInteger.ZERO) == 1)
 
   /**
     * @return BigInteger - factorial number of permutations
     */
-   def getFactorial (n: Int): BigInteger = {
+  def getFactorial(n: Int): BigInteger = {
     var fact = BigInteger.ONE
-     Iterator.range(1, n + 1).foreach(ii => {
-      fact = fact.multiply(new BigInteger(Integer.toString(ii)))
-    })
+    Iterator
+      .range(1, n + 1)
+      .foreach(ii => {
+        fact = fact.multiply(new BigInteger(Integer.toString(ii)))
+      })
     fact
   }
 
   /**
-   * Generate next permutation
-   * @return List of Integers
-   * @see http://en.wikipedia.org/wiki/Permutations#Systematic_generation_of_all_permutations
-   */
-  def next (): List[Int] = {
+    * Generate next permutation
+    * @return List of Integers
+    * @see http://en.wikipedia.org/wiki/Permutations#Systematic_generation_of_all_permutations
+    */
+  def next(): List[Int] = {
 
     if (numLeft.equals(total)) {
       numLeft = numLeft.subtract(BigInteger.ONE)
@@ -122,10 +124,10 @@ class PermutationGenerator (size: Int) {
 }
 
 /**
- * Example usage
- */
+  * Example usage
+  */
 object PermutationGenerator {
-  def main (args: Array[String]): Unit = {
+  def main(args: Array[String]): Unit = {
     var pg = new PermutationGenerator(4)
     while (pg.hasMore()) {
       println(pg.next().toList)
@@ -133,30 +135,31 @@ object PermutationGenerator {
   }
 
   /**
-   * Count the number of transpositions; the distance from
-   * a permutation to the paragon; primiere model
-   * http://en.wikipedia.org/wiki/Parity_of_a_permutation
-   */
-  def parityOfAPermutation (model :List[Int], permutation :List[Int]) :Int ={
+    * Count the number of transpositions; the distance from
+    * a permutation to the paragon; primiere model
+    * http://en.wikipedia.org/wiki/Parity_of_a_permutation
+    */
+  def parityOfAPermutation(model: List[Int], permutation: List[Int]): Int = {
     var parity = 0
-    var mold = new ListBuffer[Int]()
+    var mold   = new ListBuffer[Int]()
     mold.appendAll(model)
 //    println("mold = " + mold.toList.mkString)
 //    println("permutation = " + permutation.toList.mkString)
-    Iterator.range(0, model.length-1).foreach(a => {
-      var initialModelValue =  mold(a)
-      var initialPermutationValue = permutation(a)
-      if (initialModelValue != initialPermutationValue){
-           parity += 1
-        var tmp = permutation.indexOf(initialModelValue )
-        var tmp2 = mold(tmp)
-        mold(tmp) =initialModelValue
-        mold(a) = tmp2
-   //      println("mold = " +mold.toList.mkString)
-      }
-    })
+    Iterator
+      .range(0, model.length - 1)
+      .foreach(a => {
+        var initialModelValue       = mold(a)
+        var initialPermutationValue = permutation(a)
+        if (initialModelValue != initialPermutationValue) {
+          parity += 1
+          var tmp  = permutation.indexOf(initialModelValue)
+          var tmp2 = mold(tmp)
+          mold(tmp) = initialModelValue
+          mold(a) = tmp2
+          //      println("mold = " +mold.toList.mkString)
+        }
+      })
     parity
   }
-
 
 }

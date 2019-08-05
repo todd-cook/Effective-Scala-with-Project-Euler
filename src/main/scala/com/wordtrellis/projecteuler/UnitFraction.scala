@@ -1,26 +1,24 @@
-
 package com.wordtrellis.projecteuler
 
-import collection.mutable.ListBuffer
+import scala.collection.mutable.ListBuffer
 
 /**
- * Unit Fraction is useful for determining the number of places it takes for a repeating decimal
- * to repeat.
- * see Project Euler problem 26
- * @author Todd Cook
- * @since 5/10/11 10:35 PM
- */
-
-class UnitFraction (val num: Int, val MAX_SAMPLE_LENGTH: Int = 2000) {
+  * Unit Fraction is useful for determining the number of places it takes for a repeating decimal
+  * to repeat.
+  * see Project Euler problem 26
+  * @author Todd Cook
+  *
+  */
+class UnitFraction(val num: Int, val MAX_SAMPLE_LENGTH: Int = 2000) {
   private val placeDivisors = new ListBuffer[Int]()
 
   def seed: Int = num
 
-  def places (): List[Int] = placeDivisors.toList
+  def places(): List[Int] = placeDivisors.toList
 
-  def initialize (): Unit = {
-    val divisor = num
-    var base = 1
+  def initialize(): Unit = {
+    val divisor    = num
+    var base       = 1
     var processing = true
     placeDivisors.append(0)
 

@@ -27,81 +27,71 @@
 
 package com.wordtrellis.projecteuler
 
-import collection.mutable.HashSet
+import scala.collection.mutable.HashSet
 
 /**
- * Problem 74
- * The number 145 is well known for the property that the sum of the factorial
- * of its digits is equal to 145:
- *
- * 1! + 4! + 5! = 1 + 24 + 120 = 145
- *
- * Perhaps less well known is 169, in that it produces the longest chain of
- * numbers that link back to 169; it turns out that there are only three such
- * loops that exist:
- *
- * 169 ->  363601  ->  1454  ->  169
- * 871  ->  45361  ->  871
- * 872  ->  45362  ->  872
- *
- * It is not difficult to prove that EVERY starting number will eventually get
- * stuck in a loop. For example,
- *
- * 69  ->  363600  ->  1454  ->  169  ->  363601 ( ->  1454)
- * 78  ->  45360  ->  871  ->  45361 ( ->  871)
- * 540  ->  145 ( ->  145)
- *
- * Starting with 69 produces a chain of five non-repeating terms, but the
- * longest non-repeating chain with a starting number below one million is
- * sixty terms.
- *
- * How many chains, with a starting number below one million, contain exactly
- * sixty non-repeating terms?
- *
- * @author Todd Cook
- * @since 5/21/2011
- */
-
+  * Problem 74
+  * The number 145 is well known for the property that the sum of the factorial
+  * of its digits is equal to 145:
+  *
+  * 1! + 4! + 5! = 1 + 24 + 120 = 145
+  *
+  * Perhaps less well known is 169, in that it produces the longest chain of
+  * numbers that link back to 169; it turns out that there are only three such
+  * loops that exist:
+  *
+  * 169 ->  363601  ->  1454  ->  169
+  * 871  ->  45361  ->  871
+  * 872  ->  45362  ->  872
+  *
+  * It is not difficult to prove that EVERY starting number will eventually get
+  * stuck in a loop. For example,
+  *
+  * 69  ->  363600  ->  1454  ->  169  ->  363601 ( ->  1454)
+  * 78  ->  45360  ->  871  ->  45361 ( ->  871)
+  * 540  ->  145 ( ->  145)
+  *
+  * Starting with 69 produces a chain of five non-repeating terms, but the
+  * longest non-repeating chain with a starting number below one million is
+  * sixty terms.
+  *
+  * How many chains, with a starting number below one million, contain exactly
+  * sixty non-repeating terms?
+  *
+  * @author Todd Cook
+  *
+  */
 object problem_74 {
 
+  val digitFactorials: List[Double] = (0 to 9).toList.map(a => factorial(a))
+
   /**
-  * Iterative
-  */
-  def factorial (n :Int)  :Double = {
+    * Iterative
+    */
+  def factorial(n: Int): Double = {
     if (n == 0)
       return 1d
     if (n <= 2)
       return n.asInstanceOf[Double]
-    var ii = n
+    var ii     = n
     var result = 0d
     result += n
     while (ii > 1) {
-      result = result * (ii -1)
+      result = result * (ii - 1)
       ii -= 1
-      }
+    }
     result
   }
 
-  val digitFactorials: List[Double] = (0 to 9).toList.map(a => factorial(a))
-
-  def sumDigitFactorials(n: Int): Int = n.toString.toList.map(
-    a => digitFactorials(java.lang.Integer.parseInt(a + ""))).sum.toInt
+  def main(args: Array[String]): Unit = {
+    println(answer())
+  }
 
   //    sumDigitFactorials (145)
   //    sumDigitFactorials (169)
   //    sumDigitFactorials (363601)
   //    sumDigitFactorials (1454)
   //    sumDigitFactorials (169)
-
-  def countChainLength(n: Int): Int = {
-    var seed = n
-    val links = new HashSet[Int]()
-    while (!links.contains(seed)) {
-      links.add(seed)
-      seed = sumDigitFactorials(seed)
-    }
-    links.size
-  }
 
   def answer(): List[(Int, Int)] = {
     val results =
@@ -110,7 +100,16 @@ object problem_74 {
     results
   }
 
-  def main(args: Array[String]): Unit = {
-    println(answer())
+  def countChainLength(n: Int): Int = {
+    var seed  = n
+    val links = new HashSet[Int]()
+    while (!links.contains(seed)) {
+      links.add(seed)
+      seed = sumDigitFactorials(seed)
+    }
+    links.size
   }
+
+  def sumDigitFactorials(n: Int): Int =
+    n.toString.toList.map(a => digitFactorials(java.lang.Integer.parseInt(a.toString))).sum.toInt
 }

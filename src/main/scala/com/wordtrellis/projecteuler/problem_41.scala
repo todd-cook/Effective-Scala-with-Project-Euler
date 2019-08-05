@@ -27,32 +27,22 @@
 
 package com.wordtrellis.projecteuler
 
-import collection.mutable.ListBuffer
+import scala.collection.mutable.ListBuffer
 
 /**
- *
- * We shall say that an n-digit number is pandigital if it makes use of all the digits 1 to n
- * exactly once. For example, 2143 is a 4-digit pandigital and is also prime.
- *
- * What is the largest n-digit pandigital prime that exists?
- *
- * @author Todd Cook
- * @since 5/15/2011
- */
-
+  *
+  * We shall say that an n-digit number is pandigital if it makes use of all the digits 1 to n
+  * exactly once. For example, 2143 is a 4-digit pandigital and is also prime.
+  *
+  * What is the largest n-digit pandigital prime that exists?
+  *
+  * @author Todd Cook
+  *
+  */
 object problem_41 {
 
-  def checkForPandigitalPrimes(digits: Int): List[Long] = {
-    val pg = new PermutationGenerator(digits)
-    val candidates = new ListBuffer[Long]()
-    while (pg.hasMore()) {
-      val candidate = pg.next().mkString("").toLong
-      if (candidate % 2 != 0 && candidate % 3 != 0) {
-        candidates.append(candidate)
-      }
-    }
-    println("Using %d digits, number of pandigital candidates: %d".format(digits, candidates.size))
-    candidates.filter(a => problem_7.isPrime(a)).toList
+    def main(args: Array[String]) :Unit = {
+    println(answer())
   }
 
   def answer(): Long = {
@@ -62,7 +52,16 @@ object problem_41 {
     pandigitalPrimes.toList.sortWith(_ > _)(0)
   }
 
-  def main(args: Array[String]) {
-    println(answer())
+  def checkForPandigitalPrimes(digits: Int): List[Long] = {
+    val pg         = new PermutationGenerator(digits)
+    val candidates = new ListBuffer[Long]()
+    while (pg.hasMore()) {
+      val candidate = pg.next().mkString("").toLong
+      if (candidate % 2 != 0 && candidate % 3 != 0) {
+        candidates.append(candidate)
+      }
+    }
+    println("Using %d digits, number of pandigital candidates: %d".format(digits, candidates.size))
+    candidates.filter(a => problem_7.isPrime(a)).toList
   }
 }

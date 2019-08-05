@@ -28,19 +28,18 @@
 package com.wordtrellis.projecteuler
 
 /**
- *  Problem 48
- *  The series, 1^(1) + 2^(2) + 3^(3) + ... + 10^(10) = 10405071317.
- *
- *  Find the last ten digits of the series:
- *   1^(1) + 2^(2) + 3^(3) + ... + 1000^(1000)
- *
- * @author : Todd Cook
- *
- */
-
+  *  Problem 48
+  *  The series, 1^(1) + 2^(2) + 3^(3) + ... + 10^(10) = 10405071317.
+  *
+  *  Find the last ten digits of the series:
+  *   1^(1) + 2^(2) + 3^(3) + ... + 1000^(1000)
+  *
+  * @author : Todd Cook
+  *
+  */
 object problem_48 {
 
-  def main (args: Array[String]): Unit = {
+  def main(args: Array[String]): Unit = {
     var sum = java.math.BigInteger.ZERO
     (1 to 1000).foreach(x => sum = sum.add(new java.math.BigInteger(x.toString).pow(x)))
     println(sum.toString)

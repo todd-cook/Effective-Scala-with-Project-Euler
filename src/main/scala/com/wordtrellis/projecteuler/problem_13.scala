@@ -1,9 +1,7 @@
-
-
 package com.wordtrellis.projecteuler
 
 /**
- * Problem 13
+  * Problem 13
 
 Work out the first ten digits of the sum of the following one-hundred 50-digit numbers.
 37107287533902102798797998220837590246510135740250
@@ -106,26 +104,25 @@ Work out the first ten digits of the sum of the following one-hundred 50-digit n
 72107838435069186155435662884062257473692284509516
 20849603980134001723930671666823555245252804609722
 53503534226472524250874054075591789781264330331690
- *
- *
- * Solution Commentary:
- * In a flash of blind enthusiasm caused by prolonged exposure to Common Lisp, I coded up this
- * approach of summing integers as lists.
- * When I awoke to common sense, I used Java's standard library for BigInteger. Doh!
- *
- * @author : Todd Cook
- *
- */
-
-import collection.mutable.ListBuffer
+  *
+  *
+  * Solution Commentary:
+  * In a flash of blind enthusiasm caused by prolonged exposure to Common Lisp, I coded up this
+  * approach of summing integers as lists.
+  * When I awoke to common sense, I used Java's standard library for BigInteger. Doh!
+  *
+  * @author : Todd Cook
+  *
+  */
+import scala.collection.mutable.ListBuffer
 
 /**
- * Initial notes;
- * first a few considerations:
- * let's treat the numbers as strings,
- * lets handle the numbers in pairs, condensing each pair into a single number and iterating
- * until there are no more pairs to add
- */
+  * Initial notes;
+  * first a few considerations:
+  * let's treat the numbers as strings,
+  * lets handle the numbers in pairs, condensing each pair into a single number and iterating
+  * until there are no more pairs to add
+  */
 object problem_13 {
 
   val bigNumberList: List[String] = List[String](
@@ -228,53 +225,52 @@ object problem_13 {
     "77158542502016545090413245809786882778948721859617",
     "72107838435069186155435662884062257473692284509516",
     "20849603980134001723930671666823555245252804609722",
-    "53503534226472524250874054075591789781264330331690")
+    "53503534226472524250874054075591789781264330331690"
+  )
 
-  def addStringNumbers (num1: String, num2: String): String = {
+  def addStringNumbers(num1: String, num2: String): String = {
     val numListOne = new ListBuffer[Int]()
     val numListTwo = new ListBuffer[Int]()
     num1.foreach(x => numListOne.append(Integer.valueOf(x).asInstanceOf[Int]))
     num2.foreach(x => numListTwo.append(Integer.valueOf(x).asInstanceOf[Int]))
-    val combolist = numListOne.toList.zip(numListTwo.toList)
+    val combolist  = numListOne.toList.zip(numListTwo.toList)
     var summedList = combolist.map(x => x._1 + x._2)
 
     if (numListOne.toList.length > numListTwo.toList.length) {
       val difference = numListOne.toList.length - numListTwo.toList.length
-      val appendage = numListOne.slice(0, difference - 1)
+      val appendage  = numListOne.slice(0, difference - 1)
       summedList = appendage.toList ::: summedList
 
-    }
-    else if (numListOne.toList.length < numListTwo.toList.length) {
+    } else if (numListOne.toList.length < numListTwo.toList.length) {
       val difference = numListTwo.toList.length - numListOne.toList.length
-      val appendage = numListTwo.slice(0, difference - 1)
+      val appendage  = numListTwo.slice(0, difference - 1)
       summedList = appendage.toList ::: summedList
     }
     condenseList(summedList).mkString("")
   }
 
-  def lastDigitAsString (num: Int): String = {
+  def lastDigitAsString(num: Int): String = {
     java.lang.String.valueOf(num).substring(java.lang.String.valueOf(num).length - 1)
   }
 
   // returns tuple:remainder to be carried over,  digit to add,
-  def calculateCarryover (num: Int): (Int, Int) = {
+  def calculateCarryover(num: Int): (Int, Int) = {
     if (num <= 9) {
       (0, num)
-    }
-    else {
-      val tmp = java.lang.String.valueOf(num)
+    } else {
+      val tmp       = java.lang.String.valueOf(num)
       val remainder = tmp.substring(0, tmp.length - 1)
       (Integer.valueOf(remainder).asInstanceOf[Int],
-        Integer.valueOf(lastDigitAsString(num)).asInstanceOf[Int])
+       Integer.valueOf(lastDigitAsString(num)).asInstanceOf[Int])
     }
   }
 
-  def condenseList (nums: List[Int]): List[Int] = {
-    val buf = new ListBuffer[Int]()
-    var carryOver = 0
+  def condenseList(nums: List[Int]): List[Int] = {
+    val buf           = new ListBuffer[Int]()
+    var carryOver     = 0
     var nextCarryover = 0
-    var digitToAdd = 0
-    var ii = nums.length - 1
+    var digitToAdd    = 0
+    var ii            = nums.length - 1
     while (ii != -1) {
       carryOver = nextCarryover
       // the first time this will be zero, other times it will carry over the next number
@@ -291,9 +287,9 @@ object problem_13 {
     buf.toList
   }
 
-  def test (list: List[Int], list2: List[Int]): String = {
+  def test(list: List[Int], list2: List[Int]): String = {
 
-    val combolist = list.zip(list2)
+    val combolist  = list.zip(list2)
     val summedList = combolist.map(x => x._1 + x._2)
     println(list.mkString(" "))
     println("+")
@@ -304,9 +300,9 @@ object problem_13 {
     result
   }
 
-  def testThorough (): String = {
+  def testThorough(): String = {
 
-    var ii = 2
+    var ii           = 2
     var runningTotal = addStringNumbers(bigNumberList(0), bigNumberList(1))
 
     while (ii < bigNumberList.length - 1) {
@@ -316,12 +312,15 @@ object problem_13 {
     runningTotal
   }
 
-  def test () {
-    if (test(List(1, 3, 9, 8, 0, 1, 3, 4, 0, 0, 1, 7, 2, 3, 9, 3, 0, 6, 7, 1, 6, 6, 6, 8, 2, 3, 5, 5, 5, 2, 4, 5, 2, 5, 2, 8, 0, 4, 6, 0, 9, 7, 2, 2)
-             , List(3, 4, 2, 2, 6, 4, 7, 2, 5, 2, 4, 2, 5, 0, 8, 7, 4, 0, 5, 4, 0, 7, 5, 5, 9, 1, 7, 8, 9, 7, 8, 1, 2, 6, 4, 3, 3, 0, 3, 3, 1, 6, 9, 0)).equalsIgnoreCase("48206606525974804725742415345026517134941412")) {
+  def test() : Unit ={
+    if (test(
+          List(1, 3, 9, 8, 0, 1, 3, 4, 0, 0, 1, 7, 2, 3, 9, 3, 0, 6, 7, 1, 6, 6, 6, 8, 2, 3, 5, 5,
+            5, 2, 4, 5, 2, 5, 2, 8, 0, 4, 6, 0, 9, 7, 2, 2),
+          List(3, 4, 2, 2, 6, 4, 7, 2, 5, 2, 4, 2, 5, 0, 8, 7, 4, 0, 5, 4, 0, 7, 5, 5, 9, 1, 7, 8,
+            9, 7, 8, 1, 2, 6, 4, 3, 3, 0, 3, 3, 1, 6, 9, 0)
+        ).equalsIgnoreCase("48206606525974804725742415345026517134941412")) {
       println("Test Success")
-    }
-    else {
+    } else {
       println("Test Fail")
     }
     println("Summing one-hundred 50-digit numbers:")
@@ -330,14 +329,14 @@ object problem_13 {
     println("First Ten digits of the result: " + result.slice(0, 10))
   }
 
-  def answer (): Unit = {
+  def main(args: Array[String]): Unit = answer()
+
+  def answer(): Unit = {
     var sum = java.math.BigInteger.ZERO
     bigNumberList.foreach(x => {
       sum = sum.add(new java.math.BigInteger(x))
     })
     // println(sum)
-    println(sum.toString.slice(0,10))
+    println(sum.toString.slice(0, 10))
   }
-
-  def main (args: Array[String]): Unit = answer()
 }

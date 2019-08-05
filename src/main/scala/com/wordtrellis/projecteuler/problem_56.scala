@@ -28,40 +28,39 @@
 package com.wordtrellis.projecteuler
 
 /**
- * Problem 56
- *
- * A googol (10^(100)) is a massive number: one followed by one-hundred zeros;
- * 100^(100) is almost unimaginably large: one followed by two-hundred zeros.
- * Despite their size, the sum of the digits in each number is only 1.
- *
- * Considering natural numbers of the form, a^(b), where a, b < 100,
- * what is the maximum digital sum?
- *
- * @author Todd Cook
- * @since 5/15/2011
- */
-
+  * Problem 56
+  *
+  * A googol (10^(100)) is a massive number: one followed by one-hundred zeros;
+  * 100^(100) is almost unimaginably large: one followed by two-hundred zeros.
+  * Despite their size, the sum of the digits in each number is only 1.
+  *
+  * Considering natural numbers of the form, a^(b), where a, b < 100,
+  * what is the maximum digital sum?
+  *
+  * @author Todd Cook
+  *
+  */
 object problem_56 {
 
-    def sumDigits (str: String): Int = str.toList.map (a => java.lang.Integer.parseInt (a + "")).sum
+  def main(args: Array[String]): Unit = {
+    println(answer())
+  }
 
-    def answer (): Int = {
-        var winner = (0, 0)
-        var high = 0
-        (1 until 100).foreach (a => {
-            (1 until 100).foreach (b => {
-              val tmp = sumDigits(new java.math.BigInteger(a.toString).pow(b).toString)
-                if (tmp > high) {
-                    high = tmp
-                    winner = (a, b)
-                }
-            })
-        })
-        println (winner)
-        high
-    }
+  def answer(): Int = {
+    var winner = (0, 0)
+    var high   = 0
+    (1 until 100).foreach(a => {
+      (1 until 100).foreach(b => {
+        val tmp = sumDigits(new java.math.BigInteger(a.toString).pow(b).toString)
+        if (tmp > high) {
+          high = tmp
+          winner = (a, b)
+        }
+      })
+    })
+    println(winner)
+    high
+  }
 
-    def main (args: Array[String]): Unit = {
-        println (answer())
-    }
+  def sumDigits(str: String): Int = str.toList.map(a => java.lang.Integer.parseInt(a.toString)).sum
 }

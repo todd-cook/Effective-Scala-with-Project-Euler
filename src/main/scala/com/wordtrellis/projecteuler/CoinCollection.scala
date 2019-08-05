@@ -27,65 +27,79 @@
 
 package com.wordtrellis.projecteuler
 
-import collection.mutable.ListBuffer
-import scala.collection.mutable.HashSet
-
+import scala.collection.mutable.{HashSet, ListBuffer}
 
 /**
- * Coin Constraints class defines the problem & solution rules
- * Note: To model new combinations, one only need to change the first
- * two variables: possible coins and totalSum
- *
- * Used in solve Project Euler Problem 31
- * @author Todd Cook
- * @since 5/13/11 11:54 AM
- */
-class CoinConstraints (val possibleCoins: List[Int], val totalSum: Int) {
+  * Coin Constraints class defines the problem & solution rules
+  * Note: To model new combinations, one only need to change the first
+  * two variables: possible coins and totalSum
+  *
+  * Used in solve Project Euler Problem 31
+  * @author Todd Cook
+  *
+  */
+class CoinConstraints(val possibleCoins: List[Int], val totalSum: Int) {
   val minValue = possibleCoins(0)
   // initial seed is a list of the smallest denomination
   val initialSeed: List[Int] = (1 to totalSum / minValue).toList.map(x => x * 0 + minValue)
 
-  def maxOccurrencesFor (coin: Int): Int = totalSum / coin
+  def maxOccurrencesFor(coin: Int): Int = totalSum / coin
 }
 
 /**
- * Coin Combination: data structure
- */
-class CoinCombination (val coins: List[Int]) {
+  * Coin Combination: data structure
+  */
+class CoinCombination(val coins: List[Int]) {
 
-  val totalValue: Int = coins.foldLeft(0)(_ + _)
+  val totalValue: Int = coins.sum
 
   override def hashCode: Int = coins.hashCode
 
-  override def equals (other: Any): Boolean = other match {
+  override def equals(other: Any): Boolean = other match {
     case that: CoinCombination => this.coins.hashCode == that.coins.hashCode
-    case _ => false
+    case _                     => false
   }
 
   override def toString: String = coins.mkString(", ")
 }
 
 /**
- * Class Coin Collection contains all the combinations generated
- * and provides factory methods for increasing the combinations
- */
-class CoinCollection (val coinConstraints: CoinConstraints) {
+  * Class Coin Collection contains all the combinations generated
+  * and provides factory methods for increasing the combinations
+  */
+class CoinCollection(val coinConstraints: CoinConstraints) {
 
   val possibleCombinations = new HashSet[CoinCombination]()
 
-  def create (coins: List[Int]) = new CoinCombination(coins.sortWith(_ < _))
+  def add(coinCombination: CoinCombination): Boolean = possibleCombinations.add(coinCombination)
 
-  def add (coinCombination: CoinCombination): Boolean = possibleCombinations.add(coinCombination)
+  def generateAllCombinations(): List[CoinCombination] = {
+    coinConstraints.possibleCoins.foreach(coin =>
+      expandCombinations(coin, coinConstraints.maxOccurrencesFor(coin)))
+    possibleCombinations.toList
+  }
 
   // initialize
   add(create(coinConstraints.initialSeed))
 
+  def expandCombinations(newCoin: Int, maxOccurs: Int): Unit = {
+    val newCombos = new HashSet[CoinCombination]()
+    possibleCombinations.foreach(a =>
+      (1 to maxOccurs).foreach(b => {
+        newCombos.add(substitute(a.coins, newCoin, b))
+      }))
+    newCombos.foreach(c => possibleCombinations.add(c))
+    println(
+      "possible combinations: " + possibleCombinations.size +
+        " for coins values up to: " + newCoin)
+  }
+
   // improvements could be made here
-  private def substitute (coins: List[Int], newCoin: Int, occurrences: Int): CoinCombination = {
+  private def substitute(coins: List[Int], newCoin: Int, occurrences: Int): CoinCombination = {
     val coinBuffer = new ListBuffer[Int]()
     (1 to occurrences).foreach(x => coinBuffer.append(newCoin))
     var nextItem = 0
-    var total = coinBuffer.foldLeft(0)(_ + _)
+    var total    = coinBuffer.sum
     while (total < coinConstraints.totalSum) {
       coinBuffer.append(coins(nextItem))
       total += coins(nextItem)
@@ -99,19 +113,5 @@ class CoinCollection (val coinConstraints: CoinConstraints) {
     create(coinConstraints.initialSeed)
   }
 
-  def expandCombinations (newCoin: Int, maxOccurs: Int): Unit = {
-    val newCombos = new HashSet[CoinCombination]()
-    possibleCombinations.foreach(a => (1 to maxOccurs).foreach(b => {
-      newCombos.add(substitute(a.coins, newCoin, b))
-    }))
-    newCombos.foreach(c => possibleCombinations.add(c))
-    println("possible combinations: " + possibleCombinations.size +
-              " for coins values up to: " + newCoin)
-  }
-
-  def generateAllCombinations (): List[CoinCombination] = {
-    coinConstraints.possibleCoins.foreach(
-      coin => expandCombinations(coin, coinConstraints.maxOccurrencesFor(coin)))
-    possibleCombinations.toList
-  }
+  def create(coins: List[Int]) = new CoinCombination(coins.sortWith(_ < _))
 }
